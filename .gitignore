@@ -1,0 +1,77 @@
+# Expo specific
+node_modules/
+.babelrc
+.expo/
+.expo-shared/
+.idea/
+.vscode/
+dist/
+web-build/
+npm-debug.*
+yarn-debug.log*
+yarn-error.log*
+expo-debug.log
+
+# macOS
+.DS_Store
+
+# Logs
+*.log
+*.log.*
+
+# Temporary files
+*.tmp
+*.temp
+
+# Dependency directories
+node_modules/
+
+# TypeScript
+*.tsbuildinfo
+
+# Build outputs
+ios/build/
+ios/Pods/
+android/.gradle/
+android/app/build/
+android/build/
+
+# Android specific
+android/.idea/
+android/local.properties
+android/app/src/main/assets/shell-app.bundle
+android/app/src/main/assets/shell-app-manifest.json
+android/app/src/main/res/raw/shell_app_manifest.json
+android/gradle.properties
+android/app/google-services.json
+android/gradlew
+android/gradlew.bat
+android/gradle/
+android/.idea/
+android/app/debug.keystore
+
+# iOS specific
+ios/Pods/
+ios/Podfile.lock
+ios/Podfile
+ios/DerivedData/
+ios/build/
+ios/*.xcworkspace
+
+# Fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots/**/*.png
+fastlane/test_output
+
+# Env files
+.env
+.env.*local
+
+# IDE-specific files
+.vscode/
+.idea/
+
+# Expo-specific files
+.expo/
+.expo-shared/
