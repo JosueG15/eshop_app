@@ -16,6 +16,10 @@ export const lightTheme = createTheme({
     inactiveCategoryBg: "#f8f8f8",
     priceColor: "#ff6f61",
     clearCartBg: "#ff5252",
+    tabBarBg: "#ffffff",
+    tabBarIndicator: "#6200ea",
+    infoIconColor: "#1976d2",
+    selectedInfoIconColor: "#0d47a1",
   },
   mode: "light",
 });
@@ -36,6 +40,10 @@ export const darkTheme = createTheme({
     inactiveCategoryBg: "#121212",
     priceColor: "#ff6f61",
     clearCartBg: "#cf6679",
+    tabBarBg: "#121212",
+    tabBarIndicator: "#bb86fc",
+    infoIconColor: "#81d4fa",
+    selectedInfoIconColor: "#0288d1",
   },
   mode: "dark",
 });

@@ -3,10 +3,19 @@ import { View, StyleSheet } from "react-native";
 import { Button, useTheme } from "@rneui/themed";
 import { useDispatch } from "react-redux";
 import { clearCart } from "../../store/slices/cartSlice";
+import { useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { CartStackParamList } from "../../types/routes";
+
+type CheckoutNavigationProp = StackNavigationProp<
+  CartStackParamList,
+  "Checkout"
+>;
 
 const ButtonContainer: React.FC = () => {
   const dispatch = useDispatch();
   const { theme } = useTheme();
+  const navigation = useNavigation<CheckoutNavigationProp>();
 
   return (
     <View style={styles.buttonContainer}>
@@ -21,7 +30,7 @@ const ButtonContainer: React.FC = () => {
       />
       <Button
         title="Checkout"
-        onPress={() => {} /* TODO: Implement checkout logic */}
+        onPress={() => navigation.navigate("Checkout")}
         buttonStyle={[
           styles.checkoutButton,
           { backgroundColor: theme.colors.primary },

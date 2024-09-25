@@ -1,0 +1,117 @@
+import React from "react";
+import { StyleSheet, View } from "react-native";
+import { Text, useTheme } from "@rneui/themed";
+import CountryFlag from "react-native-country-flag";
+import CustomForm from "../../components/shared/CustomForm";
+import { useNavigation } from "@react-navigation/native";
+import { useFormContext } from "react-hook-form";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { CheckoutStackParamList } from "../../types/routes";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+
+type ShippingScreenNavigationProp = StackNavigationProp<
+  CheckoutStackParamList,
+  "Shipping"
+>;
+
+const ShippingScreen = () => {
+  const { theme } = useTheme();
+  const navigation = useNavigation<ShippingScreenNavigationProp>();
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useFormContext();
+
+  const handleFormSubmit = (formData: Record<string, string>) => {
+    console.log("Shipping Form Data Submitted:", formData);
+    navigation.navigate("Payment");
+  };
+
+  const fields = [
+    {
+      name: "phone",
+      label: "Teléfono",
+      placeholder: "Ingrese su número de teléfono",
+      keyboardType: "phone-pad" as const,
+      required: true,
+      isPhoneInput: true,
+    },
+    {
+      name: "shippingAddress1",
+      label: "Dirección de Envío 1",
+      placeholder: "Ingrese la dirección de envío",
+      required: true,
+    },
+    {
+      name: "shippingAddress2",
+      label: "Dirección de Envío 2",
+      placeholder: "Ingrese la dirección de envío opcional",
+    },
+    {
+      name: "city",
+      label: "Ciudad",
+      placeholder: "Ingrese su ciudad",
+      required: true,
+    },
+    {
+      name: "state",
+      label: "Estado",
+      placeholder: "Ingrese su estado",
+      required: true,
+    },
+    {
+      name: "zipCode",
+      label: "Código Postal",
+      placeholder: "Ingrese su código postal",
+      keyboardType: "numeric" as const,
+      required: true,
+    },
+  ];
+
+  return (
+    <KeyboardAwareScrollView
+      contentContainerStyle={styles.scrollViewContent}
+      extraScrollHeight={20}
+      enableOnAndroid={true}
+      viewIsInsideTabBar={true}
+    >
+      <View style={styles.flagContainer}>
+        <CountryFlag isoCode="SV" size={25} />
+        <Text style={[styles.text, { color: theme.colors.text }]}>
+          Información de Envío
+        </Text>
+      </View>
+
+      <CustomForm
+        fields={fields}
+        onSubmit={handleFormSubmit}
+        handleSubmit={handleSubmit}
+        control={control}
+        errors={errors}
+        buttonTitle="Siguiente"
+      />
+    </KeyboardAwareScrollView>
+  );
+};
+
+const styles = StyleSheet.create({
+  scrollViewContent: {
+    flexGrow: 1,
+    marginTop: 20,
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+  },
+  flagContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 20,
+  },
+  text: {
+    fontSize: 18,
+    marginLeft: 10,
+  },
+});
+
+export default ShippingScreen;

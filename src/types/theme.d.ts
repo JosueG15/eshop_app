@@ -12,5 +12,9 @@ declare module "@rneui/themed" {
     inactiveCategoryBg?: string;
     priceColor?: string;
     clearCartBg?: string;
+    tabBarBg?: string;
+    tabBarIndicator?: string;
+    infoIconColor?: string;
+    selectedInfoIconColor?: string;
   }
 }

@@ -12,4 +12,10 @@ export type CartStackParamList = {
   Checkout: undefined;
 };
 
+export type CheckoutStackParamList = {
+  Shipping: undefined;
+  Payment: undefined;
+  Confirm: undefined;
+};
+
 export type HomeNavigationProp = StackNavigationProp<HomeStackParamList>;
