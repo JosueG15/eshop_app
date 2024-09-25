@@ -1,11 +1,20 @@
 import { useState } from "react";
-import { Image, View, StyleSheet, ScrollView, Button } from "react-native";
+import {
+  Image,
+  View,
+  StyleSheet,
+  ScrollView,
+  Button,
+  Alert,
+} from "react-native";
 import { Text } from "@rneui/themed";
 import { IProduct } from "../../types/products";
 import { RouteProp } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { HomeStackParamList } from "../../types/routes";
 import { useTheme } from "@rneui/themed";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../../store/slices/cartSlice";
 
 type SingleProductRouteProp = RouteProp<HomeStackParamList, "Product Detail">;
 type SingleProductNavigationProp = StackNavigationProp<
@@ -20,8 +29,15 @@ interface SingleProductProps {
 
 const SingleProduct: React.FC<SingleProductProps> = (props) => {
   const { theme } = useTheme();
+  const dispatch = useDispatch();
+
   const [item] = useState<IProduct>(props.route.params.item);
   const [availability] = useState<string>("");
+
+  const handleAddToCart = () => {
+    dispatch(addToCart(item));
+    Alert.alert("Cart Updated", `${item.name} has been added to your cart.`);
+  };
 
   return (
     <View style={styles.container}>
@@ -43,7 +59,6 @@ const SingleProduct: React.FC<SingleProductProps> = (props) => {
       </ScrollView>
 
       <View style={styles.bottomContainer}>
-        {/* Simulating Left and Right from native base */}
         <View
           style={{
             flexDirection: "row",
@@ -53,7 +68,7 @@ const SingleProduct: React.FC<SingleProductProps> = (props) => {
           }}
         >
           <Text style={styles.price}>$ {item.price.toFixed(2)}</Text>
-          <Button title="Add" />
+          <Button title="Add" color="green" onPress={handleAddToCart} />
         </View>
       </View>
     </View>
@@ -95,6 +110,11 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 0,
     left: 0,
+    right: 0,
+    justifyContent: "space-between",
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    backgroundColor: "white",
   },
   price: {
     fontSize: 24,

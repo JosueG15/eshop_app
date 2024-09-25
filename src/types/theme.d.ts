@@ -10,5 +10,7 @@ declare module "@rneui/themed" {
     buttonText?: string;
     customBg?: string;
     inactiveCategoryBg?: string;
+    priceColor?: string;
+    clearCartBg?: string;
   }
 }

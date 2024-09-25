@@ -14,6 +14,8 @@ export const lightTheme = createTheme({
     buttonText: "#ffffff",
     customBg: "#f8f8f8",
     inactiveCategoryBg: "#f8f8f8",
+    priceColor: "#ff6f61",
+    clearCartBg: "#ff5252",
   },
   mode: "light",
 });
@@ -32,6 +34,8 @@ export const darkTheme = createTheme({
     buttonText: "#ffffff",
     customBg: "#121212",
     inactiveCategoryBg: "#121212",
+    priceColor: "#ff6f61",
+    clearCartBg: "#cf6679",
   },
   mode: "dark",
 });

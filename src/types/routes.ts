@@ -7,4 +7,9 @@ export type HomeStackParamList = {
   "Product Detail": { item: IProduct };
 };
 
+export type CartStackParamList = {
+  Cart: undefined;
+  Checkout: undefined;
+};
+
 export type HomeNavigationProp = StackNavigationProp<HomeStackParamList>;
