@@ -8,5 +8,7 @@ declare module "@rneui/themed" {
     searchBarBg?: string;
     buttonBackground?: string;
     buttonText?: string;
+    customBg?: string;
+    inactiveCategoryBg?: string;
   }
 }

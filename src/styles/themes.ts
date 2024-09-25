@@ -12,6 +12,8 @@ export const lightTheme = createTheme({
     error: "#ff5252",
     buttonBackground: "#ff6f61",
     buttonText: "#ffffff",
+    customBg: "#f8f8f8",
+    inactiveCategoryBg: "#f8f8f8",
   },
   mode: "light",
 });
@@ -28,6 +30,8 @@ export const darkTheme = createTheme({
     error: "#cf6679",
     buttonBackground: "#ff6f61",
     buttonText: "#ffffff",
+    customBg: "#121212",
+    inactiveCategoryBg: "#121212",
   },
   mode: "dark",
 });

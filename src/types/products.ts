@@ -42,8 +42,3 @@ export interface IProductListResponse {
   totalPages: number;
   data: IProduct[];
 }
-
-export interface IError {
-  message: string;
-  statusCode?: number;
-}

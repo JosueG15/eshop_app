@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import {
   Text,
   ActivityIndicator,
@@ -9,15 +9,18 @@ import {
 } from "react-native";
 import { useProducts } from "../../hooks/useProduct";
 import ProductItem from "../../components/product/ProductItem";
-import { IProduct } from "../../types/products";
+import { IProduct, ICategory } from "../../types/products";
 import { useTheme } from "@rneui/themed";
 import ProductSearchBar from "../../components/shared/SharedSearchBar";
 import { useDebounce } from "../../hooks/useDebounce";
 import Banner from "../../components/shared/Banner";
+import CategoryFilter from "../../components/product/CategoryFilter";
+import { useCategories } from "../../hooks/useCategory";
 
 const ProductScreen: React.FC = () => {
   const [search, setSearch] = useState<string>("");
   const debouncedSearch = useDebounce(search, 500);
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
 
   const {
     data: productListResponse,
@@ -26,16 +29,37 @@ const ProductScreen: React.FC = () => {
     error,
   } = useProducts({
     name: debouncedSearch,
+    category: selectedCategories.length
+      ? selectedCategories.join(",")
+      : undefined,
   });
+
+  const { data: categoryListResponse } = useCategories();
 
   const { theme } = useTheme();
   const colors = theme.colors;
 
   const products = productListResponse?.data ?? [];
+  const categories = categoryListResponse?.data ?? [];
 
   const handleProductSelect = (product: IProduct) => {
-    // ToDO: Add functionality to redirect to single product page.
+    // TODO: Add functionality to redirect to single product page.
   };
+
+  const handleCategorySelect = useCallback(
+    (categoryId: string) => {
+      setSelectedCategories((prevSelected) =>
+        prevSelected.includes(categoryId)
+          ? prevSelected.filter((id) => id !== categoryId)
+          : [...prevSelected, categoryId]
+      );
+    },
+    [selectedCategories]
+  );
+
+  const clearCategoryFilters = useCallback(() => {
+    setSelectedCategories([]);
+  }, []);
 
   return (
     <SafeAreaView
@@ -49,10 +73,15 @@ const ProductScreen: React.FC = () => {
       />
 
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
-        {/* Show Banner when no search is happening */}
         {!search && <Banner />}
 
-        {/* Loader and error handling */}
+        <CategoryFilter
+          categories={categories}
+          selectedCategories={selectedCategories}
+          onSelectCategory={handleCategorySelect}
+          onClearCategories={clearCategoryFilters}
+        />
+
         {isLoading ? (
           <ActivityIndicator
             size="large"
@@ -63,6 +92,8 @@ const ProductScreen: React.FC = () => {
           <Text style={[styles.errorText, { color: colors.error }]}>
             Error fetching products: {error.message}
           </Text>
+        ) : products.length === 0 ? (
+          <Text style={styles.emptyMessage}>No products found.</Text>
         ) : (
           <View style={styles.productListContainer}>
             {products.map((item: IProduct) => (
@@ -98,6 +129,12 @@ const styles = StyleSheet.create({
   },
   errorText: {
     textAlign: "center",
+    marginTop: 20,
+  },
+  emptyMessage: {
+    textAlign: "center",
+    color: "gray",
+    fontSize: 18,
     marginTop: 20,
   },
 });

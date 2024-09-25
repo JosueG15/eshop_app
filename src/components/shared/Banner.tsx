@@ -6,7 +6,7 @@ import { getContainerWidth } from "../../utils/screen";
 
 const { width } = Dimensions.get("window");
 
-const Banner: React.FC = () => {
+const Banner: React.FC = React.memo(() => {
   const { theme } = useTheme();
   const bannerData = [
     "https://images.vexels.com/media/users/3/126443/preview2/ff9af1e1edfa2c4a46c43b0c2040ce52-macbook-pro-touch-bar-banner.jpg",
@@ -38,7 +38,7 @@ const Banner: React.FC = () => {
       </Swiper>
     </View>
   );
-};
+});
 
 const styles = StyleSheet.create({
   bannerContainer: {
