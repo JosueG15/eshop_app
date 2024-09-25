@@ -2,8 +2,15 @@ import { createTheme } from "@rneui/themed";
 
 export const lightTheme = createTheme({
   lightColors: {
-    background: "#ffffff",
-    primary: "#6200ea",
+    background: "#FFFFFF",
+    primary: "#F5F5F5",
+    primaryText: "#000000",
+    accentColor: "#A6A6A6",
+    borderColor: "#E0E0E0",
+    priceText: "#fdc500",
+    buttonColor: "#ffd60a",
+
+    secondary: "#333333",
     black: "#000000",
     searchBg: "#f1f1f1",
     text: "#212121",
@@ -26,8 +33,15 @@ export const lightTheme = createTheme({
 
 export const darkTheme = createTheme({
   darkColors: {
-    background: "#121212",
-    primary: "#bb86fc",
+    background: "#2C2C2C",
+    primary: "#3A3A3A",
+    primaryText: "#fff",
+    accentColor: "#444444",
+    borderColor: "#444444",
+    secondary: "#B3B3B3",
+    priceText: "#686201",
+    buttonColor: "#ffffa3",
+
     white: "#ffffff",
     searchBg: "#333333",
     text: "#e0e0e0",

@@ -15,10 +15,8 @@ const ProductCard: React.FC<{ product: IProduct }> = ({ product }) => {
       style={[
         styles.productCard,
         {
-          backgroundColor: theme.colors.cardBackground,
-          shadowColor: theme.colors.cardShadow,
-          borderColor:
-            theme.mode === "light" ? "#ddd" : theme.colors.background,
+          backgroundColor: theme.colors.background,
+          borderColor: theme.colors.borderColor,
         },
       ]}
     >
@@ -28,10 +26,10 @@ const ProductCard: React.FC<{ product: IProduct }> = ({ product }) => {
         source={{ uri: image || "https://placehold.co/500x600/png" }}
       />
       <View style={styles.cardContent}>
-        <Text style={[styles.productTitle, { color: theme.colors.primary }]}>
+        <Text style={[styles.productTitle, { color: theme.colors.secondary }]}>
           {truncatedName}
         </Text>
-        <Text style={[styles.productPrice, { color: theme.colors.primary }]}>
+        <Text style={[styles.productPrice, { color: theme.colors.priceText }]}>
           ${price.toFixed(2)}
         </Text>
 
@@ -40,20 +38,20 @@ const ProductCard: React.FC<{ product: IProduct }> = ({ product }) => {
             style={[
               styles.addButton,
               {
-                backgroundColor: theme.colors.primary,
-                shadowColor: theme.colors.cardShadow,
+                backgroundColor: theme.colors.buttonColor,
               },
             ]}
           >
             <Icon
               name="cart-plus"
               type="font-awesome"
-              color={theme.colors.white}
+              color={theme.colors.accentColor}
               size={18}
             />
-            <Text style={[styles.addButtonText, { color: theme.colors.white }]}>
-              {" "}
-              Add to Cart{" "}
+            <Text
+              style={[styles.addButtonText, { color: theme.colors.secondary }]}
+            >
+              Add to Cart
             </Text>
           </TouchableOpacity>
         ) : (

@@ -26,6 +26,7 @@ const Banner: React.FC = React.memo(() => {
         showsButtons={false}
         autoplay={true}
         autoplayTimeout={3}
+        showsPagination={false}
       >
         {bannerData.map((item) => (
           <Image

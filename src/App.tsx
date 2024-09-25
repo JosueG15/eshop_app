@@ -1,7 +1,7 @@
 import { SafeAreaView, StyleSheet } from "react-native";
 import QueryClientProvider from "./contexts/QueryClientProvider";
 import Header from "./components/shared/Header";
-import { ThemeProvider, useThemeMode } from "@rneui/themed";
+import { ThemeProvider, useThemeMode, useTheme } from "@rneui/themed";
 import { lightTheme, darkTheme } from "./styles/themes";
 import { NavigationContainer } from "@react-navigation/native";
 import BottomNavigator from "./navigators/BottomNavigator";
@@ -16,10 +16,7 @@ export default function App() {
       <NavigationContainer>
         <ThemeProvider theme={mode === "dark" ? darkTheme : lightTheme}>
           <QueryClientProvider>
-            <SafeAreaView style={styles.container}>
-              <Header />
-              <BottomNavigator />
-            </SafeAreaView>
+            <ThemedApp />
           </QueryClientProvider>
         </ThemeProvider>
       </NavigationContainer>
@@ -27,9 +24,21 @@ export default function App() {
   );
 }
 
+function ThemedApp() {
+  const { theme } = useTheme();
+
+  return (
+    <SafeAreaView
+      style={[styles.container, { backgroundColor: theme.colors.background }]}
+    >
+      <Header />
+      <BottomNavigator />
+    </SafeAreaView>
+  );
+}
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
   },
 });

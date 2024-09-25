@@ -16,5 +16,10 @@ declare module "@rneui/themed" {
     tabBarIndicator?: string;
     infoIconColor?: string;
     selectedInfoIconColor?: string;
+    primaryText?: string;
+    accentColor?: string;
+    borderColor?: string;
+    priceText?: string;
+    buttonColor?: string;
   }
 }

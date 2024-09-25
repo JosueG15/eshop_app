@@ -17,7 +17,7 @@ const SharedSearchBar: React.FC<SharedSearchBarProps> = ({
   return (
     <View>
       <SearchBar
-        placeholder="Search Products..."
+        placeholder="Buscar Productos..."
         onChangeText={setSearch}
         value={search}
         round
@@ -28,12 +28,12 @@ const SharedSearchBar: React.FC<SharedSearchBarProps> = ({
           paddingBottom: 25,
         }}
         inputContainerStyle={{
-          backgroundColor: colors.searchBg,
+          backgroundColor: colors.primary,
           borderRadius: 20,
           borderColor: colors.primary,
         }}
-        inputStyle={{ color: colors.primary }}
-        placeholderTextColor={colors.grey2}
+        inputStyle={{ color: colors.secondary }}
+        placeholderTextColor={colors.secondary}
         lightTheme={theme.mode === "light"}
       />
     </View>

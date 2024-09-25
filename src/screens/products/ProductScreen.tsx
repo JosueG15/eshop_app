@@ -80,15 +80,17 @@ const ProductScreen: React.FC = () => {
         {isLoading ? (
           <ActivityIndicator
             size="large"
-            color={colors.primary}
+            color={colors.secondary}
             style={styles.loader}
           />
         ) : isError ? (
           <Text style={[styles.errorText, { color: colors.error }]}>
-            Error fetching products: {error.message}
+            Error al obtener los productos: {error.message}
           </Text>
         ) : products.length === 0 ? (
-          <Text style={styles.emptyMessage}>No products found.</Text>
+          <Text style={styles.emptyMessage}>
+            Ooops! No hay productos disponibles ene este momento.
+          </Text>
         ) : (
           <View style={styles.productListContainer}>
             {products.map((item: IProduct) => (

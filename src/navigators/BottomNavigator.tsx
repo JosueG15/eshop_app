@@ -25,11 +25,11 @@ const BottomNavigator = () => {
       screenOptions={{
         tabBarHideOnKeyboard: true,
         tabBarShowLabel: false,
-        tabBarActiveTintColor: theme.colors.primary,
-        tabBarInactiveTintColor: theme.colors.text,
+        tabBarActiveTintColor: theme.colors.primaryText,
+        tabBarInactiveTintColor: theme.colors.accentColor,
         tabBarStyle: {
           backgroundColor: theme.colors.background,
-          borderTopColor: theme.colors.cardShadow,
+          borderTopColor: theme.colors.borderColor,
         },
         headerShown: false,
       }}

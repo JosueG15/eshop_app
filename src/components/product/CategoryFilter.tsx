@@ -25,7 +25,7 @@ const CategoryFilter: React.FC<CategoryFilterProps> = ({
         horizontal
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.scrollViewContent}
-        style={[styles.scrollView, { backgroundColor: colors.customBg }]}
+        style={[styles.scrollView, { backgroundColor: colors.background }]}
       >
         {categories.map((category) => {
           const isSelected = selectedCategories.includes(category.id);
@@ -41,7 +41,7 @@ const CategoryFilter: React.FC<CategoryFilterProps> = ({
                       style={[
                         styles.badgeText,
                         {
-                          color: colors.white,
+                          color: colors.secondary,
                         },
                       ]}
                     >
@@ -51,8 +51,8 @@ const CategoryFilter: React.FC<CategoryFilterProps> = ({
                   containerStyle={[
                     styles.badgeContainer,
                     {
-                      backgroundColor: colors.primary,
-                      opacity: isSelected ? 1 : 0.5,
+                      backgroundColor: colors.borderColor,
+                      opacity: isSelected ? 1 : 0.2,
                     },
                   ]}
                   badgeStyle={styles.badgeStyle}
@@ -71,10 +71,10 @@ const CategoryFilter: React.FC<CategoryFilterProps> = ({
           <Icon
             name="close"
             type="font-awesome"
-            color={colors.white}
+            color={colors.secondary}
             size={16}
           />
-          <Text style={[styles.clearButtonText, { color: colors.white }]}>
+          <Text style={[styles.clearButtonText, { color: colors.secondary }]}>
             Clear Filters
           </Text>
         </TouchableOpacity>
@@ -107,6 +107,7 @@ const styles = StyleSheet.create({
   badgeContainer: {
     justifyContent: "center",
     alignItems: "center",
+
     marginHorizontal: 8,
     paddingVertical: 10,
     paddingHorizontal: 15,
