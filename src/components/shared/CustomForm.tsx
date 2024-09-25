@@ -1,13 +1,7 @@
 import React from "react";
 import { View, StyleSheet, Text } from "react-native";
 import { Button } from "@rneui/themed";
-import {
-  Controller,
-  FieldValues,
-  UseFormHandleSubmit,
-  Control,
-  FieldErrors,
-} from "react-hook-form";
+import { Controller, Control, FieldErrors } from "react-hook-form";
 import FormField from "./FormField";
 
 interface Field {
@@ -21,17 +15,15 @@ interface Field {
 
 interface CustomFormProps {
   fields: Field[];
-  onSubmit: (data: Record<string, string>) => void;
-  handleSubmit: UseFormHandleSubmit<FieldValues>;
-  control: Control<FieldValues>;
+  onSubmit: () => void;
+  control: Control;
   buttonTitle: string;
-  errors: FieldErrors<FieldValues>;
+  errors: FieldErrors;
 }
 
 const CustomForm: React.FC<CustomFormProps> = ({
   fields,
   onSubmit,
-  handleSubmit,
   control,
   buttonTitle = "Enviar",
   errors,
@@ -64,7 +56,7 @@ const CustomForm: React.FC<CustomFormProps> = ({
           )}
         </View>
       ))}
-      <Button title={buttonTitle} onPress={handleSubmit(onSubmit)} />
+      <Button title={buttonTitle} onPress={onSubmit} />
     </View>
   );
 };

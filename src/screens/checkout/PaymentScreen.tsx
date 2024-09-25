@@ -1,12 +1,13 @@
-import React, { useState } from "react";
-import { View, StyleSheet, Alert } from "react-native";
+import React from "react";
+import { View, StyleSheet } from "react-native";
 import { Text, Button, useTheme } from "@rneui/themed";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { CheckoutStackParamList } from "../../types/routes";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import PaymentOption from "../../components/checkout/PaymentOption";
-import { useForm, Controller } from "react-hook-form";
+import { useFormContext, Controller } from "react-hook-form";
+import { PaymentMethod } from "../../utils/paymentMethod";
 
 type PaymentScreenNavigationProp = StackNavigationProp<
   CheckoutStackParamList,
@@ -14,21 +15,21 @@ type PaymentScreenNavigationProp = StackNavigationProp<
 >;
 
 interface PaymentFormValues {
-  paymentMethod: string;
+  paymentMethod: PaymentMethod;
 }
 
-const PaymentScreen = () => {
+const PaymentScreen: React.FC = () => {
   const { theme } = useTheme();
   const navigation = useNavigation<PaymentScreenNavigationProp>();
   const {
     control,
+    setValue,
     handleSubmit,
     formState: { errors },
-  } = useForm<PaymentFormValues>();
-  const [selectedMethod, setSelectedMethod] = useState<string | null>(null);
+  } = useFormContext<PaymentFormValues>();
 
-  const handleMethodSelect = (method: string) => {
-    setSelectedMethod(method);
+  const handleMethodSelect = (method: PaymentMethod) => {
+    setValue("paymentMethod", method);
   };
 
   const handleNextPress = (data: PaymentFormValues) => {
@@ -50,42 +51,33 @@ const PaymentScreen = () => {
         control={control}
         name="paymentMethod"
         rules={{ required: "Debe seleccionar un método de pago" }}
-        render={({ field: { onChange, value } }) => (
+        render={({ field: { value } }) => (
           <>
             <PaymentOption
               title="Pago Contra Entrega"
               description="Recogeremos el pago cuando entreguemos el pedido."
               isSelected={value === "cash"}
-              onSelect={() => {
-                handleMethodSelect("cash");
-                onChange("cash");
-              }}
+              onSelect={() => handleMethodSelect("cash")}
             />
 
             <PaymentOption
               title="Transferencia Bancaria"
               description="Por favor realice la transferencia bancaria antes de la entrega."
               isSelected={value === "bank"}
-              onSelect={() => {
-                handleMethodSelect("bank");
-                onChange("bank");
-              }}
+              onSelect={() => handleMethodSelect("bank")}
             />
 
             <PaymentOption
               title="Pago con Tarjeta"
               description="El pago se procesará mediante tarjeta de crédito/débito."
               isSelected={value === "card"}
-              onSelect={() => {
-                handleMethodSelect("card");
-                onChange("card");
-              }}
+              onSelect={() => handleMethodSelect("card")}
             />
           </>
         )}
       />
 
-      {errors.paymentMethod && (
+      {errors.paymentMethod?.message && (
         <Text style={[styles.errorText, { color: theme.colors.error }]}>
           {errors.paymentMethod.message}
         </Text>

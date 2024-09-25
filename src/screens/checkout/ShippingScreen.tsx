@@ -19,13 +19,26 @@ const ShippingScreen = () => {
   const navigation = useNavigation<ShippingScreenNavigationProp>();
   const {
     control,
-    handleSubmit,
     formState: { errors },
+    trigger,
+    getValues,
   } = useFormContext();
 
-  const handleFormSubmit = (formData: Record<string, string>) => {
-    console.log("Shipping Form Data Submitted:", formData);
-    navigation.navigate("Payment");
+  const handleFormSubmit = async () => {
+    const isValid = await trigger([
+      "phone",
+      "shippingAddress1",
+      "shippingAddress2",
+      "city",
+      "state",
+      "zipCode",
+    ]);
+
+    if (isValid) {
+      const formData = getValues();
+      console.log("Shipping Form Data Submitted:", formData);
+      navigation.navigate("Payment");
+    }
   };
 
   const fields = [
@@ -86,7 +99,6 @@ const ShippingScreen = () => {
       <CustomForm
         fields={fields}
         onSubmit={handleFormSubmit}
-        handleSubmit={handleSubmit}
         control={control}
         errors={errors}
         buttonTitle="Siguiente"
