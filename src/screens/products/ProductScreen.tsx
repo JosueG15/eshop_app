@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { useProducts } from "../../hooks/useProduct";
 import ProductItem from "../../components/product/ProductItem";
-import { IProduct, ICategory } from "../../types/products";
+import { IProduct } from "../../types/products";
 import { useTheme } from "@rneui/themed";
 import ProductSearchBar from "../../components/shared/SharedSearchBar";
 import { useDebounce } from "../../hooks/useDebounce";
@@ -65,12 +65,7 @@ const ProductScreen: React.FC = () => {
     <SafeAreaView
       style={[styles.container, { backgroundColor: colors.background }]}
     >
-      <ProductSearchBar
-        search={search}
-        setSearch={setSearch}
-        searchResults={products}
-        onSelectProduct={handleProductSelect}
-      />
+      <ProductSearchBar search={search} setSearch={setSearch} />
 
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
         {!search && <Banner />}
