@@ -24,6 +24,16 @@ export interface IProduct {
   id: string;
 }
 
+export interface ProductQueryParams {
+  name?: string;
+  isFeatured?: boolean;
+  minPrice?: number;
+  maxPrice?: number;
+  category?: string;
+  limit?: number;
+  page?: number;
+}
+
 export interface IProductListResponse {
   success: boolean;
   page: number;

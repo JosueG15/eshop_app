@@ -1,11 +1,11 @@
 import axiosClient from "./axiosClient";
+import { IProductListResponse, ProductQueryParams } from "../../types/products";
 
-export const getProducts = async () => {
-  try {
-    const response = await axiosClient.get("v1/products");
-    return response.data;
-  } catch (error) {
-    console.error("Failed to fetch products", error);
-    throw error;
-  }
+export const getProducts = async (
+  params: ProductQueryParams
+): Promise<IProductListResponse> => {
+  const { data } = await axiosClient.get<IProductListResponse>("/v1/products", {
+    params,
+  });
+  return data;
 };

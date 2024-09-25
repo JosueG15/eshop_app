@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
     width: "50%",
   },
   cardWrapper: {
-    width: getContainerWidth(2),
+    width: getContainerWidth(200),
   },
 });
 
