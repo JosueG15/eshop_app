@@ -12,7 +12,7 @@ const Header = () => {
       <Image
         source={
           theme.mode === "dark"
-            ? require("../../../assets/logo_light.png")
+            ? require("../../../assets/logo_dark.png")
             : require("../../../assets/logo_light.png")
         }
         resizeMode="contain"

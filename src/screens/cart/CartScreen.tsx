@@ -22,7 +22,7 @@ const CartScreen: React.FC = () => {
     >
       {cartItems.length === 0 ? (
         <Text style={[styles.emptyText, { color: theme.colors.text }]}>
-          Your cart is empty.
+          Tu carrito esta vacio.
         </Text>
       ) : (
         <>
@@ -31,7 +31,12 @@ const CartScreen: React.FC = () => {
               <CartItemRow key={item.id} item={item} />
             ))}
           </ScrollView>
-          <View style={styles.bottomSection}>
+          <View
+            style={[
+              styles.bottomSection,
+              { borderTopColor: theme.colors.borderColor },
+            ]}
+          >
             <TotalContainer totalPrice={totalPrice} />
             <ButtonContainer />
           </View>
@@ -60,7 +65,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 10,
     borderTopWidth: 1,
-    borderTopColor: "#ddd",
   },
 });
 

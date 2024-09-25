@@ -11,7 +11,7 @@ const TotalContainer: React.FC<TotalContainerProps> = ({ totalPrice }) => {
 
   return (
     <View style={styles.totalContainer}>
-      <Text style={[styles.totalText, { color: theme.colors.priceColor }]}>
+      <Text style={[styles.totalText, { color: theme.colors.priceText }]}>
         Total: ${totalPrice.toFixed(2)}
       </Text>
     </View>

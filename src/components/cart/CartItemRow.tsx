@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { View, StyleSheet, Image } from "react-native";
-import { Text, Button, useTheme, Icon } from "@rneui/themed";
+import { Text, Button, useTheme, Icon, Divider } from "@rneui/themed";
 import { CartItem } from "../../types/cart";
 import { useDispatch } from "react-redux";
 import {
@@ -44,19 +44,28 @@ const CartItemRow: React.FC<CartItemRowProps> = ({ item }) => {
 
   return (
     <>
-      <Swipeable renderRightActions={renderRightActions}>
+      <Swipeable
+        containerStyle={{ shadowColor: "green" }}
+        renderRightActions={renderRightActions}
+      >
         <View style={styles.cartItemContainer}>
           <Image source={{ uri: item.image }} style={styles.productImage} />
           <View style={styles.detailsContainer}>
-            <Text style={[styles.itemName, { color: theme.colors.text }]}>
+            <Text style={[styles.itemName, { color: theme.colors.secondary }]}>
               {item.name}
             </Text>
-            <Text style={[styles.itemPrice, { color: theme.colors.text }]}>
+            <Text style={[styles.itemPrice, { color: theme.colors.priceText }]}>
               ${item.price.toFixed(2)} x {item.quantity}
             </Text>
           </View>
         </View>
       </Swipeable>
+
+      <Divider
+        width={1}
+        color={theme.colors.greyOutline}
+        style={[styles.divider, { borderColor: theme.colors.borderColor }]}
+      />
 
       <QuantitySelectorModal
         visible={isModalVisible}
@@ -90,6 +99,7 @@ const styles = StyleSheet.create({
   },
   itemPrice: {
     fontSize: 14,
+    fontWeight: "bold",
   },
   deleteButton: {
     justifyContent: "center",
@@ -98,8 +108,10 @@ const styles = StyleSheet.create({
     width: 70,
   },
   deleteButtonText: {
-    color: "white",
     fontWeight: "bold",
+  },
+  divider: {
+    marginVertical: 10,
   },
 });
 

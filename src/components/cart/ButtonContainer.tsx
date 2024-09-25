@@ -24,18 +24,18 @@ const ButtonContainer: React.FC = () => {
         onPress={() => dispatch(clearCart())}
         buttonStyle={[
           styles.clearCartButton,
-          { backgroundColor: theme.colors.clearCartBg },
+          { backgroundColor: theme.colors.error },
         ]}
-        titleStyle={{ color: theme.colors.white }}
+        titleStyle={{ color: theme.colors.primary }}
       />
       <Button
         title="Checkout"
         onPress={() => navigation.navigate("Checkout")}
         buttonStyle={[
           styles.checkoutButton,
-          { backgroundColor: theme.colors.primary },
+          { backgroundColor: theme.colors.infoColor },
         ]}
-        titleStyle={{ color: theme.colors.white }}
+        titleStyle={{ color: theme.colors.primary }}
       />
     </View>
   );

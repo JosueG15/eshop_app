@@ -21,7 +21,10 @@ const QuantitySelectorModal: React.FC<QuantitySelectorModalProps> = ({
     if (quantity > 0 && quantity <= maxQuantity) {
       onConfirm(quantity);
     } else {
-      Alert.alert("Invalid quantity", "Please enter a valid quantity.");
+      Alert.alert(
+        "Cantidad incorrecta",
+        "Digite una cantidad igual o menor a su producto."
+      );
     }
   };
 
