@@ -39,11 +39,14 @@ const PaymentScreen: React.FC = () => {
 
   return (
     <KeyboardAwareScrollView
-      contentContainerStyle={styles.container}
+      contentContainerStyle={[
+        styles.container,
+        { backgroundColor: theme.colors.background },
+      ]}
       extraScrollHeight={20}
       enableOnAndroid={true}
     >
-      <Text style={[styles.headerText, { color: theme.colors.text }]}>
+      <Text style={[styles.headerText, { color: theme.colors.secondary }]}>
         Seleccione un método de pago
       </Text>
 
@@ -88,9 +91,9 @@ const PaymentScreen: React.FC = () => {
         onPress={handleSubmit(handleNextPress)}
         buttonStyle={[
           styles.nextButton,
-          { backgroundColor: theme.colors.primary },
+          { backgroundColor: theme.colors.nextColor },
         ]}
-        titleStyle={{ color: theme.colors.white }}
+        titleStyle={{ color: theme.colors.infoTextColor }}
       />
     </KeyboardAwareScrollView>
   );

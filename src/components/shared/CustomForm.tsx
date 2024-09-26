@@ -2,6 +2,7 @@ import React from "react";
 import { View, StyleSheet, Text } from "react-native";
 import { Button } from "@rneui/themed";
 import { Controller, Control, FieldErrors } from "react-hook-form";
+import { useTheme } from "@rneui/themed";
 import FormField from "./FormField";
 
 interface Field {
@@ -28,6 +29,7 @@ const CustomForm: React.FC<CustomFormProps> = ({
   buttonTitle = "Enviar",
   errors,
 }) => {
+  const { theme } = useTheme();
   return (
     <View style={styles.formContainer}>
       {fields.map((field) => (
@@ -56,7 +58,12 @@ const CustomForm: React.FC<CustomFormProps> = ({
           )}
         </View>
       ))}
-      <Button title={buttonTitle} onPress={onSubmit} />
+      <Button
+        buttonStyle={{ backgroundColor: theme.colors.nextColor }}
+        title={buttonTitle}
+        titleStyle={{ color: theme.colors.infoTextColor }}
+        onPress={onSubmit}
+      />
     </View>
   );
 };

@@ -83,38 +83,45 @@ const ShippingScreen = () => {
   ];
 
   return (
-    <KeyboardAwareScrollView
-      contentContainerStyle={styles.scrollViewContent}
-      extraScrollHeight={20}
-      enableOnAndroid={true}
-      viewIsInsideTabBar={true}
+    <View
+      style={[styles.container, { backgroundColor: theme.colors.background }]}
     >
-      <View style={styles.flagContainer}>
-        <CountryFlag isoCode="SV" size={25} />
-        <Text style={[styles.text, { color: theme.colors.text }]}>
-          Información de Envío
-        </Text>
-      </View>
+      <KeyboardAwareScrollView
+        contentContainerStyle={styles.scrollViewContent}
+        extraScrollHeight={20}
+        enableOnAndroid={true}
+        viewIsInsideTabBar={true}
+      >
+        <View style={styles.flagContainer}>
+          <CountryFlag isoCode="SV" size={20} />
+          <Text style={[styles.text, { color: theme.colors.secondary }]}>
+            Información de Envío
+          </Text>
+        </View>
 
-      <CustomForm
-        fields={fields}
-        onSubmit={handleFormSubmit}
-        control={control}
-        errors={errors}
-        buttonTitle="Siguiente"
-      />
-    </KeyboardAwareScrollView>
+        <CustomForm
+          fields={fields}
+          onSubmit={handleFormSubmit}
+          control={control}
+          errors={errors}
+          buttonTitle="Siguiente"
+        />
+      </KeyboardAwareScrollView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   scrollViewContent: {
     flexGrow: 1,
-    marginTop: 20,
     paddingHorizontal: 20,
     paddingVertical: 10,
   },
   flagContainer: {
+    marginTop: 20,
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",

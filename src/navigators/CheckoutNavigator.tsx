@@ -17,10 +17,13 @@ const CheckoutNavigator = () => {
       <Tab.Navigator
         initialRouteName="Shipping"
         screenOptions={({ route }) => ({
-          tabBarActiveTintColor: theme.colors.primary,
-          tabBarInactiveTintColor: theme.colors.text,
-          tabBarStyle: { backgroundColor: theme.colors.background },
-          tabBarIndicatorStyle: { backgroundColor: theme.colors.primary },
+          tabBarActiveTintColor: theme.colors.primaryText,
+          tabBarInactiveTintColor: theme.colors.secondary,
+          tabBarStyle: {
+            backgroundColor: theme.colors.background,
+            borderTopColor: theme.colors.borderColor,
+          },
+          tabBarIndicatorStyle: { backgroundColor: theme.colors.infoColor },
           tabBarLabelStyle: {
             opacity: route.name === "Shipping" ? 1 : 0.5,
           },

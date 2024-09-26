@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
   },
   logo: {
-    height: 50,
+    height: 100,
     marginTop: 15,
   },
 });

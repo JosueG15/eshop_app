@@ -14,7 +14,7 @@ export default function App() {
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <ThemeProvider theme={mode === "dark" ? darkTheme : lightTheme}>
+        <ThemeProvider theme={mode === "dark" ? darkTheme : darkTheme}>
           <QueryClientProvider>
             <ThemedApp />
           </QueryClientProvider>

@@ -22,5 +22,7 @@ declare module "@rneui/themed" {
     priceText?: string;
     buttonColor?: string;
     infoColor?: string;
+    nextColor?: string;
+    infoTextColor?: string;
   }
 }

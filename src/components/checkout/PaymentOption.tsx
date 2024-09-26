@@ -26,16 +26,17 @@ const PaymentOption: React.FC<PaymentOptionProps> = ({
         checked={isSelected}
         onPress={onSelect}
         containerStyle={styles.checkBoxContainer}
-        textStyle={{ color: theme.colors.text }}
+        textStyle={{ color: theme.colors.secondary }}
+        checkedColor={theme.colors.nextColor}
       />
       {isSelected && (
         <>
           <Icon
             name="info"
             type="font-awesome"
-            color={theme.colors.infoIconColor}
+            color={theme.colors.nextColor}
           />
-          <Text style={[styles.infoText, { color: theme.colors.text }]}>
+          <Text style={[styles.infoText, { color: theme.colors.secondary }]}>
             {description}
           </Text>
         </>

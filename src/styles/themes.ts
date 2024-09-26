@@ -11,6 +11,8 @@ export const lightTheme = createTheme({
     buttonColor: "#ffd60a",
     error: "#ff5252",
     infoColor: "#0d47a1",
+    nextColor: "#0d47a1",
+    infoTextColor: "white",
 
     secondary: "#333333",
     black: "#000000",
@@ -43,7 +45,9 @@ export const darkTheme = createTheme({
     priceText: "#686201",
     buttonColor: "#ffffa3",
     error: "#cf6679",
-    infoColor: "#1976d2",
+    infoColor: "#fcdd00",
+    nextColor: "#0d47a1",
+    infoTextColor: "white",
 
     white: "#ffffff",
     searchBg: "#333333",
