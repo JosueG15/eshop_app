@@ -5,6 +5,7 @@ import { View, StyleSheet } from "react-native";
 import { useSelector } from "react-redux";
 import HomeNavigator from "./HomeNavigator";
 import CartNavigator from "./CartNavigator";
+import UserNavigator from "./UserNavigator";
 import { RootState } from "../store/store";
 
 const Tab = createBottomTabNavigator();
@@ -68,20 +69,20 @@ const BottomNavigator = () => {
         }}
       />
       <Tab.Screen
+        name="UserTab"
+        component={UserNavigator}
+        options={{
+          tabBarIcon: ({ color }) => (
+            <Icon name="user" style={styles.icon} color={color} size={30} />
+          ),
+        }}
+      />
+      <Tab.Screen
         name="Admin"
         component={HomeNavigator}
         options={{
           tabBarIcon: ({ color }) => (
             <Icon name="cog" style={styles.icon} color={color} size={30} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="User"
-        component={HomeNavigator}
-        options={{
-          tabBarIcon: ({ color }) => (
-            <Icon name="user" style={styles.icon} color={color} size={30} />
           ),
         }}
       />

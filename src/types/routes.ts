@@ -12,6 +12,12 @@ export type CartStackParamList = {
   Checkout: undefined;
 };
 
+export type UserStackParamList = {
+  Login: undefined;
+  Register: undefined;
+  Profile: undefined;
+};
+
 export type CheckoutStackParamList = {
   Shipping: undefined;
   Payment: undefined;
@@ -19,3 +25,4 @@ export type CheckoutStackParamList = {
 };
 
 export type HomeNavigationProp = StackNavigationProp<HomeStackParamList>;
+export type UserNavigationProp = StackNavigationProp<UserStackParamList>;
