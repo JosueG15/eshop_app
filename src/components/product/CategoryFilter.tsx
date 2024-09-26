@@ -75,7 +75,7 @@ const CategoryFilter: React.FC<CategoryFilterProps> = ({
             size={16}
           />
           <Text style={[styles.clearButtonText, { color: colors.secondary }]}>
-            Clear Filters
+            Reiniciar Filtros
           </Text>
         </TouchableOpacity>
       )}

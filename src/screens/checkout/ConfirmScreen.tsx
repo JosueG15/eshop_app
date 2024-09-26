@@ -20,13 +20,12 @@ const ConfirmScreen: React.FC = () => {
   const cartItems = useSelector((state: RootState) => state.cart.items);
 
   const [
-    phone,
-    shippingAddress1,
-    shippingAddress2,
-    city,
-    state,
-    zipCode,
-    paymentMethod,
+    phone = "",
+    shippingAddress1 = "",
+    city = "",
+    state = "",
+    zipCode = "",
+    paymentMethod = "",
   ] = watch([
     "phone",
     "shippingAddress1",

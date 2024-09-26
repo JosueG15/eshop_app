@@ -89,7 +89,7 @@ const ProductScreen: React.FC = () => {
           </Text>
         ) : products.length === 0 ? (
           <Text style={styles.emptyMessage}>
-            Ooops! No hay productos disponibles ene este momento.
+            Ooops! No hay productos disponibles en este momento.
           </Text>
         ) : (
           <View style={styles.productListContainer}>

@@ -9,7 +9,6 @@ interface SummarySectionProps {
 
 const SummarySection: React.FC<SummarySectionProps> = ({ title, info }) => {
   const { theme } = useTheme();
-  console.log("info", info);
 
   return (
     <View style={styles.container}>

@@ -33,7 +33,6 @@ const PaymentScreen: React.FC = () => {
   };
 
   const handleNextPress = (data: PaymentFormValues) => {
-    console.log("Payment Method:", data.paymentMethod);
     navigation.navigate("Confirm");
   };
 

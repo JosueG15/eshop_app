@@ -1,14 +1,24 @@
 import React from "react";
-import { StyleSheet, View, Image, Text, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Image,
+  Text,
+  TouchableOpacity,
+  ActivityIndicator,
+} from "react-native";
 import { IProduct } from "../../types/products";
 import { truncateText } from "../../utils/string";
 import { getContainerWidth } from "../../utils/screen";
 import { useTheme, Icon } from "@rneui/themed";
+import useImageValidator from "../../hooks/useImageValidator";
 
 const ProductCard: React.FC<{ product: IProduct }> = ({ product }) => {
   const { name, price, image, countInStock } = product;
   const truncatedName = truncateText(name, 15);
   const { theme } = useTheme();
+
+  const { validatedUrl, isLoading } = useImageValidator(image);
 
   return (
     <View
@@ -20,11 +30,15 @@ const ProductCard: React.FC<{ product: IProduct }> = ({ product }) => {
         },
       ]}
     >
-      <Image
-        style={styles.productImage}
-        resizeMode="contain"
-        source={{ uri: image || "https://placehold.co/500x600/png" }}
-      />
+      {isLoading ? (
+        <ActivityIndicator size="large" color={theme.colors.infoColor} />
+      ) : (
+        <Image
+          style={styles.productImage}
+          resizeMode="contain"
+          source={{ uri: validatedUrl }}
+        />
+      )}
       <View style={styles.cardContent}>
         <Text style={[styles.productTitle, { color: theme.colors.secondary }]}>
           {truncatedName}
@@ -51,7 +65,7 @@ const ProductCard: React.FC<{ product: IProduct }> = ({ product }) => {
             <Text
               style={[styles.addButtonText, { color: theme.colors.secondary }]}
             >
-              Add to Cart
+              Agregar
             </Text>
           </TouchableOpacity>
         ) : (

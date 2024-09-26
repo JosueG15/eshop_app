@@ -36,7 +36,6 @@ const ShippingScreen = () => {
 
     if (isValid) {
       const formData = getValues();
-      console.log("Shipping Form Data Submitted:", formData);
       navigation.navigate("Payment");
     }
   };
