@@ -13,13 +13,15 @@ const SummarySection: React.FC<SummarySectionProps> = ({ title, info }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={[styles.title, { color: theme.colors.text }]}>{title}</Text>
+      <Text style={[styles.title, { color: theme.colors.secondary }]}>
+        {title}
+      </Text>
       {info.map((item, index) => (
         <View key={index} style={styles.infoRow}>
-          <Text style={[styles.label, { color: theme.colors.text }]}>
+          <Text style={[styles.label, { color: theme.colors.secondary }]}>
             {item.label}:
           </Text>
-          <Text style={[styles.value, { color: theme.colors.text }]}>
+          <Text style={[styles.value, { color: theme.colors.secondary }]}>
             {item.value}
           </Text>
         </View>

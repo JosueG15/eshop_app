@@ -21,7 +21,7 @@ const CartScreen: React.FC = () => {
       style={[styles.container, { backgroundColor: theme.colors.background }]}
     >
       {cartItems.length === 0 ? (
-        <Text style={[styles.emptyText, { color: theme.colors.text }]}>
+        <Text style={[styles.emptyText, { color: theme.colors.secondary }]}>
           Tu carrito esta vacio.
         </Text>
       ) : (

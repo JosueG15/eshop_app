@@ -49,7 +49,7 @@ const ConfirmScreen: React.FC = () => {
         { backgroundColor: theme.colors.background },
       ]}
     >
-      <Text style={[styles.headerText, { color: theme.colors.text }]}>
+      <Text style={[styles.headerText, { color: theme.colors.secondary }]}>
         Revise su pedido
       </Text>
 
@@ -74,15 +74,14 @@ const ConfirmScreen: React.FC = () => {
         ]}
       />
 
-      <Text style={[styles.sectionTitle, { color: theme.colors.text }]}>
+      <Text style={[styles.sectionTitle, { color: theme.colors.secondary }]}>
         Artículos en el Carrito
       </Text>
       {cartItems.map((item: CartItem) => (
         <CartItemRow key={item.id} item={item} />
       ))}
 
-      {/* Total Price */}
-      <Text style={[styles.totalText, { color: theme.colors.text }]}>
+      <Text style={[styles.totalText, { color: theme.colors.priceText }]}>
         Total: ${totalPrice.toFixed(2)}
       </Text>
 
@@ -91,9 +90,9 @@ const ConfirmScreen: React.FC = () => {
         onPress={() => {} /* TODO: order placing logic */}
         buttonStyle={[
           styles.placeOrderButton,
-          { backgroundColor: theme.colors.primary },
+          { backgroundColor: theme.colors.buttonColor },
         ]}
-        titleStyle={{ color: theme.colors.white }}
+        titleStyle={{ color: theme.colors.secondary }}
       />
     </ScrollView>
   );

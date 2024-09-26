@@ -28,7 +28,9 @@ const FormField: React.FC<FormFieldProps> = ({
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={styles.container}
     >
-      <Text style={[styles.label, { color: theme.colors.text }]}>{label}</Text>
+      <Text style={[styles.label, { color: theme.colors.secondary }]}>
+        {label}
+      </Text>
       {isPhoneInput ? (
         <TextInputMask
           type={"custom"}
@@ -43,8 +45,8 @@ const FormField: React.FC<FormFieldProps> = ({
           style={[
             styles.input,
             {
-              backgroundColor: theme.colors.customBg,
-              color: theme.colors.text,
+              backgroundColor: theme.colors.primary,
+              color: theme.colors.secondary,
             },
           ]}
         />
@@ -58,8 +60,8 @@ const FormField: React.FC<FormFieldProps> = ({
           style={[
             styles.input,
             {
-              backgroundColor: theme.colors.customBg,
-              color: theme.colors.text,
+              backgroundColor: theme.colors.primary,
+              color: theme.colors.secondary,
             },
           ]}
         />
