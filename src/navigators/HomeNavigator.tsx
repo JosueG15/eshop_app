@@ -1,7 +1,7 @@
 import { createStackNavigator } from "@react-navigation/stack";
-import ProductScreen from "../screens/products/ProductScreen";
-import SingleProduct from "../components/product/SingleProduct";
-import { HomeStackParamList } from "../types/routes";
+import SingleProduct from "../features/product/components/SingleProduct";
+import { HomeStackParamList } from "../shared/types/routeType";
+import ProductScreen from "../features/product/screens/ProductScreen";
 
 const Stack = createStackNavigator<HomeStackParamList>();
 

@@ -1,19 +1,26 @@
 import { useMutation } from "@tanstack/react-query";
-import { login, registerUser, getUserProfile } from "../services/api/user";
 import {
   ILoginResponse,
   IRegisterResponse,
   IUser,
   LoginFormValues,
-} from "../types/user";
+} from "../shared/types/userType";
 import { useState } from "react";
-import { IError } from "../types/global";
+import { IError } from "../shared/types/globalType";
 import { useDispatch } from "react-redux";
-import { loginSuccess } from "../store/slices/authSlice";
-import { showToast } from "../components/shared/Toast";
+import { showToast } from "../shared/components/Toast";
 import { useNavigation } from "@react-navigation/native";
-import { HomeNavigationProp, CartNavigationProp } from "../types/routes";
+import {
+  HomeNavigationProp,
+  CartNavigationProp,
+} from "../shared/types/routeType";
 import { jwtDecode } from "jwt-decode";
+import {
+  getUserProfile,
+  login,
+  registerUser,
+} from "../features/user/services/userService";
+import { loginSuccess } from "../store/slices/auth/authSlice";
 
 interface DecodedToken {
   userId: string;

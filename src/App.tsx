@@ -1,8 +1,8 @@
 import { SafeAreaView, StyleSheet } from "react-native";
-import QueryClientProvider from "./contexts/QueryClientProvider";
-import Header from "./components/shared/Header";
+import QueryClientProvider from "./shared/providers/QueryClientProvider";
+import Header from "./shared/components/Header";
 import { ThemeProvider, useThemeMode, useTheme } from "@rneui/themed";
-import { lightTheme, darkTheme } from "./styles/themes";
+import { lightTheme, darkTheme } from "./shared/styles/themes";
 import { NavigationContainer } from "@react-navigation/native";
 import BottomNavigator from "./navigators/BottomNavigator";
 import { Provider } from "react-redux";
