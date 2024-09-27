@@ -10,10 +10,10 @@ import { useDispatch } from "react-redux";
 import { showToast } from "../../../shared/components/Toast";
 import { addToCart } from "../../../store/slices/cart/cartSlice";
 
-type SingleProductRouteProp = RouteProp<HomeStackParamList, "Product Detail">;
+type SingleProductRouteProp = RouteProp<HomeStackParamList, "ProductDetail">;
 type SingleProductNavigationProp = StackNavigationProp<
   HomeStackParamList,
-  "Product Detail"
+  "ProductDetail"
 >;
 
 interface SingleProductProps {

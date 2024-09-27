@@ -1,12 +1,13 @@
 import axiosClient from "../../../shared/clients/axiosClient";
 import {
-  ProductQueryParams,
+  IProductQueryParams,
   IProductListResponse,
 } from "../../../shared/types/productType";
 
 export const getProducts = async (
-  params: ProductQueryParams
+  params: IProductQueryParams
 ): Promise<IProductListResponse> => {
+  console.log("params", params);
   const { data } = await axiosClient.get<IProductListResponse>("/v1/products", {
     params,
   });

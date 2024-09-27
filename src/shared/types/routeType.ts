@@ -1,10 +1,9 @@
 import { IProduct } from "./productType";
-import { RouteProp } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 
 export type HomeStackParamList = {
   Home: undefined;
-  "Product Detail": { item: IProduct };
+  ProductDetail: { item: IProduct };
 };
 
 export type CartStackParamList = {

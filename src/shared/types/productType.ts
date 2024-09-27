@@ -24,7 +24,7 @@ export interface IProduct {
   id: string;
 }
 
-export interface ProductQueryParams {
+export interface IProductQueryParams {
   name?: string;
   isFeatured?: boolean;
   minPrice?: number;

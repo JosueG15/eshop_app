@@ -2,9 +2,9 @@ import React from "react";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { useTheme } from "@rneui/themed";
 import { FormProvider, useForm } from "react-hook-form";
-import ShippingScreen from "../features/checkout/screens/ShippingScreen";
-import PaymentScreen from "../features/checkout/screens/PaymentScreen";
-import ConfirmScreen from "../features/checkout/screens/ConfirmScreen";
+import ShippingScreen from "../../checkout/screens/ShippingScreen";
+import PaymentScreen from "../../checkout/screens/PaymentScreen";
+import ConfirmScreen from "../../checkout/screens/ConfirmScreen";
 
 const Tab = createMaterialTopTabNavigator();
 

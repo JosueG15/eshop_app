@@ -16,7 +16,7 @@ const ProductItem: React.FC<ProductItemProps> = ({ product }) => {
   return (
     <TouchableOpacity
       style={styles.productItemContainer}
-      onPress={() => navigation.navigate("Product Detail", { item: product })}
+      onPress={() => navigation.navigate("ProductDetail", { item: product })}
     >
       <View style={styles.cardWrapper}>
         <ProductCard product={product} />

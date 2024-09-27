@@ -1,5 +1,5 @@
-import React from "react";
-import { View } from "react-native";
+import { useMemo } from "react";
+import { StyleSheet } from "react-native";
 import { SearchBar, useTheme } from "@rneui/themed";
 
 interface ProductSearchBarProps {
@@ -14,29 +14,39 @@ const ProductSearchBar: React.FC<ProductSearchBarProps> = ({
   const { theme } = useTheme();
   const colors = theme.colors;
 
-  return (
-    <View>
-      <SearchBar
-        placeholder="Buscar Productos..."
-        onChangeText={setSearch}
-        value={search}
-        round
-        containerStyle={{
+  const styles = useMemo(
+    () =>
+      StyleSheet.create({
+        container: {
           backgroundColor: colors.background,
           borderTopWidth: 0,
           borderBottomWidth: 0,
           paddingBottom: 25,
-        }}
-        inputContainerStyle={{
+        },
+        inputContainer: {
           backgroundColor: colors.primary,
           borderRadius: 20,
           borderColor: colors.primary,
-        }}
-        inputStyle={{ color: colors.secondary }}
-        placeholderTextColor={colors.secondary}
-        lightTheme={theme.mode === "light"}
-      />
-    </View>
+        },
+        input: { color: colors.secondary },
+      }),
+    [colors]
+  );
+
+  return (
+    <SearchBar
+      placeholder="Buscar Productos..."
+      onChangeText={setSearch}
+      value={search}
+      round
+      containerStyle={styles.container}
+      inputContainerStyle={styles.inputContainer}
+      inputStyle={styles.input}
+      placeholderTextColor={colors.secondary}
+      lightTheme={theme.mode === "light"}
+      accessible={true}
+      accessibilityLabel="Buscar Productos"
+    />
   );
 };
 

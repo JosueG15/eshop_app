@@ -1,9 +1,9 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import LoginScreen from "../features/user/screens/LoginScreen";
-import RegisterScreen from "../features/user/screens/RegisterScreen";
-import ProfileScreen from "../features/user/screens/ProfileScreen";
-import { UserStackParamList } from "../shared/types/routeType";
+import LoginScreen from "../../user/screens/LoginScreen";
+import RegisterScreen from "../../user/screens/RegisterScreen";
+import ProfileScreen from "../../user/screens/ProfileScreen";
+import { UserStackParamList } from "../../../shared/types/routeType";
 
 const Stack = createStackNavigator<UserStackParamList>();
 

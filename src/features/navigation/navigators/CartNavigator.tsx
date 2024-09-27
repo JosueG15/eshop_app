@@ -1,8 +1,8 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import CartScreen from "../features/cart/screens/CartScreen";
+import CartScreen from "../../cart/screens/CartScreen";
 import CheckoutNavigator from "./CheckoutNavigator";
-import { CartStackParamList } from "../shared/types/routeType";
+import { CartStackParamList } from "../../../shared/types/routeType";
 import { useTheme } from "@rneui/themed";
 
 const Stack = createStackNavigator<CartStackParamList>();

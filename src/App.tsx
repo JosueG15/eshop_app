@@ -1,8 +1,9 @@
-import React from "react";
+import { useMemo } from "react";
 import { SafeAreaView, StyleSheet } from "react-native";
-import Header from "./shared/components/Header";
-import BottomNavigator from "./navigators/BottomNavigator";
 import { useTheme } from "@rneui/themed";
+
+import Header from "./shared/components/Header";
+import BottomNavigator from "./features/navigation/navigators/BottomNavigator";
 import { AppProviders } from "./shared/components/Providers";
 
 export default function App() {
@@ -16,12 +17,16 @@ export default function App() {
 function ThemedApp() {
   const { theme } = useTheme();
 
-  const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: theme.colors.background,
-    },
-  });
+  const styles = useMemo(
+    () =>
+      StyleSheet.create({
+        container: {
+          flex: 1,
+          backgroundColor: theme.colors.background,
+        },
+      }),
+    [theme.colors.background]
+  );
 
   return (
     <SafeAreaView style={styles.container}>
