@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { Modal, View, Text, Button, StyleSheet, Alert } from "react-native";
+import { Modal, View, Text, Button, StyleSheet } from "react-native";
 import { Input } from "@rneui/themed";
+import { showToast } from "../../components/shared/Toast"; // Import the toast
 
 interface QuantitySelectorModalProps {
   visible: boolean;
@@ -21,10 +22,7 @@ const QuantitySelectorModal: React.FC<QuantitySelectorModalProps> = ({
     if (quantity > 0 && quantity <= maxQuantity) {
       onConfirm(quantity);
     } else {
-      Alert.alert(
-        "Cantidad incorrecta",
-        "Digite una cantidad igual o menor a su producto."
-      );
+      showToast("Digite una cantidad igual o menor a su producto.", "error");
     }
   };
 
@@ -32,7 +30,7 @@ const QuantitySelectorModal: React.FC<QuantitySelectorModalProps> = ({
     <Modal visible={visible} transparent={true} animationType="slide">
       <View style={styles.modalContainer}>
         <View style={styles.modalContent}>
-          <Text style={styles.modalTitle}>Select Quantity to Remove</Text>
+          <Text style={styles.modalTitle}>Selecccione cantidad a remover</Text>
 
           <Input
             placeholder="Quantity"

@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  View,
-  StyleSheet,
-  TouchableOpacity,
-  Platform,
-  Alert,
-} from "react-native";
+import { View, StyleSheet, TouchableOpacity, Platform } from "react-native";
 import { Text, Button, Input, useTheme } from "@rneui/themed";
 import { useNavigation } from "@react-navigation/native";
 import { UserNavigationProp } from "../../types/routes";
@@ -13,16 +7,12 @@ import { Controller, useForm } from "react-hook-form";
 import { KeyboardAvoidingView } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useAuth } from "../../hooks/useAuth";
-
-interface LoginFormValues {
-  email: string;
-  password: string;
-}
+import { LoginFormValues } from "../../types/user";
 
 const LoginScreen: React.FC = () => {
   const { theme } = useTheme();
   const navigation = useNavigation<UserNavigationProp>();
-  const { login, isLoading, errorMessage } = useAuth();
+  const { login, isLoadingLogin, errorMessage } = useAuth();
   const {
     control,
     handleSubmit,
@@ -104,9 +94,9 @@ const LoginScreen: React.FC = () => {
         />
 
         <Button
-          title={isLoading ? "Cargando..." : "Iniciar Sesión"}
+          title={isLoadingLogin ? "Cargando..." : "Iniciar Sesión"}
           onPress={handleSubmit(onSubmit)}
-          disabled={isLoading}
+          disabled={isLoadingLogin}
           buttonStyle={[
             styles.button,
             { backgroundColor: theme.colors.infoColor },

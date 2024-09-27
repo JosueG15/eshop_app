@@ -1,12 +1,5 @@
 import { useState } from "react";
-import {
-  Image,
-  View,
-  StyleSheet,
-  ScrollView,
-  Button,
-  Alert,
-} from "react-native";
+import { Image, View, StyleSheet, ScrollView, Button } from "react-native";
 import { Text } from "@rneui/themed";
 import { IProduct } from "../../types/products";
 import { RouteProp } from "@react-navigation/native";
@@ -15,6 +8,7 @@ import { HomeStackParamList } from "../../types/routes";
 import { useTheme } from "@rneui/themed";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../store/slices/cartSlice";
+import { showToast } from "../../components/shared/Toast";
 
 type SingleProductRouteProp = RouteProp<HomeStackParamList, "Product Detail">;
 type SingleProductNavigationProp = StackNavigationProp<
@@ -36,7 +30,7 @@ const SingleProduct: React.FC<SingleProductProps> = (props) => {
 
   const handleAddToCart = () => {
     dispatch(addToCart(item));
-    Alert.alert("Cart Updated", `${item.name} has been added to your cart.`);
+    showToast(`${item.name} ha sido agregado a tu carrito.`, "success");
   };
 
   return (
