@@ -26,3 +26,4 @@ export type CheckoutStackParamList = {
 
 export type HomeNavigationProp = StackNavigationProp<HomeStackParamList>;
 export type UserNavigationProp = StackNavigationProp<UserStackParamList>;
+export type CartNavigationProp = StackNavigationProp<CartStackParamList>;

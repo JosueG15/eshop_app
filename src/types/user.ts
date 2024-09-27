@@ -15,12 +15,7 @@ export interface LoginFormValues {
 
 export interface ILoginResponse {
   token: string;
-  user: {
-    id: string;
-    email: string;
-    name: string;
-    isAdmin: boolean;
-  };
+  user: IUser;
 }
 
 export interface IUser {

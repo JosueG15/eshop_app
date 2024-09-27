@@ -1,26 +1,41 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, StyleSheet } from "react-native";
 import { Button, useTheme } from "@rneui/themed";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { clearCart } from "../../store/slices/cartSlice";
 import { useNavigation } from "@react-navigation/native";
-import { StackNavigationProp } from "@react-navigation/stack";
-import { CartStackParamList } from "../../types/routes";
-
-type CheckoutNavigationProp = StackNavigationProp<
-  CartStackParamList,
-  "Checkout"
->;
+import { CartNavigationProp, UserNavigationProp } from "../../types/routes";
+import { RootState } from "../../store/store";
+import CustomModal from "../shared/CustomModal";
 
 const ButtonContainer: React.FC = () => {
   const dispatch = useDispatch();
   const { theme } = useTheme();
-  const navigation = useNavigation<CheckoutNavigationProp>();
+  const navigation = useNavigation<CartNavigationProp & UserNavigationProp>();
+  const token = useSelector((state: RootState) => state.auth.token);
+  const [showModal, setShowModal] = useState(false);
+
+  const handleCheckout = () => {
+    if (!token) {
+      setShowModal(true);
+    } else {
+      navigation.navigate("Checkout");
+    }
+  };
+
+  const handleLogin = () => {
+    setShowModal(false);
+    navigation.navigate("Login");
+  };
+
+  const handleCancel = () => {
+    setShowModal(false);
+  };
 
   return (
     <View style={styles.buttonContainer}>
       <Button
-        title="Clear Cart"
+        title="Vaciar Carrito"
         onPress={() => dispatch(clearCart())}
         buttonStyle={[
           styles.clearCartButton,
@@ -29,13 +44,22 @@ const ButtonContainer: React.FC = () => {
         titleStyle={{ color: theme.colors.primary }}
       />
       <Button
-        title="Checkout"
-        onPress={() => navigation.navigate("Checkout")}
+        title="Comprar"
+        onPress={handleCheckout}
         buttonStyle={[
           styles.checkoutButton,
           { backgroundColor: theme.colors.infoColor },
         ]}
         titleStyle={{ color: theme.colors.primary }}
+      />
+
+      <CustomModal
+        visible={showModal}
+        onClose={handleCancel}
+        onConfirm={handleLogin}
+        message="Debes iniciar sesión para proceder con la compra."
+        confirmText="Iniciar Sesión"
+        cancelText="Cancelar"
       />
     </View>
   );

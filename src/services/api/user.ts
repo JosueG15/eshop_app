@@ -18,3 +18,15 @@ export const registerUser = async (user: IUser): Promise<IRegisterResponse> => {
   );
   return data;
 };
+
+export const getUserProfile = async (
+  userId: string,
+  token: string
+): Promise<IUser> => {
+  const { data } = await axiosClient.get<IUser>(`/v1/users/${userId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return data;
+};
