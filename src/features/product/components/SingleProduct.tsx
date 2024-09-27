@@ -30,7 +30,11 @@ const SingleProduct: React.FC<SingleProductProps> = (props) => {
 
   const handleAddToCart = () => {
     dispatch(addToCart(item));
-    showToast(`${item.name} ha sido agregado a tu carrito.`, "success");
+    showToast(
+      "Product agregado",
+      `${item.name} ha sido agregado a tu carrito.`,
+      "success"
+    );
   };
 
   return (

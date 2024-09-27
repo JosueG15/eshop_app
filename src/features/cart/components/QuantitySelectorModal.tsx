@@ -22,7 +22,11 @@ const QuantitySelectorModal: React.FC<QuantitySelectorModalProps> = ({
     if (quantity > 0 && quantity <= maxQuantity) {
       onConfirm(quantity);
     } else {
-      showToast("Digite una cantidad igual o menor a su producto.", "error");
+      showToast(
+        "Error",
+        "Digite una cantidad igual o menor a su producto.",
+        "error"
+      );
     }
   };
 
@@ -33,7 +37,7 @@ const QuantitySelectorModal: React.FC<QuantitySelectorModalProps> = ({
           <Text style={styles.modalTitle}>Selecccione cantidad a remover</Text>
 
           <Input
-            placeholder="Quantity"
+            placeholder="Cantidad"
             keyboardType="numeric"
             defaultValue={quantity.toString()}
             onChangeText={(value) => {

@@ -38,7 +38,11 @@ export const useAuth = () => {
       mutationFn: fn,
       onError: (error: TError) => {
         setErrorMessage((error as any).message || "Error desconocido");
-        showToast((error as Error).message || "Error desconocido", "error");
+        showToast(
+          "Error",
+          (error as Error).message || "Error desconocido",
+          "error"
+        );
       },
       onSuccess: async (data) => {
         const token = (data as any).token;
@@ -49,7 +53,7 @@ export const useAuth = () => {
           const userProfile = await getUserProfile(userId, token);
           dispatch(loginSuccess({ user: userProfile, token }));
 
-          showToast(onSuccessMessage, "success");
+          showToast("Login Exitoso", onSuccessMessage, "success");
 
           if (redirectTo === "home") {
             navigation.navigate("Home");
@@ -57,8 +61,8 @@ export const useAuth = () => {
             navigation.navigate("Cart");
           }
         } catch (error) {
-          setErrorMessage("Error fetching user profile");
-          showToast("Error fetching user profile", "error");
+          setErrorMessage("Error al obtener el perfil");
+          showToast("Error", "Error al obtener el perfil", "error");
         }
       },
     });

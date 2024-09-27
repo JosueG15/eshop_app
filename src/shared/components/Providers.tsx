@@ -7,6 +7,7 @@ import { darkTheme, lightTheme } from "../styles/themes";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ErrorBoundary } from "react-error-boundary";
 import ErrorComponent from "./ErrorComponentProps";
+import ToastComponent from "./Toast";
 
 const queryClient = new QueryClient();
 
@@ -24,6 +25,7 @@ export const AppProviders: React.FC<AppProvidersProps> = ({ children }) => {
           <QueryClientProvider client={queryClient}>
             <ErrorBoundary FallbackComponent={ErrorComponent}>
               {children}
+              <ToastComponent />
             </ErrorBoundary>
           </QueryClientProvider>
         </ThemeProvider>
