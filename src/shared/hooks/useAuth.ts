@@ -4,23 +4,20 @@ import {
   IRegisterResponse,
   IUser,
   LoginFormValues,
-} from "../shared/types/userType";
+} from "../types/userType";
 import { useState } from "react";
-import { IError } from "../shared/types/globalType";
+import { IError } from "../types/globalType";
 import { useDispatch } from "react-redux";
-import { showToast } from "../shared/components/Toast";
+import { showToast } from "../components/Toast";
 import { useNavigation } from "@react-navigation/native";
-import {
-  HomeNavigationProp,
-  CartNavigationProp,
-} from "../shared/types/routeType";
+import { HomeNavigationProp, CartNavigationProp } from "../types/routeType";
 import { jwtDecode } from "jwt-decode";
 import {
   getUserProfile,
   login,
   registerUser,
-} from "../features/user/services/userService";
-import { loginSuccess } from "../store/slices/auth/authSlice";
+} from "../../features/user/services/userService";
+import { loginSuccess } from "../../store/slices/auth/authSlice";
 
 interface DecodedToken {
   userId: string;

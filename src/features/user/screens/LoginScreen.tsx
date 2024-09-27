@@ -6,7 +6,7 @@ import { UserNavigationProp } from "../../../shared/types/routeType";
 import { Controller, useForm } from "react-hook-form";
 import { KeyboardAvoidingView } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { useAuth } from "../../../hooks/useAuth";
+import { useAuth } from "../../../shared/hooks/useAuth";
 import { LoginFormValues } from "../../../shared/types/userType";
 
 const LoginScreen: React.FC = () => {

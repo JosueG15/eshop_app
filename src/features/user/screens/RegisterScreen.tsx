@@ -6,7 +6,7 @@ import { UserNavigationProp } from "../../../shared/types/routeType";
 import { useForm } from "react-hook-form";
 import FormInput from "../../../shared/components/FomInput";
 import { IUser } from "../../../shared/types/userType";
-import { useAuth } from "../../../hooks/useAuth";
+import { useAuth } from "../../../shared/hooks/useAuth";
 
 const RegisterScreen: React.FC = () => {
   const { theme } = useTheme();
