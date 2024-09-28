@@ -1,5 +1,7 @@
-import { IProduct } from "./productType";
 import { StackNavigationProp } from "@react-navigation/stack";
+import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
+
+import { IProduct } from "./productType";
 
 export type HomeStackParamList = {
   Home: undefined;
@@ -23,6 +25,14 @@ export type CheckoutStackParamList = {
   Confirm: undefined;
 };
 
+export type BottomTabParamList = {
+  HomeTab: undefined;
+  CartTab: undefined;
+  UserTab: undefined;
+  SettingsTab: undefined;
+};
+
 export type HomeNavigationProp = StackNavigationProp<HomeStackParamList>;
 export type UserNavigationProp = StackNavigationProp<UserStackParamList>;
 export type CartNavigationProp = StackNavigationProp<CartStackParamList>;
+export type MainNavigatorProp = BottomTabNavigationProp<BottomTabParamList>;

@@ -1,4 +1,3 @@
-import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import CartScreen from "../../cart/screens/CartScreen";
 import CheckoutNavigator from "./CheckoutNavigator";

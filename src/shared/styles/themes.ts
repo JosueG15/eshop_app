@@ -26,7 +26,7 @@ export const darkTheme = createTheme({
     secondary: "#B3B3B3",
     accentColor: "#444444",
     borderColor: "#444444",
-    priceText: "#686201",
+    priceText: "#e6cc00",
     buttonColor: "#ffffa3",
     error: "#cf6679",
     infoColor: "#fcdd00",

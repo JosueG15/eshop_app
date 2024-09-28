@@ -1,4 +1,4 @@
-import React from "react";
+import { useMemo } from "react";
 import { View, StyleSheet } from "react-native";
 import { Text, useTheme } from "@rneui/themed";
 
@@ -8,25 +8,47 @@ interface TotalContainerProps {
 
 const TotalContainer: React.FC<TotalContainerProps> = ({ totalPrice }) => {
   const { theme } = useTheme();
+  const { colors } = theme;
+
+  const formattedPrice = useMemo(() => {
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+    }).format(totalPrice);
+  }, [totalPrice]);
+
+  const styles = useMemo(
+    () =>
+      StyleSheet.create({
+        totalContainer: {
+          flex: 1,
+          alignItems: "flex-start",
+        },
+        totalText: {
+          fontSize: 15,
+          fontWeight: "bold",
+          color: colors.priceText,
+        },
+        priceWrapper: {
+          flexDirection: "row",
+          flexWrap: "wrap",
+        },
+      }),
+    [colors]
+  );
 
   return (
     <View style={styles.totalContainer}>
-      <Text style={[styles.totalText, { color: theme.colors.priceText }]}>
-        Total: ${totalPrice.toFixed(2)}
-      </Text>
+      <View style={styles.priceWrapper}>
+        <Text style={styles.totalText} accessibilityLabel="Total">
+          Total:
+        </Text>
+        <Text style={styles.totalText} accessibilityLabel={`${formattedPrice}`}>
+          {formattedPrice}
+        </Text>
+      </View>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  totalContainer: {
-    flex: 1,
-    alignItems: "flex-start",
-  },
-  totalText: {
-    fontSize: 20,
-    fontWeight: "bold",
-  },
-});
 
 export default TotalContainer;

@@ -69,7 +69,7 @@ const CartItemRow: React.FC<CartItemRowProps> = ({ item }) => {
 
       <QuantitySelectorModal
         visible={isModalVisible}
-        onClose={() => setModalVisible(false)}
+        onCancel={() => setModalVisible(false)}
         onConfirm={handleRemove}
         maxQuantity={item.quantity}
       />
