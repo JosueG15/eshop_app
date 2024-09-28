@@ -4,7 +4,7 @@ import { useTheme } from "@rneui/themed";
 
 import Header from "./shared/components/Header";
 import BottomNavigator from "./features/navigation/navigators/BottomNavigator";
-import { AppProviders } from "./shared/components/Providers";
+import { AppProviders } from "./shared/providers/AppProviders";
 
 export default function App() {
   return (

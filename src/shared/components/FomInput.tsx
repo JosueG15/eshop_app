@@ -4,7 +4,7 @@ import { Input, useTheme } from "@rneui/themed";
 import { Controller, Control, FieldError } from "react-hook-form";
 
 interface FormInputProps {
-  control: Control<any>;
+  control: Control;
   name: string;
   label: string;
   placeholder: string;

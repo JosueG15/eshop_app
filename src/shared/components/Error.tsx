@@ -2,15 +2,12 @@ import React from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { useTheme } from "@rneui/themed";
 
-interface ErrorComponentProps {
+interface ErrorProps {
   error: Error;
   resetErrorBoundary: () => void;
 }
 
-const ErrorComponent: React.FC<ErrorComponentProps> = ({
-  error,
-  resetErrorBoundary,
-}) => {
+const Error: React.FC<ErrorProps> = ({ error, resetErrorBoundary }) => {
   const { theme } = useTheme();
 
   const styles = StyleSheet.create({
@@ -67,4 +64,4 @@ const ErrorComponent: React.FC<ErrorComponentProps> = ({
   );
 };
 
-export default ErrorComponent;
+export default Error;

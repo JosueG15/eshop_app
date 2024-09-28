@@ -29,23 +29,23 @@ export const useAuth = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation<HomeNavigationProp & CartNavigationProp>();
 
-  const mutationHandler = <TResponse, TError, TVariables>(
+  const mutationHandler = <
+    TResponse extends { token: string },
+    TError,
+    TVariables
+  >(
     fn: (variables: TVariables) => Promise<TResponse>,
     onSuccessMessage: string,
     redirectTo: "home" | "cart" = "home"
   ) => {
-    return useMutation<TResponse, TError, TVariables>({
+    return useMutation<TResponse, IError, TVariables>({
       mutationFn: fn,
-      onError: (error: TError) => {
-        setErrorMessage((error as any).message || "Error desconocido");
-        showToast(
-          "Error",
-          (error as Error).message || "Error desconocido",
-          "error"
-        );
+      onError: (error) => {
+        setErrorMessage(error.message || "Error desconocido");
+        showToast("Error", error.message || "Error desconocido", "error");
       },
       onSuccess: async (data) => {
-        const token = (data as any).token;
+        const token = data.token;
         const decoded: DecodedToken = jwtDecode(token);
         const { userId } = decoded;
 
@@ -61,8 +61,13 @@ export const useAuth = () => {
             navigation.navigate("Cart");
           }
         } catch (error) {
-          setErrorMessage("Error al obtener el perfil");
-          showToast("Error", "Error al obtener el perfil", "error");
+          const err = error as IError;
+          setErrorMessage(err.message || "Error al obtener el perfil");
+          showToast(
+            "Error",
+            err.message || "Error al obtener el perfil",
+            "error"
+          );
         }
       },
     });

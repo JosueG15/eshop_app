@@ -23,17 +23,29 @@ const CheckoutNavigator: React.FC = () => {
         <Stack.Screen
           name="Shipping"
           component={ShippingScreen}
-          options={{ title: "Informacion de envio" }}
+          options={{
+            title: "Informacion de envio",
+            headerBackTitle: " ",
+            headerBackAccessibilityLabel: "Atras",
+          }}
         />
         <Stack.Screen
           name="Payment"
           component={PaymentScreen}
-          options={{ title: "Metodo de pago" }}
+          options={{
+            title: "Metodo de pago",
+            headerBackTitle: " ",
+            headerBackAccessibilityLabel: "Atras",
+          }}
         />
         <Stack.Screen
           name="Confirm"
           component={ConfirmScreen}
-          options={{ title: "Confirmar pedido" }}
+          options={{
+            title: "Confirmar pedido",
+            headerBackTitle: " ",
+            headerBackAccessibilityLabel: "Atras",
+          }}
         />
       </Stack.Navigator>
     </FormProvider>

@@ -1,182 +1,169 @@
-import React from "react";
+import { useMemo } from "react";
 import { View, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
-import { Text, Button, useTheme } from "@rneui/themed";
+import { Text, useTheme } from "@rneui/themed";
 import { useNavigation } from "@react-navigation/native";
-import { UserNavigationProp } from "../../../shared/types/routeType";
-import { useForm } from "react-hook-form";
-import FormInput from "../../../shared/components/FomInput";
-import { IUser } from "../../../shared/types/userType";
+import { FieldValues, useForm } from "react-hook-form";
 import { useAuth } from "../../../shared/hooks/useAuth";
+import CustomForm from "../../../shared/components/CustomForm";
+import { Field } from "../../../shared/types/formTypes";
+import { IUser } from "../../../shared/types/userType";
+import { UserNavigationProp } from "../../../shared/types/routeType";
 
 const RegisterScreen: React.FC = () => {
   const { theme } = useTheme();
+  const { colors } = theme;
   const navigation = useNavigation<UserNavigationProp>();
   const { register, isLoadingRegister, errorMessage } = useAuth();
   const {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<IUser>();
+  } = useForm();
 
-  const onSubmit = (data: IUser) => {
-    const userData = {
-      ...data,
-      country: "El Salvador",
-    };
-    register(userData);
+  const onSubmit = (data: FieldValues) => {
+    register({ ...data, country: "El Salvador" } as IUser);
   };
 
+  const registerFields: Field[] = [
+    {
+      name: "name",
+      label: "Nombre",
+      placeholder: "Ingrese su nombre",
+      required: true,
+    },
+    {
+      name: "email",
+      label: "Correo Electrónico",
+      placeholder: "Ingrese su correo electrónico",
+      keyboardType: "email-address",
+      autoCapitalize: "none",
+      required: true,
+      rules: {
+        pattern: {
+          value: /\S+@\S+\.\S+/,
+          message: "Correo no válido",
+        },
+      },
+    },
+    {
+      name: "passwordHash",
+      label: "Contraseña",
+      placeholder: "Ingrese su contraseña",
+      secureTextEntry: true,
+      required: true,
+      rules: {
+        minLength: {
+          value: 6,
+          message: "Mínimo 6 caracteres",
+        },
+      },
+    },
+    {
+      name: "phone",
+      label: "Telefono",
+      placeholder: "Ingrese su numero de telefono",
+      keyboardType: "phone-pad",
+      required: true,
+      isPhoneInput: true,
+    },
+    {
+      name: "street",
+      label: "Direccion",
+      placeholder: "Ingrese su direccion",
+      required: true,
+    },
+    {
+      name: "apartment",
+      label: "Punto de referencia",
+      placeholder: "Punto de referencia (opcional)",
+    },
+    {
+      name: "city",
+      label: "Municipio",
+      placeholder: "Ingrese su municipio",
+      required: true,
+    },
+    {
+      name: "state",
+      label: "Departamento",
+      placeholder: "Ingrese su Departamento",
+      required: true,
+    },
+    {
+      name: "zip",
+      label: "Codigo Postal",
+      placeholder: "Ingrese su Codigo Postal",
+      keyboardType: "numeric",
+      required: true,
+    },
+  ];
+
+  const styles = useMemo(
+    () =>
+      StyleSheet.create({
+        container: {
+          flexGrow: 1,
+          justifyContent: "center",
+          padding: 20,
+          backgroundColor: colors.background,
+        },
+        title: {
+          fontSize: 32,
+          fontWeight: "bold",
+          marginBottom: 20,
+          textAlign: "center",
+          color: colors.secondary,
+        },
+        button: {
+          paddingVertical: 15,
+          borderRadius: 8,
+          marginTop: 10,
+        },
+        loginContainer: {
+          flexDirection: "row",
+          justifyContent: "center",
+          marginTop: 20,
+        },
+        loginText: {
+          fontSize: 16,
+          color: colors.secondary,
+        },
+        loginLink: {
+          fontSize: 16,
+          fontWeight: "bold",
+          marginLeft: 5,
+          textDecorationLine: "underline",
+          color: colors.infoColor,
+        },
+        errorText: {
+          textAlign: "center",
+          marginVertical: 10,
+          color: colors.error,
+        },
+      }),
+    [colors]
+  );
+
   return (
-    <ScrollView
-      contentContainerStyle={[
-        styles.container,
-        { backgroundColor: theme.colors.background },
-      ]}
-    >
-      <Text style={[styles.title, { color: theme.colors.secondary }]}>
-        Crear Cuenta
-      </Text>
-
-      <FormInput
+    <ScrollView contentContainerStyle={styles.container}>
+      <Text style={styles.title}>Crear Cuenta</Text>
+      <CustomForm
+        fields={registerFields}
         control={control}
-        name="name"
-        label="Nombre"
-        placeholder="Ingrese su nombre"
-        rules={{ required: "El nombre es obligatorio" }}
-        error={errors.name}
+        errors={errors}
+        onSubmit={handleSubmit(onSubmit)}
+        buttonTitle={isLoadingRegister ? "Cargando..." : "Crear Cuenta"}
+        isLoading={isLoadingRegister}
       />
-      <FormInput
-        control={control}
-        name="email"
-        label="Correo Electrónico"
-        placeholder="Ingrese su correo electrónico"
-        rules={{
-          required: "El correo electrónico es obligatorio",
-          pattern: { value: /\S+@\S+\.\S+/, message: "Correo no válido" },
-        }}
-        error={errors.email}
-      />
-      <FormInput
-        control={control}
-        name="passwordHash"
-        label="Contraseña"
-        placeholder="Ingrese su contraseña"
-        rules={{
-          required: "La contraseña es obligatoria",
-          minLength: { value: 6, message: "Mínimo 6 caracteres" },
-        }}
-        secureTextEntry
-        error={errors.passwordHash}
-      />
-      <FormInput
-        control={control}
-        name="street"
-        label="Calle"
-        placeholder="Ingrese su calle"
-        rules={{ required: "La calle es obligatoria" }}
-        error={errors.street}
-      />
-      <FormInput
-        control={control}
-        name="apartment"
-        label="Apartamento"
-        placeholder="Ingrese su apartamento (Opcional)"
-        rules={{}}
-        error={errors.apartment}
-      />
-      <FormInput
-        control={control}
-        name="city"
-        label="Ciudad"
-        placeholder="Ingrese su ciudad"
-        rules={{ required: "La ciudad es obligatoria" }}
-        error={errors.city}
-      />
-      <FormInput
-        control={control}
-        name="zip"
-        label="Código Postal"
-        placeholder="Ingrese su código postal"
-        rules={{ required: "El código postal es obligatorio" }}
-        error={errors.zip}
-      />
-      <FormInput
-        control={control}
-        name="phone"
-        label="Teléfono"
-        placeholder="Ingrese su teléfono"
-        rules={{ required: "El teléfono es obligatorio" }}
-        keyboardType="phone-pad"
-        error={errors.phone}
-      />
-
-      <Button
-        title="Crear Cuenta"
-        onPress={handleSubmit(onSubmit)}
-        buttonStyle={[
-          styles.button,
-          { backgroundColor: theme.colors.infoColor },
-        ]}
-        titleStyle={{ color: theme.colors.infoTextColor }}
-        loading={isLoadingRegister}
-      />
-
-      {errorMessage && (
-        <Text style={[styles.errorText, { color: theme.colors.error }]}>
-          {errorMessage}
-        </Text>
-      )}
-
+      {errorMessage && <Text style={styles.errorText}>{errorMessage}</Text>}
       <View style={styles.loginContainer}>
-        <Text style={[styles.loginText, { color: theme.colors.secondary }]}>
-          ¿Ya tienes una cuenta?
-        </Text>
+        <Text style={styles.loginText}>¿Ya tienes una cuenta?</Text>
         <TouchableOpacity onPress={() => navigation.navigate("Login")}>
-          <Text style={[styles.loginLink, { color: theme.colors.infoColor }]}>
-            Inicia sesión
-          </Text>
+          <Text style={styles.loginLink}>Inicia sesión</Text>
         </TouchableOpacity>
       </View>
     </ScrollView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flexGrow: 1,
-    justifyContent: "center",
-    padding: 20,
-  },
-  title: {
-    fontSize: 32,
-    fontWeight: "bold",
-    marginBottom: 20,
-    textAlign: "center",
-  },
-  button: {
-    paddingVertical: 15,
-    borderRadius: 8,
-    marginTop: 10,
-  },
-  loginContainer: {
-    flexDirection: "row",
-    justifyContent: "center",
-    marginTop: 20,
-  },
-  loginText: {
-    fontSize: 16,
-  },
-  loginLink: {
-    fontSize: 16,
-    fontWeight: "bold",
-    marginLeft: 5,
-    textDecorationLine: "underline",
-  },
-  errorText: {
-    color: "red",
-    textAlign: "center",
-    marginVertical: 10,
-  },
-});
 
 export default RegisterScreen;

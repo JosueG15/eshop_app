@@ -1,25 +1,27 @@
-// CustomForm.tsx
 import React from "react";
 import { View, StyleSheet } from "react-native";
 import { Button } from "@rneui/themed";
-import { Control } from "react-hook-form";
+import { Control, FieldErrors, FieldValues } from "react-hook-form";
 import { useTheme } from "@rneui/themed";
-import FormField, { Field } from "./FormField";
+import FormField from "./FormField";
+import { ErrorForm, Field } from "../types/formTypes";
 
 interface CustomFormProps {
   fields: Field[];
   onSubmit: () => void;
-  control: Control<any>;
+  control: Control;
   buttonTitle: string;
-  errors: any;
+  errors: FieldErrors<FieldValues> | ErrorForm;
+  isLoading?: boolean;
 }
 
 const CustomForm: React.FC<CustomFormProps> = ({
   fields,
   onSubmit,
   control,
-  buttonTitle = "Submit",
+  buttonTitle = "Siguiente",
   errors,
+  isLoading = false,
 }) => {
   const { theme } = useTheme();
 
@@ -40,6 +42,7 @@ const CustomForm: React.FC<CustomFormProps> = ({
         onPress={onSubmit}
         accessible
         accessibilityLabel={`${buttonTitle}`}
+        loading={isLoading}
       />
     </View>
   );

@@ -1,21 +1,13 @@
 import React from "react";
 import { StyleSheet, TextInput, View, Text } from "react-native";
 import { useTheme } from "@rneui/themed";
-import { Controller, Control } from "react-hook-form";
+import { Controller, Control, FieldErrors, FieldValues } from "react-hook-form";
 import { TextInputMask } from "react-native-masked-text";
-
-export interface Field {
-  name: string;
-  label: string;
-  placeholder?: string;
-  keyboardType?: "default" | "email-address" | "numeric" | "phone-pad";
-  isPhoneInput?: boolean;
-  required?: boolean;
-}
+import { ErrorForm, Field } from "../types/formTypes";
 
 interface FormFieldProps extends Field {
-  control: Control<any>;
-  errors: any;
+  control: Control;
+  errors: FieldErrors<FieldValues> | ErrorForm;
 }
 
 const FormField: React.FC<FormFieldProps> = ({
@@ -27,8 +19,11 @@ const FormField: React.FC<FormFieldProps> = ({
   required = false,
   control,
   errors,
+  rules,
+  ...additionalProps
 }) => {
   const { theme } = useTheme();
+  console.log("errors", errors);
 
   return (
     <View style={styles.container}>
@@ -41,7 +36,10 @@ const FormField: React.FC<FormFieldProps> = ({
       <Controller
         control={control}
         name={name}
-        rules={{ required: required ? `${label} es obligatorio` : false }}
+        rules={{
+          ...rules,
+          required: required ? `${label} es obligatorio` : false,
+        }}
         render={({ field: { onChange, value } }) =>
           isPhoneInput ? (
             <TextInputMask
@@ -62,6 +60,7 @@ const FormField: React.FC<FormFieldProps> = ({
                   borderColor: errors[name] ? theme.colors.error : "#ccc",
                 },
               ]}
+              {...additionalProps}
             />
           ) : (
             <TextInput
@@ -78,13 +77,14 @@ const FormField: React.FC<FormFieldProps> = ({
                   borderColor: errors[name] ? theme.colors.error : "#ccc",
                 },
               ]}
+              {...additionalProps}
             />
           )
         }
       />
-      {errors[name] && (
+      {errors && typeof errors[name]?.message === "string" && (
         <Text style={[styles.errorText, { color: theme.colors.error }]}>
-          {errors[name]?.message}
+          {errors[name].message}
         </Text>
       )}
     </View>
