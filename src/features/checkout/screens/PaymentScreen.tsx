@@ -1,4 +1,4 @@
-import React from "react";
+import { useMemo } from "react";
 import { View, StyleSheet } from "react-native";
 import { Text, Button, useTheme } from "@rneui/themed";
 import { useNavigation } from "@react-navigation/native";
@@ -20,6 +20,7 @@ interface PaymentFormValues {
 
 const PaymentScreen: React.FC = () => {
   const { theme } = useTheme();
+  const { colors } = theme;
   const navigation = useNavigation<PaymentScreenNavigationProp>();
   const {
     control,
@@ -28,58 +29,75 @@ const PaymentScreen: React.FC = () => {
     formState: { errors },
   } = useFormContext<PaymentFormValues>();
 
-  const handleMethodSelect = (method: PaymentMethod) => {
-    setValue("paymentMethod", method);
-  };
-
-  const handleNextPress = (data: PaymentFormValues) => {
+  const handleNextPress = () => {
     navigation.navigate("Confirm");
   };
 
+  const styles = useMemo(
+    () =>
+      StyleSheet.create({
+        container: {
+          flexGrow: 1,
+          padding: 20,
+          backgroundColor: colors.background,
+        },
+        headerText: {
+          fontSize: 18,
+          fontWeight: "bold",
+          marginBottom: 20,
+          textAlign: "center",
+        },
+        nextButton: {
+          paddingVertical: 10,
+          borderRadius: 5,
+          marginTop: 30,
+        },
+        errorText: {
+          fontSize: 14,
+          textAlign: "center",
+          marginVertical: 10,
+        },
+      }),
+    [colors]
+  );
+
   return (
     <KeyboardAwareScrollView
-      contentContainerStyle={[
-        styles.container,
-        { backgroundColor: theme.colors.background },
-      ]}
+      contentContainerStyle={styles.container}
       extraScrollHeight={20}
       enableOnAndroid={true}
     >
-      <Text style={[styles.headerText, { color: theme.colors.secondary }]}>
-        Seleccione un método de pago
-      </Text>
-
       <Controller
         control={control}
         name="paymentMethod"
-        rules={{ required: "Debe seleccionar un método de pago" }}
-        render={({ field: { value } }) => (
+        rules={{ required: "Debe seleccionar un metodo de pago" }}
+        render={({ field: { value, onChange } }) => (
           <>
             <PaymentOption
               title="Pago Contra Entrega"
               description="Recogeremos el pago cuando entreguemos el pedido."
               isSelected={value === "cash"}
-              onSelect={() => handleMethodSelect("cash")}
+              onSelect={() => onChange("cash")}
             />
 
             <PaymentOption
               title="Transferencia Bancaria"
               description="Por favor realice la transferencia bancaria antes de la entrega."
               isSelected={value === "bank"}
-              onSelect={() => handleMethodSelect("bank")}
+              onSelect={() => onChange("bank")}
             />
 
             <PaymentOption
               title="Pago con Tarjeta"
               description="El pago se procesará mediante tarjeta de crédito/débito."
               isSelected={value === "card"}
-              onSelect={() => handleMethodSelect("card")}
+              onSelect={() => onChange("card")}
             />
           </>
         )}
       />
 
-      {errors.paymentMethod?.message && (
+      {errors.paymentMethod && (
         <Text style={[styles.errorText, { color: theme.colors.error }]}>
           {errors.paymentMethod.message}
         </Text>
@@ -93,32 +111,11 @@ const PaymentScreen: React.FC = () => {
           { backgroundColor: theme.colors.nextColor },
         ]}
         titleStyle={{ color: theme.colors.infoTextColor }}
+        accessible
+        accessibilityLabel="Siguiente"
       />
     </KeyboardAwareScrollView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flexGrow: 1,
-    padding: 20,
-  },
-  headerText: {
-    fontSize: 18,
-    fontWeight: "bold",
-    marginBottom: 20,
-    textAlign: "center",
-  },
-  nextButton: {
-    paddingVertical: 10,
-    borderRadius: 5,
-    marginTop: 30,
-  },
-  errorText: {
-    fontSize: 14,
-    textAlign: "center",
-    marginVertical: 10,
-  },
-});
 
 export default PaymentScreen;

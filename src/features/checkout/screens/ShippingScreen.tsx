@@ -1,85 +1,93 @@
-import React from "react";
-import { StyleSheet, View } from "react-native";
+import { useMemo } from "react";
+import { View, StyleSheet } from "react-native";
 import { Text, useTheme } from "@rneui/themed";
 import CountryFlag from "react-native-country-flag";
 import CustomForm from "../../../shared/components/CustomForm";
 import { useNavigation } from "@react-navigation/native";
-import { useFormContext } from "react-hook-form";
-import { StackNavigationProp } from "@react-navigation/stack";
-import { CheckoutStackParamList } from "../../../shared/types/routeType";
+import { useFormContext, SubmitHandler } from "react-hook-form";
+import { CheckoutNavigationProp } from "../../../shared/types/routeType";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { ShippingFormValues } from "../types/checkoutTypes";
 
-type ShippingScreenNavigationProp = StackNavigationProp<
-  CheckoutStackParamList,
-  "Shipping"
->;
-
-const ShippingScreen = () => {
+const ShippingScreen: React.FC = () => {
   const { theme } = useTheme();
-  const navigation = useNavigation<ShippingScreenNavigationProp>();
+  const navigation = useNavigation<CheckoutNavigationProp>();
   const {
     control,
     formState: { errors },
-    trigger,
-    getValues,
-  } = useFormContext();
+    handleSubmit,
+  } = useFormContext<ShippingFormValues>();
 
-  const handleFormSubmit = async () => {
-    const isValid = await trigger([
-      "phone",
-      "shippingAddress1",
-      "shippingAddress2",
-      "city",
-      "state",
-      "zipCode",
-    ]);
-
-    if (isValid) {
-      const formData = getValues();
-      navigation.navigate("Payment");
-    }
+  const onSubmit: SubmitHandler<ShippingFormValues> = () => {
+    navigation.navigate("Payment");
   };
 
   const fields = [
     {
       name: "phone",
-      label: "Teléfono",
-      placeholder: "Ingrese su número de teléfono",
+      label: "Telefono",
+      placeholder: "Ingrese su numero de telefono",
       keyboardType: "phone-pad" as const,
       required: true,
       isPhoneInput: true,
     },
     {
       name: "shippingAddress1",
-      label: "Dirección de Envío 1",
-      placeholder: "Ingrese la dirección de envío",
+      label: "Direccion",
+      placeholder: "Ingrese su direccion",
       required: true,
     },
     {
       name: "shippingAddress2",
-      label: "Dirección de Envío 2",
-      placeholder: "Ingrese la dirección de envío opcional",
+      label: "Punto de referencia (Opcional)",
+      placeholder: "Ingrese punto de referencia",
     },
     {
       name: "city",
-      label: "Ciudad",
-      placeholder: "Ingrese su ciudad",
+      label: "Municipio",
+      placeholder: "Municipio",
       required: true,
     },
     {
       name: "state",
-      label: "Estado",
-      placeholder: "Ingrese su estado",
+      label: "Departamento",
+      placeholder: "Departamento",
       required: true,
     },
     {
       name: "zipCode",
-      label: "Código Postal",
-      placeholder: "Ingrese su código postal",
+      label: "Codigo Postal",
+      placeholder: "Codigo Postal",
       keyboardType: "numeric" as const,
       required: true,
     },
   ];
+
+  const styles = useMemo(
+    () =>
+      StyleSheet.create({
+        container: {
+          flex: 1,
+        },
+        scrollViewContent: {
+          flexGrow: 1,
+          paddingHorizontal: 20,
+          paddingVertical: 10,
+        },
+        flagContainer: {
+          marginTop: 20,
+          flexDirection: "row",
+          justifyContent: "center",
+          alignItems: "center",
+          marginBottom: 20,
+        },
+        text: {
+          fontSize: 18,
+          marginLeft: 10,
+        },
+      }),
+    []
+  );
 
   return (
     <View
@@ -89,18 +97,20 @@ const ShippingScreen = () => {
         contentContainerStyle={styles.scrollViewContent}
         extraScrollHeight={20}
         enableOnAndroid={true}
-        viewIsInsideTabBar={true}
       >
         <View style={styles.flagContainer}>
           <CountryFlag isoCode="SV" size={20} />
-          <Text style={[styles.text, { color: theme.colors.secondary }]}>
-            Información de Envío
+          <Text
+            style={[styles.text, { color: theme.colors.secondary }]}
+            accessibilityLabel="Informacion de envio"
+          >
+            Informacion de envio
           </Text>
         </View>
 
         <CustomForm
           fields={fields}
-          onSubmit={handleFormSubmit}
+          onSubmit={handleSubmit(onSubmit)}
           control={control}
           errors={errors}
           buttonTitle="Siguiente"
@@ -109,27 +119,5 @@ const ShippingScreen = () => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  scrollViewContent: {
-    flexGrow: 1,
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-  },
-  flagContainer: {
-    marginTop: 20,
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    marginBottom: 20,
-  },
-  text: {
-    fontSize: 18,
-    marginLeft: 10,
-  },
-});
 
 export default ShippingScreen;

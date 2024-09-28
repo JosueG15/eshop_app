@@ -1,44 +1,41 @@
 import React from "react";
-import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import { createStackNavigator } from "@react-navigation/stack";
 import { useTheme } from "@rneui/themed";
 import { FormProvider, useForm } from "react-hook-form";
 import ShippingScreen from "../../checkout/screens/ShippingScreen";
 import PaymentScreen from "../../checkout/screens/PaymentScreen";
 import ConfirmScreen from "../../checkout/screens/ConfirmScreen";
 
-const Tab = createMaterialTopTabNavigator();
+const Stack = createStackNavigator();
 
-const CheckoutNavigator = () => {
+const CheckoutNavigator: React.FC = () => {
   const { theme } = useTheme();
   const methods = useForm();
 
   return (
     <FormProvider {...methods}>
-      <Tab.Navigator
-        initialRouteName="Shipping"
-        screenOptions={({ route }) => ({
-          tabBarActiveTintColor: theme.colors.primaryText,
-          tabBarInactiveTintColor: theme.colors.secondary,
-          tabBarStyle: {
-            backgroundColor: theme.colors.background,
-            borderTopColor: theme.colors.borderColor,
-          },
-          tabBarIndicatorStyle: { backgroundColor: theme.colors.infoColor },
-          tabBarLabelStyle: {
-            opacity: route.name === "Shipping" ? 1 : 0.5,
-          },
-          tabBarPressable: false,
-          swipeEnabled: false,
-        })}
+      <Stack.Navigator
+        screenOptions={{
+          headerStyle: { backgroundColor: theme.colors.background },
+          headerTintColor: theme.colors.primaryText,
+        }}
       >
-        <Tab.Screen
+        <Stack.Screen
           name="Shipping"
-          options={{ animationEnabled: false, swipeEnabled: false }}
           component={ShippingScreen}
+          options={{ title: "Informacion de envio" }}
         />
-        <Tab.Screen name="Payment" component={PaymentScreen} />
-        <Tab.Screen name="Confirm" component={ConfirmScreen} />
-      </Tab.Navigator>
+        <Stack.Screen
+          name="Payment"
+          component={PaymentScreen}
+          options={{ title: "Metodo de pago" }}
+        />
+        <Stack.Screen
+          name="Confirm"
+          component={ConfirmScreen}
+          options={{ title: "Confirmar pedido" }}
+        />
+      </Stack.Navigator>
     </FormProvider>
   );
 };

@@ -8,24 +8,21 @@ const Stack = createStackNavigator<CartStackParamList>();
 
 const CartNavigator = () => {
   const { theme } = useTheme();
+  const screenOptions = {
+    headerShown: false,
+  };
+
   return (
     <Stack.Navigator>
       <Stack.Screen
         name="Cart"
         component={CartScreen}
-        options={{
-          headerShown: false,
-        }}
+        options={screenOptions}
       />
       <Stack.Screen
         name="Checkout"
         component={CheckoutNavigator}
-        options={{
-          headerStyle: {
-            backgroundColor: theme.colors.background,
-          },
-          headerTintColor: theme.colors.secondary,
-        }}
+        options={screenOptions}
       />
     </Stack.Navigator>
   );

@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { View, StyleSheet } from "react-native";
 import { Text, useTheme } from "@rneui/themed";
+import { formatPrice } from "../../../shared/utils/textUtil";
 
 interface TotalContainerProps {
   totalPrice: number;
@@ -10,12 +11,7 @@ const TotalContainer: React.FC<TotalContainerProps> = ({ totalPrice }) => {
   const { theme } = useTheme();
   const { colors } = theme;
 
-  const formattedPrice = useMemo(() => {
-    return new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: "USD",
-    }).format(totalPrice);
-  }, [totalPrice]);
+  const formattedPrice = useMemo(() => formatPrice(totalPrice), [totalPrice]);
 
   const styles = useMemo(
     () =>

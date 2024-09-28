@@ -12,9 +12,13 @@ import QuantitySelectorModal from "./QuantitySelectorModal";
 
 interface CartItemRowProps {
   item: CartItem;
+  shouldDelete: boolean;
 }
 
-const CartItemRow: React.FC<CartItemRowProps> = ({ item }) => {
+const CartItemRow: React.FC<CartItemRowProps> = ({
+  item,
+  shouldDelete = true,
+}) => {
   const dispatch = useDispatch();
   const { theme } = useTheme();
   const [isModalVisible, setModalVisible] = useState(false);
@@ -46,7 +50,7 @@ const CartItemRow: React.FC<CartItemRowProps> = ({ item }) => {
     <>
       <Swipeable
         containerStyle={{ shadowColor: "green" }}
-        renderRightActions={renderRightActions}
+        renderRightActions={shouldDelete ? renderRightActions : () => null}
       >
         <View style={styles.cartItemContainer}>
           <Image source={{ uri: item.image }} style={styles.productImage} />

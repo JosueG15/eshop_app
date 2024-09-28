@@ -1,68 +1,45 @@
+// CustomForm.tsx
 import React from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { Button } from "@rneui/themed";
-import { Controller, Control, FieldErrors } from "react-hook-form";
+import { Control } from "react-hook-form";
 import { useTheme } from "@rneui/themed";
-import FormField from "./FormField";
-
-interface Field {
-  name: string;
-  label: string;
-  placeholder?: string;
-  keyboardType?: "default" | "numeric" | "phone-pad" | "email-address";
-  required?: boolean;
-  isPhoneInput?: boolean;
-}
+import FormField, { Field } from "./FormField";
 
 interface CustomFormProps {
   fields: Field[];
   onSubmit: () => void;
-  control: Control;
+  control: Control<any>;
   buttonTitle: string;
-  errors: FieldErrors;
+  errors: any;
 }
 
 const CustomForm: React.FC<CustomFormProps> = ({
   fields,
   onSubmit,
   control,
-  buttonTitle = "Enviar",
+  buttonTitle = "Submit",
   errors,
 }) => {
   const { theme } = useTheme();
+
   return (
     <View style={styles.formContainer}>
       {fields.map((field) => (
-        <View key={field.name} style={styles.fieldContainer}>
-          <Controller
-            name={field.name}
-            control={control}
-            rules={{ required: field.required }}
-            render={({ field: { onChange, value } }) => (
-              <FormField
-                label={field.label}
-                value={value}
-                onChangeText={onChange}
-                placeholder={field.placeholder}
-                keyboardType={field.keyboardType || "default"}
-                isPhoneInput={field.isPhoneInput}
-              />
-            )}
-          />
-          {errors[field.name] && (
-            <View style={styles.errorContainer}>
-              <Text style={styles.errorText}>
-                {`${field.label} es requerido.`}
-              </Text>
-            </View>
-          )}
-        </View>
+        <FormField
+          key={field.name}
+          control={control}
+          errors={errors}
+          {...field}
+        />
       ))}
       <Button
         buttonStyle={{ backgroundColor: theme.colors.nextColor }}
         title={buttonTitle}
         titleStyle={{ color: theme.colors.infoTextColor }}
         onPress={onSubmit}
+        accessible
+        accessibilityLabel={`${buttonTitle}`}
       />
     </View>
   );
@@ -70,18 +47,7 @@ const CustomForm: React.FC<CustomFormProps> = ({
 
 const styles = StyleSheet.create({
   formContainer: {
-    padding: 20,
     marginBottom: 20,
-  },
-  fieldContainer: {
-    marginBottom: 20,
-  },
-  errorContainer: {
-    marginTop: 5,
-  },
-  errorText: {
-    color: "red",
-    fontSize: 12,
   },
 });
 

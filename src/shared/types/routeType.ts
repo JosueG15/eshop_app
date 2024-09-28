@@ -35,4 +35,6 @@ export type BottomTabParamList = {
 export type HomeNavigationProp = StackNavigationProp<HomeStackParamList>;
 export type UserNavigationProp = StackNavigationProp<UserStackParamList>;
 export type CartNavigationProp = StackNavigationProp<CartStackParamList>;
+export type CheckoutNavigationProp =
+  StackNavigationProp<CheckoutStackParamList>;
 export type MainNavigatorProp = BottomTabNavigationProp<BottomTabParamList>;
