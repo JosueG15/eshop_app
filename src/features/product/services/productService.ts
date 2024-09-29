@@ -7,7 +7,6 @@ import {
 export const getProducts = async (
   params: IProductQueryParams
 ): Promise<IProductListResponse> => {
-  console.log("params", params);
   const { data } = await axiosClient.get<IProductListResponse>("/v1/products", {
     params,
   });

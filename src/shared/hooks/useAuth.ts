@@ -29,11 +29,7 @@ export const useAuth = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation<HomeNavigationProp & CartNavigationProp>();
 
-  const mutationHandler = <
-    TResponse extends { token: string },
-    TError,
-    TVariables
-  >(
+  const mutationHandler = <TResponse extends { token: string }, TVariables>(
     fn: (variables: TVariables) => Promise<TResponse>,
     onSuccessMessage: string,
     redirectTo: "home" | "cart" = "home"
@@ -73,13 +69,13 @@ export const useAuth = () => {
     });
   };
 
-  const loginMutation = mutationHandler<
-    ILoginResponse,
-    IError,
-    LoginFormValues
-  >(login, "Inicio de sesión exitoso", "home");
+  const loginMutation = mutationHandler<ILoginResponse, LoginFormValues>(
+    login,
+    "Inicio de sesión exitoso",
+    "home"
+  );
 
-  const registerMutation = mutationHandler<IRegisterResponse, IError, IUser>(
+  const registerMutation = mutationHandler<IRegisterResponse, IUser>(
     registerUser,
     "Registro exitoso",
     "home"

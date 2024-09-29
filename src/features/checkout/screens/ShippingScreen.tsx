@@ -4,10 +4,9 @@ import { Text, useTheme } from "@rneui/themed";
 import CountryFlag from "react-native-country-flag";
 import CustomForm from "../../../shared/components/CustomForm";
 import { useNavigation } from "@react-navigation/native";
-import { useFormContext, SubmitHandler } from "react-hook-form";
+import { useFormContext, SubmitHandler, FieldValues } from "react-hook-form";
 import { CheckoutNavigationProp } from "../../../shared/types/routeType";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { ShippingFormValues } from "../types/checkoutTypes";
 
 const ShippingScreen: React.FC = () => {
   const { theme } = useTheme();
@@ -16,9 +15,9 @@ const ShippingScreen: React.FC = () => {
     control,
     formState: { errors },
     handleSubmit,
-  } = useFormContext<ShippingFormValues>();
+  } = useFormContext();
 
-  const onSubmit: SubmitHandler<ShippingFormValues> = () => {
+  const onSubmit: SubmitHandler<FieldValues> = () => {
     navigation.navigate("Payment");
   };
 

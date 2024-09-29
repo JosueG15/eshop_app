@@ -23,7 +23,6 @@ const FormField: React.FC<FormFieldProps> = ({
   ...additionalProps
 }) => {
   const { theme } = useTheme();
-  console.log("errors", errors);
 
   return (
     <View style={styles.container}>

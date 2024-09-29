@@ -19,14 +19,16 @@ export interface ILoginResponse {
 }
 
 export interface IUser {
+  id: string;
   name: string;
   email: string;
   passwordHash: string;
-  street: string;
-  apartment?: string;
+  address: string;
+  address2?: string;
   city: string;
   zip: string;
   country: string;
   phone: number;
   isAdmin: boolean;
+  avatar?: string;
 }

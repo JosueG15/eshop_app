@@ -67,13 +67,13 @@ const RegisterScreen: React.FC = () => {
       isPhoneInput: true,
     },
     {
-      name: "street",
+      name: "address",
       label: "Direccion",
       placeholder: "Ingrese su direccion",
       required: true,
     },
     {
-      name: "apartment",
+      name: "address2",
       label: "Punto de referencia",
       placeholder: "Punto de referencia (opcional)",
     },
