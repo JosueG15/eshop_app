@@ -14,6 +14,10 @@ export const lightTheme = createTheme({
     infoColor: "#0d47a1",
     nextColor: "#0d47a1",
     infoTextColor: "white",
+    themeLightColor: "#Ffff00",
+    themeSelectedOption: "#D4D4D4",
+    themeUnselectedOption: "#eff7fa",
+    themeDarkIcon: "#87CEEB",
   },
   mode: "light",
 });
@@ -32,6 +36,10 @@ export const darkTheme = createTheme({
     infoColor: "#fcdd00",
     nextColor: "#0d47a1",
     infoTextColor: "white",
+    themeLightColor: "#fdc500",
+    themeSelectedOption: "#242526",
+    themeUnselectedOption: "#3a3b3c",
+    themeDarkIcon: "#87CEEB",
   },
   mode: "dark",
 });

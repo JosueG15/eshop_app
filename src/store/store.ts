@@ -3,10 +3,12 @@ import { combineReducers } from "redux";
 import logger from "redux-logger";
 import authSlice from "./slices/auth/authSlice";
 import cartSlice from "./slices/cart/cartSlice";
+import themeSlice from "./slices/theme/themeSlice";
 
 const rootReducer = combineReducers({
   cart: cartSlice,
   auth: authSlice,
+  theme: themeSlice,
 });
 
 const store = configureStore({

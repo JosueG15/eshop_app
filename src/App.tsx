@@ -1,16 +1,19 @@
-import { useMemo } from "react";
+import React, { useMemo } from "react";
 import { SafeAreaView, StyleSheet } from "react-native";
 import { useTheme } from "@rneui/themed";
-
 import Header from "./shared/components/Header";
 import BottomNavigator from "./features/navigation/navigators/BottomNavigator";
+import { Provider as ReduxProvider } from "react-redux";
+import store from "./store/store";
 import { AppProviders } from "./shared/providers/AppProviders";
 
 export default function App() {
   return (
-    <AppProviders>
-      <ThemedApp />
-    </AppProviders>
+    <ReduxProvider store={store}>
+      <AppProviders>
+        <ThemedApp />
+      </AppProviders>
+    </ReduxProvider>
   );
 }
 

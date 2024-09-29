@@ -10,5 +10,9 @@ declare module "@rneui/themed" {
     infoColor?: string;
     nextColor?: string;
     infoTextColor?: string;
+    themeLightColor?: string;
+    themeSelectedOption?: string;
+    themeUnselectedOption?: string;
+    themeDarkIcon?: string;
   }
 }

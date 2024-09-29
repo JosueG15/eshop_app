@@ -5,9 +5,12 @@ import { RootState } from "../../../store/store";
 import { useTheme } from "@rneui/themed";
 import SettingsMenuOption from "../../../shared/components/ListMenuOption";
 import { version } from "../../../../package.json";
+import { useNavigation } from "@react-navigation/native";
+import { SettingNavigationProp } from "../../../shared/types/routeType";
 
 const SettingsScreen: React.FC = () => {
   const user = useSelector((state: RootState) => state.auth.user);
+  const { navigate } = useNavigation<SettingNavigationProp>();
   const { theme } = useTheme();
   const { colors } = theme;
   const currentYear = new Date().getFullYear();
@@ -23,7 +26,7 @@ const SettingsScreen: React.FC = () => {
       {
         title: "Cambiar Modo de Visualización",
         onPress: () => {
-          /* TODO: Handle theme mode setting */
+          navigate("ChangeTheme");
         },
       },
     ];

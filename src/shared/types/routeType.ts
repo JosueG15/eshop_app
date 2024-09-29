@@ -23,6 +23,7 @@ export type UserStackParamList = {
 
 export type SettingStackParamList = {
   Settings: undefined;
+  ChangeTheme: undefined;
 };
 
 export type CheckoutStackParamList = {

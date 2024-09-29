@@ -30,7 +30,7 @@ const ProductSearchBar: React.FC<ProductSearchBarProps> = ({
         },
         input: { color: colors.secondary },
       }),
-    [colors]
+    [theme]
   );
 
   return (
