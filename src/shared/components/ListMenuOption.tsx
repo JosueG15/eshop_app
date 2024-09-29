@@ -1,9 +1,9 @@
 import { Button, Divider, useTheme } from "@rneui/themed";
 import { StyleSheet } from "react-native";
-import { MenuOption } from "../types/MenuOption";
+import { MenuOption } from "../../features/user/types/MenuOption";
 import { useMemo } from "react";
 
-const ProfileMenuOption = ({ item }: { item: MenuOption }) => {
+const ListMenuOption = ({ item }: { item: MenuOption }) => {
   const { theme } = useTheme();
   const { colors } = theme;
 
@@ -33,4 +33,4 @@ const ProfileMenuOption = ({ item }: { item: MenuOption }) => {
   );
 };
 
-export default ProfileMenuOption;
+export default ListMenuOption;

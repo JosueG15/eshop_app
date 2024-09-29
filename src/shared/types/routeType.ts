@@ -21,6 +21,10 @@ export type UserStackParamList = {
   EditShippingInfo: undefined;
 };
 
+export type SettingStackParamList = {
+  Settings: undefined;
+};
+
 export type CheckoutStackParamList = {
   Shipping: undefined;
   Payment: undefined;
@@ -35,6 +39,7 @@ export type BottomTabParamList = {
 };
 
 export type HomeNavigationProp = StackNavigationProp<HomeStackParamList>;
+export type SettingNavigationProp = StackNavigationProp<SettingStackParamList>;
 export type UserNavigationProp = StackNavigationProp<UserStackParamList>;
 export type CartNavigationProp = StackNavigationProp<CartStackParamList>;
 export type CheckoutNavigationProp =

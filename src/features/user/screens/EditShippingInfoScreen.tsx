@@ -8,9 +8,11 @@ import { IUser } from "../../../shared/types/userType";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store/store";
 import { useUser } from "../hooks/useUser";
+import { useTheme } from "@rneui/themed";
 
 const EditShippingInfoScreen: React.FC = () => {
   const user = useSelector((state: RootState) => state.auth.user);
+  const { theme } = useTheme();
   const { updateUser, isLoading } = useUser();
 
   const {
@@ -89,9 +91,10 @@ const EditShippingInfoScreen: React.FC = () => {
           flexGrow: 1,
           justifyContent: "center",
           padding: 20,
+          backgroundColor: theme.colors.background,
         },
       }),
-    []
+    [theme]
   );
 
   return (

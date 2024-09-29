@@ -12,7 +12,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../../store/store";
 import * as ImagePicker from "expo-image-picker";
 import { logout } from "../../../store/slices/auth/authSlice";
-import ProfileMenuOption from "../components/ProfileMenuOptions";
+import ProfileMenuOption from "../../../shared/components/ListMenuOption";
 import { useTheme } from "@rneui/themed";
 import { useUser } from "../hooks/useUser";
 import { useNavigation } from "@react-navigation/native";

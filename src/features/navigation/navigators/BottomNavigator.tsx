@@ -8,6 +8,7 @@ import HomeIcon from "../components/HomeIcon";
 import CartIcon from "../components/CartIcon";
 import UserIcon from "../components/UserIcon";
 import SettingsIcon from "../components/SettingsIcon";
+import SettingsNavigator from "./SettingsNavigator";
 
 const Tab = createBottomTabNavigator();
 const BottomNavigator: React.FC = () => {
@@ -51,7 +52,7 @@ const BottomNavigator: React.FC = () => {
       />
       <Tab.Screen
         name="SettingsTab"
-        component={HomeNavigator}
+        component={SettingsNavigator}
         options={{
           tabBarIcon: ({ color }) => <SettingsIcon color={color} />,
         }}

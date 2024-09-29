@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store/store";
@@ -8,6 +8,7 @@ import RegisterScreen from "../../user/screens/RegisterScreen";
 import ProfileScreen from "../../user/screens/ProfileScreen";
 import EditPersonalInfoScreen from "../../user/screens/EditPersonalInfoScreen";
 import EditShippingInfoScreen from "../../user/screens/EditShippingInfoScreen";
+import { useTheme } from "@rneui/themed";
 
 const Stack = createStackNavigator<UserStackParamList>();
 
@@ -15,12 +16,20 @@ const UserNavigator: React.FC = () => {
   const isAuthenticated = useSelector(
     (state: RootState) => state.auth.isAuthenticated
   );
+  const { theme } = useTheme();
 
-  const commonScreenOptions = {
-    headerBackTitle: " ",
-    headerBackAccessibilityLabel: "Atras",
-    headerShown: true,
-  };
+  const commonScreenOptions = useMemo(
+    () => ({
+      headerBackTitle: " ",
+      headerBackAccessibilityLabel: "Atrás",
+      headerShown: true,
+      headerStyle: {
+        backgroundColor: theme.colors.background,
+      },
+      headerTintColor: theme.colors.primaryText,
+    }),
+    [theme]
+  );
 
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
@@ -32,7 +41,7 @@ const UserNavigator: React.FC = () => {
             component={EditPersonalInfoScreen}
             options={{
               ...commonScreenOptions,
-              headerTitle: "Informacion personal",
+              headerTitle: "Información Personal",
             }}
           />
           <Stack.Screen
@@ -40,7 +49,7 @@ const UserNavigator: React.FC = () => {
             component={EditShippingInfoScreen}
             options={{
               ...commonScreenOptions,
-              headerTitle: "Informacion personal",
+              headerTitle: "Información de Envío",
             }}
           />
         </>
