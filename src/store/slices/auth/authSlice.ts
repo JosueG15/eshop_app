@@ -33,8 +33,12 @@ const authSlice = createSlice({
     updateAvatarSuccess: (state, action: PayloadAction<{ user: IUser }>) => {
       state.user = action.payload.user;
     },
+    updateUserSuccess: (state, action: PayloadAction<{ user: IUser }>) => {
+      state.user = action.payload.user;
+    },
   },
 });
 
-export const { loginSuccess, logout, updateAvatarSuccess } = authSlice.actions;
+export const { loginSuccess, logout, updateAvatarSuccess, updateUserSuccess } =
+  authSlice.actions;
 export default authSlice.reducer;

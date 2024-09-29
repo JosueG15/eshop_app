@@ -17,6 +17,7 @@ export type UserStackParamList = {
   Login: undefined;
   Register: undefined;
   Profile: undefined;
+  EditPersonalInfo: undefined;
 };
 
 export type CheckoutStackParamList = {

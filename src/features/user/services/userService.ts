@@ -61,3 +61,21 @@ export const uploadUserAvatar = async (
 
   return data.data;
 };
+
+export const updateUser = async (
+  userId: string,
+  updateData: Partial<IUser>,
+  token: string
+): Promise<IUser> => {
+  const { data } = await axiosClient.put<AxiosResponse<IUser>>(
+    `/v1/users/${userId}`,
+    updateData,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    }
+  );
+  return data.data;
+};

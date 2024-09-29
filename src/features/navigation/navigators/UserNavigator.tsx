@@ -6,6 +6,7 @@ import { UserStackParamList } from "../../../shared/types/routeType";
 import LoginScreen from "../../user/screens/LoginScreen";
 import RegisterScreen from "../../user/screens/RegisterScreen";
 import ProfileScreen from "../../user/screens/ProfileScreen";
+import EditPersonalInfoScreen from "../../user/screens/EditPersonalInfoScreen";
 
 const Stack = createStackNavigator<UserStackParamList>();
 
@@ -17,7 +18,19 @@ const UserNavigator: React.FC = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       {isAuthenticated ? (
-        <Stack.Screen name="Profile" component={ProfileScreen} />
+        <>
+          <Stack.Screen name="Profile" component={ProfileScreen} />
+          <Stack.Screen
+            name="EditPersonalInfo"
+            component={EditPersonalInfoScreen}
+            options={{
+              headerBackTitle: " ",
+              headerBackAccessibilityLabel: "Atras",
+              headerShown: true,
+              headerTitle: "Informacion personal",
+            }}
+          />
+        </>
       ) : (
         <>
           <Stack.Screen name="Login" component={LoginScreen} />

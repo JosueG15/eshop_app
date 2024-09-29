@@ -3,8 +3,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store/store";
 import { showToast } from "../../../shared/components/Toast";
 import { IUser } from "../../../shared/types/userType";
-import { uploadUserAvatar } from "../services/userService";
-import { updateAvatarSuccess } from "../../../store/slices/auth/authSlice";
+import { uploadUserAvatar, updateUser } from "../services/userService";
+import {
+  updateAvatarSuccess,
+  updateUserSuccess,
+} from "../../../store/slices/auth/authSlice";
 
 export const useUser = () => {
   const dispatch = useDispatch();
@@ -30,8 +33,31 @@ export const useUser = () => {
     },
   });
 
+  const updateUserMutation = useMutation<IUser, Error, Partial<IUser>>({
+    mutationFn: async (updateData) => {
+      if (!token || !user) throw new Error("User is not authenticated");
+      return updateUser(user.id, updateData, token);
+    },
+    onSuccess: (updatedUser) => {
+      dispatch(updateUserSuccess({ user: updatedUser }));
+      showToast(
+        "Información actualizada",
+        "Tu información fue actualizada con éxito",
+        "success"
+      );
+    },
+    onError: (error) => {
+      showToast(
+        "Error",
+        error.message || "Error al actualizar la información",
+        "error"
+      );
+    },
+  });
+
   return {
     avatarUpload: avatarUploadMutation.mutate,
     isLoading: avatarUploadMutation.isPending,
+    updateUser: updateUserMutation.mutate,
   };
 };

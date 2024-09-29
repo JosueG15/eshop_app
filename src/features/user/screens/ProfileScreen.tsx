@@ -4,8 +4,9 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
-  Image,
+  ActivityIndicator,
   FlatList,
+  Image,
 } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../../store/store";
@@ -14,14 +15,20 @@ import { logout } from "../../../store/slices/auth/authSlice";
 import ProfileMenuOption from "../components/ProfileMenuOptions";
 import { useTheme } from "@rneui/themed";
 import { useUser } from "../hooks/useUser";
+import { useNavigation } from "@react-navigation/native";
+import useImageValidator from "../../../shared/hooks/useImageValidator";
+import { UserNavigationProp } from "../../../shared/types/routeType";
 
 const ProfileScreen: React.FC = () => {
   const dispatch = useDispatch();
   const { theme } = useTheme();
   const { colors } = theme;
-  const { avatarUpload, isLoading } = useUser();
+  const { avatarUpload, isLoading: isAvatarUploading } = useUser();
   const user = useSelector((state: RootState) => state.auth.user);
-  const [avatar, setAvatar] = useState(user?.avatar || "");
+  const { navigate } = useNavigation<UserNavigationProp>();
+
+  const { validatedUrl: avatarUrl, isLoading: isAvatarValidating } =
+    useImageValidator(user?.avatar || "");
 
   const handleAvatarPress = async () => {
     const permissionResult =
@@ -41,7 +48,6 @@ const ProfileScreen: React.FC = () => {
 
     if (!image.canceled && image.assets && image.assets.length > 0) {
       const selectedImageUri = image.assets[0].uri;
-      setAvatar(selectedImageUri);
 
       avatarUpload({ imageUri: selectedImageUri });
     }
@@ -61,7 +67,7 @@ const ProfileScreen: React.FC = () => {
     {
       title: "Editar información personal",
       onPress: () => {
-        /* TODO: Navigate to edit personal info */
+        navigate("EditPersonalInfo");
       },
     },
     {
@@ -89,6 +95,8 @@ const ProfileScreen: React.FC = () => {
           borderColor: colors.priceText,
           borderRadius: 50,
           padding: 5,
+          justifyContent: "center",
+          alignItems: "center",
         },
         avatar: {
           width: 100,
@@ -113,15 +121,13 @@ const ProfileScreen: React.FC = () => {
       <TouchableOpacity
         style={styles.avatarContainer}
         onPress={handleAvatarPress}
+        disabled={isAvatarUploading || isAvatarValidating}
       >
-        <Image
-          source={
-            avatar
-              ? { uri: avatar }
-              : { uri: "https://placehold.co/500x600/png" }
-          }
-          style={styles.avatar}
-        />
+        {isAvatarValidating || isAvatarUploading ? (
+          <ActivityIndicator size="large" color={colors.secondary} />
+        ) : (
+          <Image source={{ uri: avatarUrl }} style={styles.avatar} />
+        )}
       </TouchableOpacity>
       <Text style={styles.greeting}>Bienvenido, {user?.name || "Usuario"}</Text>
 

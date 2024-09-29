@@ -11,7 +11,7 @@ import { IProduct } from "../../../shared/types/productType";
 import { truncateText } from "../../../shared/utils/textUtil";
 import { getContainerWidth } from "../../../shared/utils/styleUtil";
 import { useTheme, Icon } from "@rneui/themed";
-import useImageValidator from "../hooks/useImageValidator";
+import useImageValidator from "../../../shared/hooks/useImageValidator";
 
 const ProductCard: React.FC<{ product: IProduct }> = ({ product }) => {
   const { name, price, image, countInStock } = product;
