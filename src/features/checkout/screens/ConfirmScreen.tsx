@@ -10,21 +10,21 @@ import {
   getPaymentMethodTitle,
   PaymentMethod,
 } from "../utils/paymentMethodUtil";
-import { ShippingFormValues } from "../types/checkoutTypes";
 import { formatPrice } from "../../../shared/utils/textUtil";
+import { ShippingInfo } from "../../../shared/types/cartType";
 
 const ConfirmScreen: React.FC = () => {
   const { theme } = useTheme();
   const { colors } = theme;
-  const { watch } = useFormContext<ShippingFormValues>();
+  const { watch } = useFormContext<ShippingInfo>();
   const cartItems = useSelector((state: RootState) => state.cart.items);
 
   const shippingInfo = watch([
     "phone",
-    "shippingAddress1",
+    "address",
     "city",
     "state",
-    "zipCode",
+    "zip",
     "paymentMethod",
   ]);
 

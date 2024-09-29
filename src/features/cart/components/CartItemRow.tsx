@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { View, StyleSheet, Image } from "react-native";
 import { Text, Button, useTheme, Icon, Divider } from "@rneui/themed";
-import { CartItem } from "../types/cartType";
 import { useDispatch } from "react-redux";
 import {
   removeFromCart,
@@ -9,6 +8,7 @@ import {
 } from "../../../store/slices/cart/cartSlice";
 import { Swipeable } from "react-native-gesture-handler";
 import QuantitySelectorModal from "./QuantitySelectorModal";
+import { CartItem } from "../../../shared/types/cartType";
 
 interface CartItemRowProps {
   item: CartItem;

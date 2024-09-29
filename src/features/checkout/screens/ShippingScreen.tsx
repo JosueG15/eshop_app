@@ -31,13 +31,13 @@ const ShippingScreen: React.FC = () => {
       isPhoneInput: true,
     },
     {
-      name: "shippingAddress1",
+      name: "address",
       label: "Direccion",
       placeholder: "Ingrese su direccion",
       required: true,
     },
     {
-      name: "shippingAddress2",
+      name: "address2",
       label: "Punto de referencia (Opcional)",
       placeholder: "Ingrese punto de referencia",
     },
@@ -54,7 +54,7 @@ const ShippingScreen: React.FC = () => {
       required: true,
     },
     {
-      name: "zipCode",
+      name: "zip",
       label: "Codigo Postal",
       placeholder: "Codigo Postal",
       keyboardType: "numeric" as const,

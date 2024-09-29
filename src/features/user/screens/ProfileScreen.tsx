@@ -73,7 +73,7 @@ const ProfileScreen: React.FC = () => {
     {
       title: "Editar datos de envío",
       onPress: () => {
-        /* TODO: Navigate to edit shipping info */
+        navigate("EditShippingInfo");
       },
     },
     { title: "Cerrar Sesión", onPress: handleLogout },

@@ -26,9 +26,10 @@ export interface IUser {
   address: string;
   address2?: string;
   city: string;
+  state: string;
   zip: string;
   country: string;
-  phone: number;
+  phone: string;
   isAdmin: boolean;
   avatar?: string;
 }

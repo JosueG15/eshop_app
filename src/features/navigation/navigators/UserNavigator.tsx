@@ -7,6 +7,7 @@ import LoginScreen from "../../user/screens/LoginScreen";
 import RegisterScreen from "../../user/screens/RegisterScreen";
 import ProfileScreen from "../../user/screens/ProfileScreen";
 import EditPersonalInfoScreen from "../../user/screens/EditPersonalInfoScreen";
+import EditShippingInfoScreen from "../../user/screens/EditShippingInfoScreen";
 
 const Stack = createStackNavigator<UserStackParamList>();
 
@@ -14,6 +15,12 @@ const UserNavigator: React.FC = () => {
   const isAuthenticated = useSelector(
     (state: RootState) => state.auth.isAuthenticated
   );
+
+  const commonScreenOptions = {
+    headerBackTitle: " ",
+    headerBackAccessibilityLabel: "Atras",
+    headerShown: true,
+  };
 
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
@@ -24,9 +31,15 @@ const UserNavigator: React.FC = () => {
             name="EditPersonalInfo"
             component={EditPersonalInfoScreen}
             options={{
-              headerBackTitle: " ",
-              headerBackAccessibilityLabel: "Atras",
-              headerShown: true,
+              ...commonScreenOptions,
+              headerTitle: "Informacion personal",
+            }}
+          />
+          <Stack.Screen
+            name="EditShippingInfo"
+            component={EditShippingInfoScreen}
+            options={{
+              ...commonScreenOptions,
               headerTitle: "Informacion personal",
             }}
           />
