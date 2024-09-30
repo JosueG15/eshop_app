@@ -1,26 +1,35 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { View, StyleSheet, ActivityIndicator } from "react-native";
 import { IconButton } from "react-native-paper";
 import { useTheme } from "@rneui/themed";
-
-import { useCategories } from "../../product/hooks/useCategories";
-import { ICategory } from "../../product/types/categoryType";
+import { useDispatch, useSelector } from "react-redux";
 import CustomTable from "../../../shared/components/CustomTable";
 import CustomSearchBar from "../../../shared/components/CustomSearchBar";
 import AppModal from "../../../shared/components/AppModal";
 import CategoryForm from "../components/CategoryForm";
+import { ICategory } from "../../product/types/categoryType";
+import { fetchCategories } from "../../../store/slices/categories/categorySlice";
+import { AppDispatch, RootState } from "../../../store/store";
 
 const ManageCategoriesScreen: React.FC = () => {
-  const { data: categories, isLoading } = useCategories();
+  const dispatch = useDispatch<AppDispatch>();
+  const { categories, isLoading } = useSelector(
+    (state: RootState) => state.categories
+  );
   const { theme } = useTheme();
+
   const [searchTerm, setSearchTerm] = useState("");
   const [isModalVisible, setModalVisible] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<ICategory | null>(
     null
   );
 
+  useEffect(() => {
+    dispatch(fetchCategories());
+  }, [dispatch]);
+
   const filteredCategories = useMemo(() => {
-    return categories?.data.filter((category) =>
+    return categories?.filter((category) =>
       category.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
   }, [categories, searchTerm]);

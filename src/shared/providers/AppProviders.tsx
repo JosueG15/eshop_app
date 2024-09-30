@@ -1,7 +1,6 @@
 import React, { ReactNode, useEffect, useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { ThemeProvider } from "@rneui/themed";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ErrorBoundary } from "react-error-boundary";
 import { View, ActivityIndicator } from "react-native";
 import { useSelector } from "react-redux";
@@ -13,8 +12,6 @@ import Error from "../components/Error";
 import { loadTheme } from "../../store/slices/theme/themeSlice";
 import { useAppDispatch } from "../../store/hooks/useAppDispatch";
 import { loadTokenFromStorage } from "../../store/slices/auth/authSlice";
-
-const queryClient = new QueryClient();
 
 interface AppProvidersProps {
   children: ReactNode;
@@ -47,12 +44,10 @@ export const AppProviders: React.FC<AppProvidersProps> = ({ children }) => {
     <NavigationContainer>
       <PaperProvider>
         <ThemeProvider theme={themeMode === "dark" ? darkTheme : lightTheme}>
-          <QueryClientProvider client={queryClient}>
-            <ErrorBoundary FallbackComponent={Error}>
-              {children}
-              <Toast />
-            </ErrorBoundary>
-          </QueryClientProvider>
+          <ErrorBoundary FallbackComponent={Error}>
+            {children}
+            <Toast />
+          </ErrorBoundary>
         </ThemeProvider>
       </PaperProvider>
     </NavigationContainer>

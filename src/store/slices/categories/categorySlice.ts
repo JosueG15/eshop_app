@@ -1,48 +1,68 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ICategory } from "../../../features/product/types/categoryType";
+import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
+import { RootState } from "../../store";
+import { IError } from "../../../shared/types/globalType";
+import { ICategoryResponse } from "../../../features/product/types/categoryType";
+import { getCategories } from "../../../features/product/services/categoryService";
 
 interface CategoryState {
-  categories: ICategory[] | null;
+  categories: ICategoryResponse["data"];
   isLoading: boolean;
+  isError: boolean;
   error: string | null;
 }
 
 const initialState: CategoryState = {
-  categories: null,
+  categories: [],
   isLoading: false,
+  isError: false,
   error: null,
 };
+
+export const fetchCategories = createAsyncThunk<
+  ICategoryResponse,
+  void,
+  { rejectValue: IError; state: RootState }
+>("categories/fetchCategories", async (_, { rejectWithValue }) => {
+  try {
+    const response = await getCategories();
+    return response;
+  } catch (error) {
+    return rejectWithValue((error as IError) || { message: "Error" });
+  }
+});
 
 const categorySlice = createSlice({
   name: "categories",
   initialState,
   reducers: {
-    addCategory(state, action: PayloadAction<ICategory>) {
-      if (state.categories) {
-        state.categories.push(action.payload);
-      }
+    resetCategories: (state) => {
+      state.categories = [];
+      state.isLoading = false;
+      state.isError = false;
+      state.error = null;
     },
-    updateCategory(state, action: PayloadAction<ICategory>) {
-      if (state.categories) {
-        const index = state.categories.findIndex(
-          (category) => category.id === action.payload.id
-        );
-        if (index !== -1) {
-          state.categories[index] = action.payload;
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchCategories.pending, (state) => {
+        state.isLoading = true;
+        state.isError = false;
+        state.error = null;
+      })
+      .addCase(
+        fetchCategories.fulfilled,
+        (state, action: PayloadAction<ICategoryResponse>) => {
+          state.isLoading = false;
+          state.categories = action.payload.data;
         }
-      }
-    },
-    deleteCategory(state, action: PayloadAction<string>) {
-      if (state.categories) {
-        state.categories = state.categories.filter(
-          (category) => category.id !== action.payload
-        );
-      }
-    },
+      )
+      .addCase(fetchCategories.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.error = action.payload?.message || "Error al obtener categorias";
+      });
   },
 });
 
-export const { addCategory, updateCategory, deleteCategory } =
-  categorySlice.actions;
-
+export const { resetCategories } = categorySlice.actions;
 export default categorySlice.reducer;
