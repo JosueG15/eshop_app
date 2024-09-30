@@ -17,6 +17,7 @@ import {
 import {
   fetchProducts,
   resetProducts,
+  refreshProducts,
 } from "../../../store/slices/product/productSlice";
 import { AppDispatch, RootState } from "../../../store/store";
 
@@ -38,22 +39,22 @@ const ProductList: React.FC<ProductListProps> = ({
   );
 
   useEffect(() => {
-    dispatch(fetchProducts(params));
+    dispatch(fetchProducts({ params, page }));
 
     return () => {
       dispatch(resetProducts());
     };
-  }, [dispatch, params]);
+  }, [dispatch, params, page]);
 
   const handleLoadMore = () => {
     if (page < totalPages && !isLoading) {
-      dispatch(fetchProducts(params));
+      dispatch(fetchProducts({ params, page: page + 1 }));
     }
   };
 
   const handleRefresh = () => {
-    dispatch(resetProducts());
-    dispatch(fetchProducts(params));
+    dispatch(refreshProducts());
+    dispatch(fetchProducts({ params, page: 1 }));
   };
 
   const renderItem = ({ item }: { item: IProduct }) => (
