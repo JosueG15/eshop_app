@@ -14,15 +14,9 @@ const useImageValidator = (imageUrl: string | null) => {
         if (response.ok) {
           setValidatedUrl(url);
         } else {
-          showToast(
-            "Error",
-            "La imagen no es válida, se usará la imagen por defecto",
-            "error"
-          );
           setValidatedUrl(placeholderImage);
         }
       } catch (error) {
-        showToast("Error", "No se pudo validar la imagen", "error");
         setValidatedUrl(placeholderImage);
       } finally {
         setIsLoading(false);

@@ -18,6 +18,11 @@ export const lightTheme = createTheme({
     themeSelectedOption: "#D4D4D4",
     themeUnselectedOption: "#eff7fa",
     themeDarkIcon: "#87CEEB",
+    tableHeaderBackground: "#F0F0F0",
+    tableRowBackground: "#FFFFFF",
+    tablePaginationBackground: "#FFFFFF",
+    tableLabelBackground: "#333333",
+    tableIconBackground: "#F5F5F5",
   },
   mode: "light",
 });
@@ -40,6 +45,11 @@ export const darkTheme = createTheme({
     themeSelectedOption: "#242526",
     themeUnselectedOption: "#3a3b3c",
     themeDarkIcon: "#87CEEB",
+    tableHeaderBackground: "#3A3A3A",
+    tableRowBackground: "#2C2C2C",
+    tablePaginationBackground: "#3E3E3E",
+    tableLabelBackground: "#CCCCCC",
+    tableIconBackground: "#6A6A6A",
   },
   mode: "dark",
 });

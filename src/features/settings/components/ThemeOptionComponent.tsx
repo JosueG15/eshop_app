@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { TouchableOpacity, Text, StyleSheet } from "react-native";
+import { TouchableOpacity, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useTheme } from "@rneui/themed";
 
@@ -38,11 +38,6 @@ const ThemeOption: React.FC<ThemeOptionProps> = ({
           shadowRadius: 6,
           elevation: 5,
         },
-        optionText: {
-          fontSize: 16,
-          marginTop: 10,
-          color: "#000",
-        },
         selectedOption: {
           backgroundColor: theme.colors.themeSelectedOption,
         },
@@ -56,14 +51,6 @@ const ThemeOption: React.FC<ThemeOptionProps> = ({
       onPress={() => handleThemeChange(mode)}
     >
       <Ionicons name={iconName} size={36} color={iconColor} />
-      <Text
-        style={[
-          styles.optionText,
-          selectedMode === mode && { color: iconColor },
-        ]}
-      >
-        {label}
-      </Text>
     </TouchableOpacity>
   );
 };

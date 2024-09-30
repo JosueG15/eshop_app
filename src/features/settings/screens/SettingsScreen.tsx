@@ -42,7 +42,7 @@ const SettingsScreen: React.FC = () => {
         {
           title: "Administrar Categorías de Productos",
           onPress: () => {
-            /* TODO: Navigate to category management */
+            navigate("ManageCategories");
           },
         },
         {

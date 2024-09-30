@@ -1,9 +1,9 @@
 import React, { useMemo } from "react";
 import { TouchableOpacity } from "react-native";
 import { ListItem, Badge, Text } from "@rneui/themed";
-import { ICategory } from "../../../shared/types/productType";
 import { styles as createStyles } from "../styles/productStyle";
 import { useTheme } from "@rneui/themed";
+import { ICategory } from "../types/categoryType";
 
 interface CategoryItemProps {
   category: ICategory;

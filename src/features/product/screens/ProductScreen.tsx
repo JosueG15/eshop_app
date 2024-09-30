@@ -4,7 +4,7 @@ import { useTheme } from "@rneui/themed";
 
 import Banner from "../../../shared/components/Banner";
 import CategoryFilter from "../components/CategoryFilter";
-import ProductSearchBar from "../components/ProductSearchBar";
+import CustomSearchBar from "../../../shared/components/CustomSearchBar";
 import { useCategories } from "../hooks/useCategories";
 import { useDebounce } from "../hooks/useDebounce";
 import ProductList from "../components/ProductList";
@@ -51,7 +51,11 @@ const ProductScreen: React.FC = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ProductSearchBar search={search} setSearch={setSearch} />
+      <CustomSearchBar
+        placeholder="Buscar Productos"
+        search={search}
+        setSearch={setSearch}
+      />
       <ProductList
         params={{
           name: debouncedSearch,

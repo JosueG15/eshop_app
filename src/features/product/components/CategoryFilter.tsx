@@ -1,9 +1,9 @@
 import React, { useMemo } from "react";
 import { ScrollView, TouchableOpacity, View, Text } from "react-native";
 import { useTheme, Icon } from "@rneui/themed";
-import { ICategory } from "../../../shared/types/productType";
 import CategoryItem from "./CategoryItem";
 import { styles as createStyles } from "../styles/productStyle";
+import { ICategory } from "../types/categoryType";
 
 interface CategoryFilterProps {
   categories: ICategory[];

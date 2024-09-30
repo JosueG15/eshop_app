@@ -7,6 +7,7 @@ import { View, ActivityIndicator } from "react-native";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import { darkTheme, lightTheme } from "../styles/themes";
+import { PaperProvider } from "react-native-paper";
 import Toast from "../components/Toast";
 import Error from "../components/Error";
 import { loadTheme } from "../../store/slices/theme/themeSlice";
@@ -38,14 +39,16 @@ export const AppProviders: React.FC<AppProvidersProps> = ({ children }) => {
 
   return (
     <NavigationContainer>
-      <ThemeProvider theme={themeMode === "dark" ? darkTheme : lightTheme}>
-        <QueryClientProvider client={queryClient}>
-          <ErrorBoundary FallbackComponent={Error}>
-            {children}
-            <Toast />
-          </ErrorBoundary>
-        </QueryClientProvider>
-      </ThemeProvider>
+      <PaperProvider>
+        <ThemeProvider theme={themeMode === "dark" ? darkTheme : lightTheme}>
+          <QueryClientProvider client={queryClient}>
+            <ErrorBoundary FallbackComponent={Error}>
+              {children}
+              <Toast />
+            </ErrorBoundary>
+          </QueryClientProvider>
+        </ThemeProvider>
+      </PaperProvider>
     </NavigationContainer>
   );
 };

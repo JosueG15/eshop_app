@@ -14,5 +14,10 @@ declare module "@rneui/themed" {
     themeSelectedOption?: string;
     themeUnselectedOption?: string;
     themeDarkIcon?: string;
+    tableHeaderBackground?: string;
+    tableRowBackground?: string;
+    tablePaginationBackground?: string;
+    tableLabelBackground?: string;
+    tableIconBackground?: string;
   }
 }

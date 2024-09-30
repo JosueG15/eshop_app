@@ -13,6 +13,7 @@ interface CustomFormProps {
   buttonTitle: string;
   errors: FieldErrors<FieldValues> | ErrorForm;
   isLoading?: boolean;
+  hideButton?: boolean;
 }
 
 const CustomForm: React.FC<CustomFormProps> = ({
@@ -22,6 +23,7 @@ const CustomForm: React.FC<CustomFormProps> = ({
   buttonTitle = "Siguiente",
   errors,
   isLoading = false,
+  hideButton = false,
 }) => {
   const { theme } = useTheme();
 
@@ -35,15 +37,17 @@ const CustomForm: React.FC<CustomFormProps> = ({
           {...field}
         />
       ))}
-      <Button
-        buttonStyle={{ backgroundColor: theme.colors.nextColor }}
-        title={buttonTitle}
-        titleStyle={{ color: theme.colors.infoTextColor }}
-        onPress={onSubmit}
-        accessible
-        accessibilityLabel={`${buttonTitle}`}
-        loading={isLoading}
-      />
+      {!hideButton && (
+        <Button
+          buttonStyle={{ backgroundColor: theme.colors.nextColor }}
+          title={buttonTitle}
+          titleStyle={{ color: theme.colors.infoTextColor }}
+          onPress={onSubmit}
+          accessible
+          accessibilityLabel={`${buttonTitle}`}
+          loading={isLoading}
+        />
+      )}
     </View>
   );
 };

@@ -1,9 +1,4 @@
-export interface ICategory {
-  name: string;
-  color: string;
-  icon: string;
-  id: string;
-}
+import { ICategory } from "../../features/product/types/categoryType";
 
 export interface IProduct {
   name: string;
