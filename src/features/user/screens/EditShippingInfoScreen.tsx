@@ -5,15 +5,17 @@ import { StyleSheet } from "react-native";
 import CustomForm from "../../../shared/components/CustomForm";
 import { Field } from "../../../shared/types/formTypes";
 import { IUser } from "../../../shared/types/userType";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../store/store";
-import { useUser } from "../hooks/useUser";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState, AppDispatch } from "../../../store/store";
+import { updateUserInfo } from "../../../store/slices/auth/authSlice";
+import { showToast } from "../../../shared/components/Toast";
 import { useTheme } from "@rneui/themed";
 
 const EditShippingInfoScreen: React.FC = () => {
+  const dispatch = useDispatch<AppDispatch>();
   const user = useSelector((state: RootState) => state.auth.user);
+  const isLoading = useSelector((state: RootState) => state.auth.isLoading);
   const { theme } = useTheme();
-  const { updateUser, isLoading } = useUser();
 
   const {
     control,
@@ -40,7 +42,22 @@ const EditShippingInfoScreen: React.FC = () => {
       zip: data.zip,
     };
 
-    updateUser(updateData);
+    dispatch(updateUserInfo(updateData))
+      .unwrap()
+      .then(() => {
+        showToast(
+          "Información actualizada",
+          "Tu información de envío fue actualizada con éxito",
+          "success"
+        );
+      })
+      .catch((error) => {
+        showToast(
+          "Error",
+          error.message || "Error al actualizar la información de envío",
+          "error"
+        );
+      });
   };
 
   const fields: Field[] = [

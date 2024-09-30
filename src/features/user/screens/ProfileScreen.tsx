@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useMemo } from "react";
 import {
   View,
   Text,
@@ -9,22 +9,23 @@ import {
   Image,
 } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "../../../store/store";
 import * as ImagePicker from "expo-image-picker";
-import { logout } from "../../../store/slices/auth/authSlice";
-import ProfileMenuOption from "../../../shared/components/ListMenuOption";
 import { useTheme } from "@rneui/themed";
-import { useUser } from "../hooks/useUser";
 import { useNavigation } from "@react-navigation/native";
+
+import { AppDispatch, RootState } from "../../../store/store";
+import { logout, uploadAvatar } from "../../../store/slices/auth/authSlice";
+import ProfileMenuOption from "../../../shared/components/ListMenuOption";
 import useImageValidator from "../../../shared/hooks/useImageValidator";
 import { UserNavigationProp } from "../../../shared/types/routeType";
+import { showToast } from "../../../shared/components/Toast";
 
 const ProfileScreen: React.FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const { theme } = useTheme();
   const { colors } = theme;
-  const { avatarUpload, isLoading: isAvatarUploading } = useUser();
   const user = useSelector((state: RootState) => state.auth.user);
+  const isLoading = useSelector((state: RootState) => state.auth.isLoading);
   const { navigate } = useNavigation<UserNavigationProp>();
 
   const { validatedUrl: avatarUrl, isLoading: isAvatarValidating } =
@@ -49,12 +50,28 @@ const ProfileScreen: React.FC = () => {
     if (!image.canceled && image.assets && image.assets.length > 0) {
       const selectedImageUri = image.assets[0].uri;
 
-      avatarUpload({ imageUri: selectedImageUri });
+      dispatch(uploadAvatar({ imageUri: selectedImageUri }))
+        .unwrap()
+        .then(() => {
+          showToast(
+            "Avatar actualizado",
+            "Tu avatar fue actualizado con éxito",
+            "success"
+          );
+        })
+        .catch((error) => {
+          showToast(
+            "Error",
+            error.message || "Error al subir el avatar",
+            "error"
+          );
+        });
     }
   };
 
   const handleLogout = () => {
     dispatch(logout());
+    showToast("Sesión cerrada", "Has cerrado la sesión con éxito", "success");
   };
 
   const menuOptions = [
@@ -121,9 +138,9 @@ const ProfileScreen: React.FC = () => {
       <TouchableOpacity
         style={styles.avatarContainer}
         onPress={handleAvatarPress}
-        disabled={isAvatarUploading || isAvatarValidating}
+        disabled={isLoading || isAvatarValidating}
       >
-        {isAvatarValidating || isAvatarUploading ? (
+        {isAvatarValidating || isLoading ? (
           <ActivityIndicator size="large" color={colors.secondary} />
         ) : (
           <Image source={{ uri: avatarUrl }} style={styles.avatar} />

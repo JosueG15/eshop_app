@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useEffect } from "react";
 import {
   ActivityIndicator,
   StyleSheet,
@@ -7,12 +7,18 @@ import {
   RefreshControl,
 } from "react-native";
 import { useTheme } from "@rneui/themed";
+import { useSelector, useDispatch } from "react-redux";
+import ProductItem from "./ProductItem";
+
 import {
   IProduct,
   IProductQueryParams,
 } from "../../../shared/types/productType";
-import ProductItem from "./ProductItem";
-import { useProducts } from "../hooks/useProducts";
+import {
+  fetchProducts,
+  resetProducts,
+} from "../../../store/slices/product/productSlice";
+import { AppDispatch, RootState } from "../../../store/store";
 
 interface ProductListProps {
   params: IProductQueryParams;
@@ -25,31 +31,29 @@ const ProductList: React.FC<ProductListProps> = ({
 }) => {
   const { theme } = useTheme();
   const { colors } = theme;
+  const dispatch = useDispatch<AppDispatch>();
 
-  const {
-    data,
-    isError,
-    error,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-    refetch,
-    isRefetching,
-  } = useProducts(params);
-
-  const products = useMemo(
-    () => data?.pages.flatMap((page) => page.data) ?? [],
-    [data]
+  const { products, page, totalPages, isLoading, isError, error } = useSelector(
+    (state: RootState) => state.products
   );
 
+  useEffect(() => {
+    dispatch(fetchProducts(params));
+
+    return () => {
+      dispatch(resetProducts());
+    };
+  }, [dispatch, params]);
+
   const handleLoadMore = () => {
-    if (hasNextPage && !isFetchingNextPage) {
-      fetchNextPage();
+    if (page < totalPages && !isLoading) {
+      dispatch(fetchProducts(params));
     }
   };
 
   const handleRefresh = () => {
-    refetch();
+    dispatch(resetProducts());
+    dispatch(fetchProducts(params));
   };
 
   const renderItem = ({ item }: { item: IProduct }) => (
@@ -90,18 +94,18 @@ const ProductList: React.FC<ProductListProps> = ({
       onEndReached={handleLoadMore}
       onEndReachedThreshold={0.5}
       ListFooterComponent={
-        isFetchingNextPage ? (
+        isLoading ? (
           <ActivityIndicator
             size="large"
             color={colors.secondary}
             style={styles.loader}
-            accessibilityLabel="Cargando mas productos"
+            accessibilityLabel="Cargando más productos"
           />
         ) : null
       }
       refreshControl={
         <RefreshControl
-          refreshing={isRefetching}
+          refreshing={isLoading}
           onRefresh={handleRefresh}
           colors={[colors.secondary]}
         />
@@ -110,10 +114,9 @@ const ProductList: React.FC<ProductListProps> = ({
       ListEmptyComponent={
         <Text style={styles.emptyMessage}>
           {isError
-            ? `Error al obtener los productos: ${
-                error?.message || "Error desconocido"
-              }`
-            : "¡Ups! No hay productos disponibles en este momento."}
+            ? `Error al obtener los productos: ${error || "Error desconocido"}`
+            : !isLoading &&
+              "¡Ups! No hay productos disponibles en este momento."}
         </Text>
       }
     />

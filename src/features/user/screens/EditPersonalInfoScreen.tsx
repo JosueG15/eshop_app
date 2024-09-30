@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { FieldValues, useForm } from "react-hook-form";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { StyleSheet } from "react-native";
 import { useTheme } from "@rneui/themed";
@@ -8,14 +8,17 @@ import { useTheme } from "@rneui/themed";
 import CustomForm from "../../../shared/components/CustomForm";
 import { Field } from "../../../shared/types/formTypes";
 import { IUser } from "../../../shared/types/userType";
-import { RootState } from "../../../store/store";
-import { useUser } from "../hooks/useUser";
+import { RootState, AppDispatch } from "../../../store/store";
+import { updateUserInfo } from "../../../store/slices/auth/authSlice";
+import { showToast } from "../../../shared/components/Toast";
 
 const EditPersonalInfoScreen: React.FC = () => {
+  const dispatch = useDispatch<AppDispatch>();
   const user = useSelector((state: RootState) => state.auth.user);
+  const isLoading = useSelector((state: RootState) => state.auth.isLoading);
   const { theme } = useTheme();
   const { colors } = theme;
-  const { updateUser, isLoading } = useUser();
+
   const {
     control,
     handleSubmit,
@@ -38,7 +41,22 @@ const EditPersonalInfoScreen: React.FC = () => {
       updateData.passwordHash = data.passwordHash;
     }
 
-    updateUser(updateData);
+    dispatch(updateUserInfo(updateData))
+      .unwrap()
+      .then(() => {
+        showToast(
+          "Información actualizada",
+          "Tu información fue actualizada con éxito",
+          "success"
+        );
+      })
+      .catch((error) => {
+        showToast(
+          "Error",
+          error.message || "Error al actualizar la información",
+          "error"
+        );
+      });
   };
 
   const fields: Field[] = [

@@ -1,16 +1,19 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { combineReducers } from "redux";
 import logger from "redux-logger";
+
 import authSlice from "./slices/auth/authSlice";
 import cartSlice from "./slices/cart/cartSlice";
 import themeSlice from "./slices/theme/themeSlice";
 import categorySlice from "./slices/categories/categorySlice";
+import productSlice from "./slices/product/productSlice";
 
 const rootReducer = combineReducers({
   cart: cartSlice,
   auth: authSlice,
   theme: themeSlice,
   categories: categorySlice,
+  products: productSlice,
 });
 
 const store = configureStore({
