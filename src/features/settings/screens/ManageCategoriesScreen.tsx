@@ -1,14 +1,20 @@
 import React, { useState, useMemo, useEffect } from "react";
-import { View, StyleSheet, ActivityIndicator } from "react-native";
+import { View, StyleSheet, ActivityIndicator, Alert } from "react-native";
 import { IconButton } from "react-native-paper";
 import { useTheme } from "@rneui/themed";
 import { useDispatch, useSelector } from "react-redux";
+import { useForm } from "react-hook-form";
 import CustomTable from "../../../shared/components/CustomTable";
 import CustomSearchBar from "../../../shared/components/CustomSearchBar";
 import AppModal from "../../../shared/components/AppModal";
 import CategoryForm from "../components/CategoryForm";
 import { ICategory } from "../../product/types/categoryType";
-import { fetchCategories } from "../../../store/slices/categories/categorySlice";
+import {
+  fetchCategories,
+  createCategory,
+  modifyCategory,
+  removeCategory,
+} from "../../../store/slices/categories/categorySlice";
 import { AppDispatch, RootState } from "../../../store/store";
 
 const ManageCategoriesScreen: React.FC = () => {
@@ -24,9 +30,33 @@ const ManageCategoriesScreen: React.FC = () => {
     null
   );
 
+  const {
+    control,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+    reset,
+  } = useForm<Partial<ICategory>>({
+    defaultValues: {
+      name: "",
+      color: "",
+      icon: "",
+    },
+  });
+
   useEffect(() => {
     dispatch(fetchCategories());
   }, [dispatch]);
+
+  useEffect(() => {
+    if (selectedCategory) {
+      setValue("name", selectedCategory.name);
+      setValue("color", selectedCategory.color);
+      setValue("icon", selectedCategory.icon);
+    } else {
+      reset();
+    }
+  }, [selectedCategory, setValue, reset]);
 
   const filteredCategories = useMemo(() => {
     return categories?.filter((category) =>
@@ -44,8 +74,38 @@ const ManageCategoriesScreen: React.FC = () => {
     setModalVisible(false);
   };
 
-  const handleSave = () => {
+  const onSubmit = (formData: Partial<ICategory>) => {
+    if (selectedCategory) {
+      dispatch(
+        modifyCategory({
+          categoryId: selectedCategory.id,
+          category: formData,
+        })
+      );
+    } else {
+      dispatch(createCategory(formData));
+    }
     closeModal();
+  };
+
+  const handleDeleteCategory = (categoryId: string) => {
+    Alert.alert(
+      "Eliminar Categoría",
+      "¿Estás seguro de que deseas eliminar esta categoría?",
+      [
+        {
+          text: "Cancelar",
+          style: "cancel",
+        },
+        {
+          text: "Eliminar",
+          style: "destructive",
+          onPress: () => {
+            dispatch(removeCategory(categoryId));
+          },
+        },
+      ]
+    );
   };
 
   const styles = useMemo(
@@ -106,21 +166,13 @@ const ManageCategoriesScreen: React.FC = () => {
             iconColor={theme.colors.error}
             icon="delete"
             size={20}
-            onPress={() => {}}
+            onPress={() => handleDeleteCategory(item.id)}
           />
         </>
       ),
       width: 120,
     },
   ];
-
-  if (isLoading) {
-    return (
-      <View style={styles.loadingContainer}>
-        <ActivityIndicator animating={true} size="large" />
-      </View>
-    );
-  }
 
   return (
     <View style={styles.container}>
@@ -139,14 +191,10 @@ const ManageCategoriesScreen: React.FC = () => {
       <AppModal
         visible={isModalVisible}
         onCancel={closeModal}
-        onConfirm={closeModal}
+        onConfirm={handleSubmit(onSubmit)}
         title={selectedCategory ? "Editar Categoría" : "Agregar Categoría"}
       >
-        <CategoryForm
-          onSubmit={handleSave}
-          selectedCategory={selectedCategory}
-          isLoading={isLoading}
-        />
+        <CategoryForm control={control} errors={errors} isLoading={isLoading} />
       </AppModal>
     </View>
   );

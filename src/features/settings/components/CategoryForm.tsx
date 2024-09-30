@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { FieldValues, useForm } from "react-hook-form";
+import { Control, FieldErrors } from "react-hook-form";
 import { StyleSheet, View } from "react-native";
 import CustomForm from "../../../shared/components/CustomForm";
 import { Field } from "../../../shared/types/formTypes";
@@ -7,28 +7,16 @@ import { ICategory } from "../../product/types/categoryType";
 import { useTheme } from "@rneui/themed";
 
 interface CategoryFormProps {
-  selectedCategory: ICategory | null;
-  onSubmit: () => void;
+  control: Control<Partial<ICategory>>;
+  errors: FieldErrors<Partial<ICategory>>;
   isLoading: boolean;
 }
 
 const CategoryForm: React.FC<CategoryFormProps> = ({
-  selectedCategory,
-  onSubmit,
+  control,
+  errors,
   isLoading,
 }) => {
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<Partial<ICategory>>({
-    defaultValues: {
-      name: selectedCategory?.name || "",
-      color: selectedCategory?.color || "",
-      icon: selectedCategory?.icon || "",
-    },
-  });
-
   const { theme } = useTheme();
 
   const fields: Field[] = [
@@ -69,9 +57,9 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
     <View style={styles.container}>
       <CustomForm
         fields={fields}
+        onSubmit={() => {}}
         control={control}
         errors={errors}
-        onSubmit={handleSubmit(onSubmit)}
         buttonTitle={isLoading ? "Guardando..." : "Guardar"}
         isLoading={isLoading}
         hideButton
