@@ -1,21 +1,30 @@
-import { useMemo } from "react";
-import { View, StyleSheet, TouchableOpacity, Platform } from "react-native";
+import React, { useMemo } from "react";
+import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { Text, useTheme } from "@rneui/themed";
 import { useNavigation } from "@react-navigation/native";
 import { FieldValues, useForm } from "react-hook-form";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { useAuth } from "../../../shared/hooks/useAuth";
+import { useDispatch, useSelector } from "react-redux";
+import { loginUser } from "../../../store/slices/auth/authSlice";
+import { AppDispatch, RootState } from "../../../store/store";
 import CustomForm from "../../../shared/components/CustomForm";
 import { Field } from "../../../shared/types/formTypes";
 import { LoginFormValues } from "../../../shared/types/userType";
-import { UserNavigationProp } from "../../../shared/types/routeType";
+import {
+  HomeNavigationProp,
+  UserNavigationProp,
+} from "../../../shared/types/routeType";
 
 const LoginScreen: React.FC = () => {
   const { theme } = useTheme();
   const { colors } = theme;
+  const navigation = useNavigation<UserNavigationProp & HomeNavigationProp>();
+  const dispatch = useDispatch<AppDispatch>();
 
-  const navigation = useNavigation<UserNavigationProp>();
-  const { login, isLoadingLogin, errorMessage } = useAuth();
+  const { isLoadingLogin, errorMessage } = useSelector(
+    (state: RootState) => state.auth
+  );
+
   const {
     control,
     handleSubmit,
@@ -23,7 +32,7 @@ const LoginScreen: React.FC = () => {
   } = useForm();
 
   const onSubmit = (data: FieldValues) => {
-    login(data as LoginFormValues);
+    dispatch(loginUser({ data: data as LoginFormValues, navigation }));
   };
 
   const loginFields: Field[] = [

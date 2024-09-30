@@ -14,11 +14,13 @@ export const login = async (user: LoginFormValues): Promise<ILoginResponse> => {
 };
 
 export const registerUser = async (user: IUser): Promise<IRegisterResponse> => {
-  const { data } = await axiosClient.post<AxiosResponse<IRegisterResponse>>(
-    "/v1/register",
-    user
-  );
-  return data.data;
+  try {
+    const response = await axiosClient.post("/v1/register", user);
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
 };
 
 export const getUserProfile = async (

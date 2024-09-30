@@ -12,6 +12,7 @@ import Toast from "../components/Toast";
 import Error from "../components/Error";
 import { loadTheme } from "../../store/slices/theme/themeSlice";
 import { useAppDispatch } from "../../store/hooks/useAppDispatch";
+import { loadTokenFromStorage } from "../../store/slices/auth/authSlice";
 
 const queryClient = new QueryClient();
 
@@ -22,14 +23,19 @@ interface AppProvidersProps {
 export const AppProviders: React.FC<AppProvidersProps> = ({ children }) => {
   const dispatch = useAppDispatch();
   const themeMode = useSelector((state: RootState) => state.theme.themeMode);
-  const [isThemeLoaded, setIsThemeLoaded] = useState(false);
+  const [isAppReady, setIsAppReady] = useState(false);
 
   useEffect(() => {
-    dispatch(loadTheme());
-    setIsThemeLoaded(true);
+    const initializeApp = async () => {
+      await dispatch(loadTheme());
+      await dispatch(loadTokenFromStorage());
+      setIsAppReady(true);
+    };
+
+    initializeApp();
   }, [dispatch]);
 
-  if (!isThemeLoaded) {
+  if (!isAppReady) {
     return (
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
         <ActivityIndicator size="large" color="#0000ff" />

@@ -1,11 +1,6 @@
 export interface IRegisterResponse {
   token: string;
-  user: {
-    id: string;
-    email: string;
-    name: string;
-    isAdmin: boolean;
-  };
+  user: IUser;
 }
 
 export interface LoginFormValues {
@@ -16,6 +11,13 @@ export interface LoginFormValues {
 export interface ILoginResponse {
   token: string;
   user: IUser;
+}
+
+export interface IDecodedToken {
+  userId: string;
+  isAdmin: boolean;
+  iat: number;
+  exp: number;
 }
 
 export interface IUser {

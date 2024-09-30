@@ -3,17 +3,30 @@ import { View, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
 import { Text, useTheme } from "@rneui/themed";
 import { useNavigation } from "@react-navigation/native";
 import { FieldValues, useForm } from "react-hook-form";
-import { useAuth } from "../../../shared/hooks/useAuth";
+import { useSelector, useDispatch } from "react-redux";
+import { AppDispatch, RootState } from "../../../store/store";
 import CustomForm from "../../../shared/components/CustomForm";
 import { Field } from "../../../shared/types/formTypes";
 import { IUser } from "../../../shared/types/userType";
-import { UserNavigationProp } from "../../../shared/types/routeType";
+import { registerUser } from "../../../store/slices/auth/authSlice";
+import { showToast } from "../../../shared/components/Toast";
+import {
+  HomeNavigationProp,
+  UserNavigationProp,
+} from "../../../shared/types/routeType";
 
 const RegisterScreen: React.FC = () => {
   const { theme } = useTheme();
   const { colors } = theme;
-  const navigation = useNavigation<UserNavigationProp>();
-  const { register, isLoadingRegister, errorMessage } = useAuth();
+  const navigation = useNavigation<UserNavigationProp & HomeNavigationProp>();
+  const dispatch = useDispatch<AppDispatch>();
+  const isLoadingRegister = useSelector(
+    (state: RootState) => state.auth.isLoading
+  );
+  const errorMessage = useSelector(
+    (state: RootState) => state.auth.errorMessage
+  );
+
   const {
     control,
     handleSubmit,
@@ -21,7 +34,15 @@ const RegisterScreen: React.FC = () => {
   } = useForm();
 
   const onSubmit = (data: FieldValues) => {
-    register({ ...data, country: "El Salvador" } as IUser);
+    dispatch(registerUser({ ...data, country: "El Salvador" } as IUser))
+      .unwrap()
+      .then(() => {
+        showToast("Registro Exitoso", "Te has registrado con éxito", "success");
+        navigation.navigate("Home");
+      })
+      .catch((error) => {
+        showToast("Error", error.message || "Error al registrarse", "error");
+      });
   };
 
   const registerFields: Field[] = [

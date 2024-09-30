@@ -14,7 +14,7 @@ import { useTheme } from "@rneui/themed";
 import { useNavigation } from "@react-navigation/native";
 
 import { AppDispatch, RootState } from "../../../store/store";
-import { logout, uploadAvatar } from "../../../store/slices/auth/authSlice";
+import { logoutUser, uploadAvatar } from "../../../store/slices/auth/authSlice";
 import ProfileMenuOption from "../../../shared/components/ListMenuOption";
 import useImageValidator from "../../../shared/hooks/useImageValidator";
 import { UserNavigationProp } from "../../../shared/types/routeType";
@@ -25,7 +25,9 @@ const ProfileScreen: React.FC = () => {
   const { theme } = useTheme();
   const { colors } = theme;
   const user = useSelector((state: RootState) => state.auth.user);
-  const isLoading = useSelector((state: RootState) => state.auth.isLoading);
+  const isLoading = useSelector(
+    (state: RootState) => state.auth.isLoadingAvatar
+  );
   const { navigate } = useNavigation<UserNavigationProp>();
 
   const { validatedUrl: avatarUrl, isLoading: isAvatarValidating } =
@@ -70,7 +72,7 @@ const ProfileScreen: React.FC = () => {
   };
 
   const handleLogout = () => {
-    dispatch(logout());
+    dispatch(logoutUser());
     showToast("Sesión cerrada", "Has cerrado la sesión con éxito", "success");
   };
 

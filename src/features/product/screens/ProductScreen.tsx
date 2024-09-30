@@ -39,7 +39,7 @@ const ProductScreen: React.FC = () => {
 
   const renderHeader = () => (
     <>
-      <Banner />
+      {!search && <Banner />}
       <CategoryFilter
         categories={categories}
         selectedCategories={selectedCategories}
