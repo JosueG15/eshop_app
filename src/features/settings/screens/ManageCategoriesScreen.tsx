@@ -1,10 +1,12 @@
 import React, { useState, useMemo, useEffect } from "react";
-import { View, StyleSheet, ActivityIndicator, Alert } from "react-native";
+import { View, StyleSheet, Alert } from "react-native";
 import { IconButton } from "react-native-paper";
 import { useTheme } from "@rneui/themed";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
-import CustomTable from "../../../shared/components/CustomTable";
+import CustomTable, {
+  TableColumn,
+} from "../../../shared/components/CustomTable";
 import CustomSearchBar from "../../../shared/components/CustomSearchBar";
 import AppModal from "../../../shared/components/AppModal";
 import CategoryForm from "../components/CategoryForm";
@@ -59,7 +61,7 @@ const ManageCategoriesScreen: React.FC = () => {
   }, [selectedCategory, setValue, reset]);
 
   const filteredCategories = useMemo(() => {
-    return categories?.filter((category) =>
+    return categories?.filter((category: ICategory) =>
       category.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
   }, [categories, searchTerm]);
@@ -75,16 +77,15 @@ const ManageCategoriesScreen: React.FC = () => {
   };
 
   const onSubmit = (formData: Partial<ICategory>) => {
-    if (selectedCategory) {
-      dispatch(
-        modifyCategory({
-          categoryId: selectedCategory.id,
-          category: formData,
-        })
-      );
-    } else {
-      dispatch(createCategory(formData));
-    }
+    selectedCategory
+      ? dispatch(
+          modifyCategory({
+            categoryId: selectedCategory.id,
+            category: formData,
+          })
+        )
+      : dispatch(createCategory(formData));
+
     closeModal();
   };
 
@@ -93,16 +94,11 @@ const ManageCategoriesScreen: React.FC = () => {
       "Eliminar Categoría",
       "¿Estás seguro de que deseas eliminar esta categoría?",
       [
-        {
-          text: "Cancelar",
-          style: "cancel",
-        },
+        { text: "Cancelar", style: "cancel" },
         {
           text: "Eliminar",
           style: "destructive",
-          onPress: () => {
-            dispatch(removeCategory(categoryId));
-          },
+          onPress: () => dispatch(removeCategory(categoryId)),
         },
       ]
     );
@@ -116,63 +112,50 @@ const ManageCategoriesScreen: React.FC = () => {
           padding: 20,
           backgroundColor: theme.colors.background,
         },
-        addButton: {
-          marginTop: 20,
-        },
-        loadingContainer: {
-          flex: 1,
-          justifyContent: "center",
-          alignItems: "center",
-        },
       }),
     [theme]
   );
 
-  const columns = [
-    {
-      key: "name" as keyof ICategory,
-      title: "Nombre",
-      width: 150,
-    },
-    {
-      key: "color" as keyof ICategory,
-      title: "Color",
-      width: 100,
-    },
-    {
-      key: "icon" as keyof ICategory,
-      title: "Icono",
-      render: (item: ICategory) => (
-        <IconButton
-          iconColor={theme.colors.secondary}
-          icon={item.icon}
-          size={20}
-        />
-      ),
-      width: 80,
-    },
-    {
-      key: "actions" as keyof ICategory,
-      title: "Acciones",
-      render: (item: ICategory) => (
-        <>
+  const columns = useMemo(
+    () => [
+      { key: "name", title: "Nombre", width: 150 },
+      { key: "color", title: "Color", width: 100 },
+      {
+        key: "icon",
+        title: "Icono",
+        render: (item: ICategory) => (
           <IconButton
-            icon="pencil"
-            iconColor={theme.colors.infoColor}
+            iconColor={theme.colors.secondary}
+            icon={item.icon}
             size={20}
-            onPress={() => openModal(item)}
           />
-          <IconButton
-            iconColor={theme.colors.error}
-            icon="delete"
-            size={20}
-            onPress={() => handleDeleteCategory(item.id)}
-          />
-        </>
-      ),
-      width: 120,
-    },
-  ];
+        ),
+        width: 80,
+      },
+      {
+        key: "actions",
+        title: "Acciones",
+        render: (item: ICategory) => (
+          <>
+            <IconButton
+              icon="pencil"
+              iconColor={theme.colors.infoColor}
+              size={20}
+              onPress={() => openModal(item)}
+            />
+            <IconButton
+              iconColor={theme.colors.error}
+              icon="delete"
+              size={20}
+              onPress={() => handleDeleteCategory(item.id)}
+            />
+          </>
+        ),
+        width: 120,
+      },
+    ],
+    [theme]
+  );
 
   return (
     <View style={styles.container}>
@@ -183,7 +166,7 @@ const ManageCategoriesScreen: React.FC = () => {
       />
 
       <CustomTable
-        columns={columns}
+        columns={columns as TableColumn<ICategory>[]}
         data={filteredCategories || []}
         onAddPress={() => openModal(null)}
       />

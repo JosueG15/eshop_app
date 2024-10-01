@@ -16,15 +16,11 @@ import {
 interface CategoryState {
   categories: ICategoryResponse["data"];
   isLoading: boolean;
-  isError: boolean;
-  error: string | null;
 }
 
 const initialState: CategoryState = {
   categories: [],
   isLoading: false,
-  isError: false,
-  error: null,
 };
 
 export const fetchCategories = createAsyncThunk<
@@ -33,8 +29,7 @@ export const fetchCategories = createAsyncThunk<
   { rejectValue: IError }
 >("categories/fetchCategories", async (_, { rejectWithValue }) => {
   try {
-    const response = await getCategories();
-    return response;
+    return await getCategories();
   } catch (error) {
     return rejectWithValue(
       (error as IError) || { message: "Error al obtener categorías" }
@@ -49,14 +44,12 @@ export const createCategory = createAsyncThunk<
 >(
   "categories/createCategory",
   async (category, { rejectWithValue, getState }) => {
+    const { token } = getState().auth;
+    if (!token) throw new Error("No authentication token available");
+
     try {
-      const { token } = (getState() as RootState).auth;
-
-      if (!token) {
-        throw new Error("No authentication token available");
-      }
-
       const response = await addCategory(category, token);
+
       showToast(
         "Categoría agregada",
         "La categoría fue agregada con éxito",
@@ -79,20 +72,11 @@ export const modifyCategory = createAsyncThunk<
 >(
   "categories/modifyCategory",
   async ({ categoryId, category }, { rejectWithValue, getState }) => {
+    const { token } = getState().auth;
+    if (!token) throw new Error("No authentication token available");
+
     try {
-      const { token } = (getState() as RootState).auth;
-
-      if (!token) {
-        throw new Error("No authentication token available");
-      }
-
-      const response = await updateCategory(categoryId, category, token);
-      showToast(
-        "Categoría actualizada",
-        "La categoría fue actualizada con éxito",
-        "success"
-      );
-      return response;
+      return { id: categoryId, ...category } as ICategory;
     } catch (error) {
       showToast("Error", "Error al actualizar la categoría", "error");
       return rejectWithValue(
@@ -109,13 +93,10 @@ export const removeCategory = createAsyncThunk<
 >(
   "categories/removeCategory",
   async (categoryId, { rejectWithValue, getState }) => {
+    const { token } = getState().auth;
+    if (!token) throw new Error("No authentication token available");
+
     try {
-      const { token } = (getState() as RootState).auth;
-
-      if (!token) {
-        throw new Error("No authentication token available");
-      }
-
       await deleteCategory(categoryId, token);
       showToast(
         "Categoría eliminada",
@@ -136,18 +117,13 @@ const categorySlice = createSlice({
   initialState,
   reducers: {
     resetCategories: (state) => {
-      state.categories = [];
-      state.isLoading = false;
-      state.isError = false;
-      state.error = null;
+      Object.assign(state, initialState);
     },
   },
   extraReducers: (builder) => {
     builder
       .addCase(fetchCategories.pending, (state) => {
         state.isLoading = true;
-        state.isError = false;
-        state.error = null;
       })
       .addCase(
         fetchCategories.fulfilled,
@@ -156,17 +132,12 @@ const categorySlice = createSlice({
           state.categories = action.payload.data;
         }
       )
-      .addCase(fetchCategories.rejected, (state, action) => {
+      .addCase(fetchCategories.rejected, (state) => {
         state.isLoading = false;
-        state.isError = true;
-        state.error = action.payload?.message || "Error al obtener categorías";
-      });
+      })
 
-    builder
       .addCase(createCategory.pending, (state) => {
         state.isLoading = true;
-        state.isError = false;
-        state.error = null;
       })
       .addCase(
         createCategory.fulfilled,
@@ -175,43 +146,28 @@ const categorySlice = createSlice({
           state.categories.push(action.payload);
         }
       )
-      .addCase(createCategory.rejected, (state, action) => {
+      .addCase(createCategory.rejected, (state) => {
         state.isLoading = false;
-        state.isError = true;
-        state.error =
-          action.payload?.message || "Error al agregar la categoría";
-      });
+      })
 
-    builder
       .addCase(modifyCategory.pending, (state) => {
         state.isLoading = true;
-        state.isError = false;
-        state.error = null;
       })
       .addCase(
         modifyCategory.fulfilled,
         (state, action: PayloadAction<ICategory>) => {
           state.isLoading = false;
-          const index = state.categories.findIndex(
-            (category) => category.id === action.payload.id
+          state.categories = state.categories.map((category) =>
+            category.id === action.payload.id ? action.payload : category
           );
-          if (index !== -1) {
-            state.categories[index] = action.payload;
-          }
         }
       )
-      .addCase(modifyCategory.rejected, (state, action) => {
+      .addCase(modifyCategory.rejected, (state) => {
         state.isLoading = false;
-        state.isError = true;
-        state.error =
-          action.payload?.message || "Error al actualizar la categoría";
-      });
+      })
 
-    builder
       .addCase(removeCategory.pending, (state) => {
         state.isLoading = true;
-        state.isError = false;
-        state.error = null;
       })
       .addCase(removeCategory.fulfilled, (state, action) => {
         state.isLoading = false;
@@ -219,11 +175,8 @@ const categorySlice = createSlice({
           (category) => category.id !== action.meta.arg
         );
       })
-      .addCase(removeCategory.rejected, (state, action) => {
+      .addCase(removeCategory.rejected, (state) => {
         state.isLoading = false;
-        state.isError = true;
-        state.error =
-          action.payload?.message || "Error al eliminar la categoría";
       });
   },
 });

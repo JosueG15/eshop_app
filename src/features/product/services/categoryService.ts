@@ -1,3 +1,4 @@
+import { AxiosResponse } from "axios";
 import axiosClient from "../../../shared/clients/axiosClient";
 import { ICategory, ICategoryResponse } from "../types/categoryType";
 
@@ -10,7 +11,7 @@ export const addCategory = async (
   category: Partial<ICategory>,
   token: string
 ): Promise<ICategory> => {
-  const { data } = await axiosClient.post<ICategory>(
+  const { data } = await axiosClient.post<AxiosResponse<ICategory>>(
     "/v1/categories",
     category,
     {
@@ -19,7 +20,7 @@ export const addCategory = async (
       },
     }
   );
-  return data;
+  return data.data;
 };
 
 export const updateCategory = async (

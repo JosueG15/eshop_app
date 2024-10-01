@@ -6,3 +6,8 @@ export const formatPrice = (price: number): string =>
     style: "currency",
     currency: "USD",
   }).format(price);
+
+export const iconList = [
+  { value: "home", label: "Hogar" },
+  { value: "hair-dryer", label: "Belleza" },
+];

@@ -19,5 +19,6 @@ declare module "@rneui/themed" {
     tablePaginationBackground?: string;
     tableLabelBackground?: string;
     tableIconBackground?: string;
+    dropdownColor?: string;
   }
 }

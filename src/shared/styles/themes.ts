@@ -23,6 +23,7 @@ export const lightTheme = createTheme({
     tablePaginationBackground: "#FFFFFF",
     tableLabelBackground: "#333333",
     tableIconBackground: "#F5F5F5",
+    dropdownColor: "#b8c0bb",
   },
   mode: "light",
 });
@@ -50,6 +51,7 @@ export const darkTheme = createTheme({
     tablePaginationBackground: "#3E3E3E",
     tableLabelBackground: "#CCCCCC",
     tableIconBackground: "#6A6A6A",
+    dropdownColor: "#4b4c4e",
   },
   mode: "dark",
 });

@@ -3,7 +3,7 @@ import { View, ScrollView, StyleSheet, Text } from "react-native";
 import { DataTable, IconButton, Menu } from "react-native-paper";
 import { useTheme } from "@rneui/themed";
 
-interface TableColumn<T> {
+export interface TableColumn<T> {
   key: keyof T;
   title: string;
   width?: number;

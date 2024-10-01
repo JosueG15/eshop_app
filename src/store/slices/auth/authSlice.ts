@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { jwtDecode } from "jwt-decode";
+import axios from "axios";
 
 import {
   ILoginResponse,
@@ -145,9 +146,18 @@ export const uploadAvatar = createAsyncThunk<
       dispatch(updateUserProfile(updatedUser));
       return updatedUser;
     } catch (error) {
-      const err = error as IError;
-      showToast("Error", err.message || "Error al subir el avatar", "error");
-      return rejectWithValue(err || { message: "Failed to upload avatar" });
+      let errMessage = "Error uploading avatar";
+      if (axios.isAxiosError(error)) {
+        errMessage =
+          error.response?.data?.message ||
+          error.message ||
+          "Error uploading avatar";
+      } else if (error instanceof Error) {
+        errMessage = error.message;
+      }
+
+      showToast("Error", errMessage, "error");
+      return rejectWithValue({ message: errMessage });
     }
   }
 );
