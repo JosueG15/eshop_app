@@ -10,4 +10,7 @@ export const formatPrice = (price: number): string =>
 export const iconList = [
   { value: "home", label: "Hogar" },
   { value: "hair-dryer", label: "Belleza" },
+  { value: "phone", label: "Moviles" },
+  { value: "laptop", label: "Computadoras" },
+  { value: "car", label: "Autos" },
 ];
