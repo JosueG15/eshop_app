@@ -16,12 +16,11 @@ const Header = () => {
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "center",
-          paddingVertical: 20,
           backgroundColor: theme.colors.background,
         },
         logo: {
           height: 100,
-          marginTop: 15,
+          marginTop: 20,
         },
       }),
     [theme.colors.background]
