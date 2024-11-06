@@ -85,7 +85,6 @@ const RegisterScreen: React.FC = () => {
       placeholder: "Ingrese su numero de telefono",
       keyboardType: "phone-pad",
       required: true,
-      isPhoneInput: true,
     },
     {
       name: "address",

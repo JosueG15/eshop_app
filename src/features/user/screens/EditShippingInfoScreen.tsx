@@ -67,7 +67,6 @@ const EditShippingInfoScreen: React.FC = () => {
       placeholder: "Ingrese su número de teléfono",
       keyboardType: "phone-pad",
       required: true,
-      isPhoneInput: true,
     },
     {
       name: "address",

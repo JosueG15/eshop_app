@@ -28,7 +28,6 @@ const ShippingScreen: React.FC = () => {
       placeholder: "Ingrese su numero de telefono",
       keyboardType: "phone-pad" as const,
       required: true,
-      isPhoneInput: true,
     },
     {
       name: "address",

@@ -36,7 +36,7 @@ const SettingsScreen: React.FC = () => {
         {
           title: "Administrar Inventario",
           onPress: () => {
-            /* TODO: Navigate to product management */
+            navigate("ManageInventory");
           },
         },
         {
