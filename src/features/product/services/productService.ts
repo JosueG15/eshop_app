@@ -6,6 +6,55 @@ import {
   IProduct,
 } from "../../../shared/types/productType";
 
+const createFormData = (product: Partial<IProduct>): FormData => {
+  const formData = new FormData();
+
+  Object.entries(product).forEach(([key, value]) => {
+    if (key === "images" && Array.isArray(value)) {
+      value.forEach((imageUri) => {
+        const fileName = imageUri.split("/").pop() ?? "image";
+        const fileType = fileName.split(".").pop() ?? "jpeg";
+
+        formData.append("images", {
+          uri: imageUri,
+          name: fileName,
+          type: `image/${fileType}`,
+        } as unknown as Blob);
+      });
+    } else if (typeof value === "object" && value !== null) {
+      formData.append(key, JSON.stringify(value));
+    } else if (value !== undefined && value !== null) {
+      formData.append(key, value.toString());
+    }
+  });
+
+  return formData;
+};
+
+const sendProductRequest = async (
+  url: string,
+  method: "post" | "put",
+  data: FormData | Partial<IProduct>,
+  token: string
+): Promise<IProduct> => {
+  const headers: Record<string, string> = {
+    Authorization: `Bearer ${token}`,
+  };
+
+  if (data instanceof FormData) {
+    headers["Content-Type"] = "multipart/form-data";
+  }
+
+  const response = await axiosClient({
+    url,
+    method,
+    data,
+    headers,
+  });
+
+  return response.data.data;
+};
+
 export const getProducts = async (
   params: IProductQueryParams
 ): Promise<IProductListResponse> => {
@@ -19,16 +68,8 @@ export const addProduct = async (
   product: Partial<IProduct>,
   token: string
 ): Promise<IProduct> => {
-  const { data } = await axiosClient.post<AxiosResponse<IProduct>>(
-    "/v1/products",
-    product,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
-  return data.data;
+  const formData = createFormData(product);
+  return await sendProductRequest("/v1/products", "post", formData, token);
 };
 
 export const updateProduct = async (
@@ -36,16 +77,13 @@ export const updateProduct = async (
   product: Partial<IProduct>,
   token: string
 ): Promise<IProduct> => {
-  const { data } = await axiosClient.put<IProduct>(
+  const formData = createFormData(product);
+  return await sendProductRequest(
     `/v1/products/${productId}`,
-    product,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
+    "put",
+    formData,
+    token
   );
-  return data;
 };
 
 export const deleteProduct = async (

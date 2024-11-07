@@ -2,14 +2,13 @@ import React, { useMemo } from "react";
 import { StyleSheet, TextInput, View, Text } from "react-native";
 import { useTheme } from "@rneui/themed";
 import { Controller, Control, FieldErrors, FieldValues } from "react-hook-form";
-import { IconButton } from "react-native-paper";
-import { Picker } from "@react-native-picker/picker";
+
 import { ErrorForm, Field } from "../types/formTypes";
-import { iconList } from "../utils/textUtil";
 
 interface FormFieldProps extends Field {
   control: Control;
   errors: FieldErrors<FieldValues> | ErrorForm;
+  multiline?: boolean;
 }
 
 const FormField: React.FC<FormFieldProps> = ({
@@ -17,7 +16,7 @@ const FormField: React.FC<FormFieldProps> = ({
   label,
   placeholder = "",
   keyboardType = "default",
-  isPhoneInput = false,
+  multiline = false,
   required = false,
   control,
   errors,
@@ -47,27 +46,15 @@ const FormField: React.FC<FormFieldProps> = ({
           borderColor: errors[name]
             ? theme.colors.error
             : theme.colors.borderColor,
+          textAlignVertical: multiline ? "top" : "center",
         },
         errorText: {
           fontSize: 12,
           marginTop: 5,
           color: theme.colors.error,
         },
-        iconDropdownContainer: {
-          flexDirection: "row",
-          alignItems: "center",
-          backgroundColor: theme.colors.background,
-        },
-        dropdown: {
-          flex: 1,
-          borderWidth: 1,
-          borderColor: theme.colors.borderColor,
-          borderRadius: 8,
-          color: theme.colors.infoTextColor,
-          backgroundColor: theme.colors.dropdownColor,
-        },
       }),
-    [theme]
+    [theme, multiline, errors, name]
   );
 
   return (
@@ -82,56 +69,22 @@ const FormField: React.FC<FormFieldProps> = ({
           ...rules,
           required: required ? `${label} es obligatorio` : false,
         }}
-        render={({ field: { onChange, value } }) => {
-          if (name === "icon") {
-            return (
-              <View style={styles.iconDropdownContainer}>
-                <Picker
-                  selectedValue={value}
-                  onValueChange={(itemValue) => onChange(itemValue)}
-                  style={styles.dropdown}
-                >
-                  {iconList.map((icon) => (
-                    <Picker.Item
-                      key={icon.value}
-                      label={icon.label}
-                      value={icon.value}
-                    />
-                  ))}
-                </Picker>
-                {value && (
-                  <IconButton
-                    icon={value}
-                    size={40}
-                    iconColor={theme.colors.secondary}
-                  />
-                )}
-              </View>
-            );
-          }
-
-          return isPhoneInput ? (
-            <TextInput
-              value={value}
-              onChangeText={onChange}
-              placeholder={placeholder}
-              keyboardType={"phone-pad"}
-              placeholderTextColor={theme.colors.secondary}
-              style={styles.input}
-              {...additionalProps}
-            />
-          ) : (
-            <TextInput
-              value={value}
-              onChangeText={onChange}
-              placeholder={placeholder}
-              keyboardType={keyboardType}
-              placeholderTextColor={theme.colors.secondary}
-              style={styles.input}
-              {...additionalProps}
-            />
-          );
-        }}
+        render={({ field: { onChange, value } }) => (
+          <TextInput
+            value={value ? String(value) : ""}
+            onChangeText={(text) =>
+              keyboardType === "numeric"
+                ? onChange(Number(text))
+                : onChange(text)
+            }
+            placeholder={placeholder}
+            keyboardType={keyboardType}
+            placeholderTextColor={theme.colors.secondary}
+            style={[styles.input, multiline && { height: 100 }]}
+            multiline={multiline}
+            {...additionalProps}
+          />
+        )}
       />
       {errors && typeof errors[name]?.message === "string" && (
         <Text style={styles.errorText}>{errors[name].message}</Text>

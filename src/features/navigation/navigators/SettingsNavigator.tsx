@@ -8,6 +8,8 @@ import ChangeThemeScreen from "../../settings/screens/ChangeThemeScreen";
 import { SettingStackParamList } from "../../../shared/types/routeType";
 import { RootState } from "../../../store/store";
 import ManageCategoriesScreen from "../../settings/screens/ManageCategoriesScreen";
+import ManageInventoryScreen from "../../settings/screens/ManageInventoryScreen";
+import ProductFormScreen from "../../settings/screens/ProductFormScreen";
 
 const Stack = createStackNavigator<SettingStackParamList>();
 
@@ -24,6 +26,7 @@ const SettingsNavigator: React.FC = () => {
         backgroundColor: theme.colors.background,
       },
       headerTintColor: theme.colors.primaryText,
+      headerStatusBarHeight: 0,
     }),
     [theme]
   );
@@ -40,10 +43,28 @@ const SettingsNavigator: React.FC = () => {
         component={ChangeThemeScreen}
       />
       {user?.isAdmin && (
-        <Stack.Screen
-          name="ManageCategories"
-          component={ManageCategoriesScreen}
-        />
+        <>
+          <Stack.Screen
+            name="ManageCategories"
+            options={{ ...commonScreenOptions, headerTitle: "Categorias" }}
+            component={ManageCategoriesScreen}
+          />
+          <Stack.Screen
+            name="ManageInventory"
+            options={{ ...commonScreenOptions, headerTitle: "Inventario" }}
+            component={ManageInventoryScreen}
+          />
+          <Stack.Screen
+            name="ProductFormScreen"
+            component={ProductFormScreen}
+            options={({ route }) => ({
+              ...commonScreenOptions,
+              headerTitle: route.params?.product
+                ? "Editar Producto"
+                : "Agregar Producto",
+            })}
+          />
+        </>
       )}
     </Stack.Navigator>
   );
