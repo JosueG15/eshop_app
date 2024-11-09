@@ -80,7 +80,7 @@ const ProfileScreen: React.FC = () => {
     {
       title: "Mis pedidos",
       onPress: () => {
-        /* TODO: Navigate to orders */
+        navigate("Orders");
       },
     },
     {

@@ -9,6 +9,7 @@ import ProfileScreen from "../../user/screens/ProfileScreen";
 import EditPersonalInfoScreen from "../../user/screens/EditPersonalInfoScreen";
 import EditShippingInfoScreen from "../../user/screens/EditShippingInfoScreen";
 import { useTheme } from "@rneui/themed";
+import OrdersScreens from "../../user/screens/OrdersScreens";
 
 const Stack = createStackNavigator<UserStackParamList>();
 
@@ -36,6 +37,7 @@ const UserNavigator: React.FC = () => {
       {isAuthenticated ? (
         <>
           <Stack.Screen name="Profile" component={ProfileScreen} />
+          <Stack.Screen name="Orders" component={OrdersScreens} />
           <Stack.Screen
             name="EditPersonalInfo"
             component={EditPersonalInfoScreen}

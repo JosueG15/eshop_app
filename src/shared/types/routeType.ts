@@ -19,6 +19,7 @@ export type UserStackParamList = {
   Profile: undefined;
   EditPersonalInfo: undefined;
   EditShippingInfo: undefined;
+  Orders: undefined;
 };
 
 export type SettingStackParamList = {

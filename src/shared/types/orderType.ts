@@ -20,4 +20,5 @@ export interface IOrder {
   totalPrice?: number;
   user: IUser;
   dateOrdered: Date;
+  paymentMethod: string;
 }
