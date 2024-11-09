@@ -1,12 +1,15 @@
 import React, { ReactNode, useEffect, useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
+import { StripeProvider } from "@stripe/stripe-react-native";
 import { ThemeProvider } from "@rneui/themed";
 import { ErrorBoundary } from "react-error-boundary";
 import { View, ActivityIndicator } from "react-native";
 import { useSelector } from "react-redux";
-import { RootState } from "../../store/store";
-import { darkTheme, lightTheme } from "../styles/themes";
 import { PaperProvider } from "react-native-paper";
+
+import { RootState } from "../../store/store";
+import { STRIPE_PUBLISHABLE_KEY } from "@env";
+import { darkTheme, lightTheme } from "../styles/themes";
 import Toast from "../components/Toast";
 import Error from "../components/Error";
 import { loadTheme } from "../../store/slices/theme/themeSlice";
@@ -42,14 +45,16 @@ export const AppProviders: React.FC<AppProvidersProps> = ({ children }) => {
 
   return (
     <NavigationContainer>
-      <PaperProvider>
-        <ThemeProvider theme={themeMode === "dark" ? darkTheme : lightTheme}>
-          <ErrorBoundary FallbackComponent={Error}>
-            {children}
-            <Toast />
-          </ErrorBoundary>
-        </ThemeProvider>
-      </PaperProvider>
+      <StripeProvider publishableKey={STRIPE_PUBLISHABLE_KEY}>
+        <PaperProvider>
+          <ThemeProvider theme={themeMode === "dark" ? darkTheme : lightTheme}>
+            <ErrorBoundary FallbackComponent={Error}>
+              {children}
+              <Toast />
+            </ErrorBoundary>
+          </ThemeProvider>
+        </PaperProvider>
+      </StripeProvider>
     </NavigationContainer>
   );
 };

@@ -3,6 +3,7 @@
     "name": "easy-shop",
     "slug": "easy-shop",
     "version": "1.0.0",
+    "scheme": "eshopApp",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
