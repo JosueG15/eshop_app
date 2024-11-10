@@ -1,18 +1,34 @@
 import React from "react";
-import { Image, StyleSheet, Dimensions, View } from "react-native";
+import {
+  Image,
+  StyleSheet,
+  Dimensions,
+  View,
+  ActivityIndicator,
+} from "react-native";
 import Swiper from "react-native-swiper";
+import { useSelector } from "react-redux";
 import { useTheme } from "@rneui/themed";
-import { getContainerWidth } from "../utils/styleUtil";
+import { createSelector } from "reselect";
+import { RootState } from "../../store/store";
 
 const { width } = Dimensions.get("window");
 
+const selectFeaturedImages = createSelector(
+  [(state: RootState) => state.products.products],
+  (products) =>
+    products
+      .filter((product) => product.isFeatured)
+      .slice(0, 3)
+      .map((product) => product.image)
+);
+
 const Banner: React.FC = React.memo(() => {
   const { theme } = useTheme();
-  const bannerData = [
-    "https://images.vexels.com/media/users/3/126443/preview2/ff9af1e1edfa2c4a46c43b0c2040ce52-macbook-pro-touch-bar-banner.jpg",
-    "https://pbs.twimg.com/media/D7P_yLdX4AAvJWO.jpg",
-    "https://www.yardproduct.com/blog/wp-content/uploads/2016/01/gardening-banner.jpg",
-  ];
+
+  const featuredImages = useSelector(selectFeaturedImages);
+
+  const isLoading = useSelector((state: RootState) => state.products.isLoading);
 
   return (
     <View
@@ -21,22 +37,30 @@ const Banner: React.FC = React.memo(() => {
         { backgroundColor: theme.colors.background },
       ]}
     >
-      <Swiper
-        style={styles.bannerSwiperHeight}
-        showsButtons={false}
-        autoplay={true}
-        autoplayTimeout={3}
-        showsPagination={false}
-      >
-        {bannerData.map((item) => (
-          <Image
-            style={styles.bannerImage}
-            key={item}
-            resizeMode="cover"
-            source={{ uri: item }}
-          />
-        ))}
-      </Swiper>
+      {isLoading ? (
+        <ActivityIndicator
+          size="large"
+          color={theme.colors.primary}
+          style={styles.activityIndicator}
+        />
+      ) : (
+        <Swiper
+          style={styles.bannerSwiperHeight}
+          showsButtons={false}
+          autoplay
+          autoplayTimeout={3}
+          showsPagination={false}
+        >
+          {featuredImages.map((imageUri, index) => (
+            <Image
+              key={index}
+              style={styles.bannerImage}
+              resizeMode="cover"
+              source={{ uri: imageUri }}
+            />
+          ))}
+        </Swiper>
+      )}
     </View>
   );
 });
@@ -44,18 +68,22 @@ const Banner: React.FC = React.memo(() => {
 const styles = StyleSheet.create({
   bannerContainer: {
     width: "100%",
-    height: getContainerWidth(1.5),
+    height: width / 1.5,
     alignItems: "center",
     justifyContent: "center",
   },
   bannerSwiperHeight: {
-    height: getContainerWidth(1.5),
+    height: width / 1.5,
   },
   bannerImage: {
-    height: getContainerWidth(1.5),
+    height: width / 1.5,
     width: width - 40,
     borderRadius: 12,
     marginHorizontal: 10,
+  },
+  activityIndicator: {
+    position: "absolute",
+    alignSelf: "center",
   },
 });
 

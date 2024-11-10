@@ -7,18 +7,31 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from "react-native";
+import { useTheme, Icon } from "@rneui/themed";
+import { useDispatch } from "react-redux";
+
 import { IProduct } from "../../../shared/types/productType";
 import { truncateText } from "../../../shared/utils/textUtil";
 import { getContainerWidth } from "../../../shared/utils/styleUtil";
-import { useTheme, Icon } from "@rneui/themed";
 import useImageValidator from "../../../shared/hooks/useImageValidator";
+import { showToast } from "../../../shared/components/Toast";
+import { addToCart } from "../../../store/slices/cart/cartSlice";
 
 const ProductCard: React.FC<{ product: IProduct }> = ({ product }) => {
   const { name, price, image, countInStock } = product;
   const truncatedName = truncateText(name, 15);
   const { theme } = useTheme();
-
+  const dispatch = useDispatch();
   const { validatedUrl, isLoading } = useImageValidator(image);
+
+  const handleAddToCart = () => {
+    dispatch(addToCart(product));
+    showToast(
+      "Producto agregado",
+      `${product.name} ha sido agregado a tu carrito.`,
+      "success"
+    );
+  };
 
   return (
     <View
@@ -55,6 +68,7 @@ const ProductCard: React.FC<{ product: IProduct }> = ({ product }) => {
                 backgroundColor: theme.colors.buttonColor,
               },
             ]}
+            onPress={handleAddToCart}
           >
             <Icon
               name="cart-plus"

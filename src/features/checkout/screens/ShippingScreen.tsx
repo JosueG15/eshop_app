@@ -1,12 +1,14 @@
-import { useMemo } from "react";
-import { View, StyleSheet } from "react-native";
-import { Text, useTheme } from "@rneui/themed";
+import { useMemo, useState } from "react";
+import { View, StyleSheet, TouchableOpacity } from "react-native";
+import { Text, useTheme, Icon } from "@rneui/themed";
 import CountryFlag from "react-native-country-flag";
 import CustomForm from "../../../shared/components/CustomForm";
 import { useNavigation } from "@react-navigation/native";
 import { useFormContext, SubmitHandler, FieldValues } from "react-hook-form";
 import { CheckoutNavigationProp } from "../../../shared/types/routeType";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../store/store";
 
 const ShippingScreen: React.FC = () => {
   const { theme } = useTheme();
@@ -15,10 +17,35 @@ const ShippingScreen: React.FC = () => {
     control,
     formState: { errors },
     handleSubmit,
+    setValue,
+    resetField,
   } = useFormContext();
+
+  const user = useSelector((state: RootState) => state.auth.user);
+  const [useProfileInfo, setUseProfileInfo] = useState(false);
 
   const onSubmit: SubmitHandler<FieldValues> = () => {
     navigation.navigate("Payment");
+  };
+
+  const handleToggleProfileInfo = () => {
+    setUseProfileInfo((prev) => !prev);
+
+    if (!useProfileInfo && user) {
+      setValue("phone", user.phone || "");
+      setValue("address", user.address || "");
+      setValue("address2", user.address2 || "");
+      setValue("city", user.city || "");
+      setValue("state", user.state || "");
+      setValue("zip", user.zip || "");
+    } else {
+      resetField("phone");
+      resetField("address");
+      resetField("address2");
+      resetField("city");
+      resetField("state");
+      resetField("zip");
+    }
   };
 
   const fields = [
@@ -83,8 +110,19 @@ const ShippingScreen: React.FC = () => {
           fontSize: 18,
           marginLeft: 10,
         },
+        toggleContainer: {
+          flexDirection: "row",
+          alignItems: "center",
+          marginVertical: 10,
+          paddingLeft: 10,
+        },
+        toggleText: {
+          marginLeft: 8,
+          fontSize: 16,
+          color: theme.colors.secondary,
+        },
       }),
-    []
+    [theme]
   );
 
   return (
@@ -105,6 +143,19 @@ const ShippingScreen: React.FC = () => {
             Informacion de envio
           </Text>
         </View>
+
+        <TouchableOpacity
+          style={styles.toggleContainer}
+          onPress={handleToggleProfileInfo}
+        >
+          <Icon
+            name={useProfileInfo ? "check-box" : "check-box-outline-blank"}
+            type="material"
+            color={theme.colors.secondary}
+            size={24}
+          />
+          <Text style={styles.toggleText}>Usar información de perfil</Text>
+        </TouchableOpacity>
 
         <CustomForm
           fields={fields}

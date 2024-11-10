@@ -72,7 +72,7 @@ const ManageInventoryScreen: React.FC<{ navigation: any }> = ({
           <>
             <IconButton
               icon="pencil"
-              iconColor={theme.colors.infoTextColor}
+              iconColor={theme.colors.infoColor}
               size={20}
               onPress={() => openProductFormScreen(item)}
             />

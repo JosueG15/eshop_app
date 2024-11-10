@@ -121,9 +121,16 @@ export const loginUser = createAsyncThunk<
 
       return response;
     } catch (error) {
-      const err = error as IError;
-      showToast("Error", err.message || "Error desconocido", "error");
-      return rejectWithValue((err || { message: "Login failed" }) as IError);
+      let errorMessage = "Error desconocido";
+      if (axios.isAxiosError(error) && error.response) {
+        errorMessage =
+          error.response.data?.message || "Credenciales incorrectas";
+      } else if (error instanceof Error) {
+        errorMessage = error.message;
+      }
+
+      showToast("Error", errorMessage, "error");
+      return rejectWithValue({ message: errorMessage });
     }
   }
 );

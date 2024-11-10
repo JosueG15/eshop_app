@@ -1,5 +1,10 @@
 import { ICategory } from "../../features/product/types/categoryType";
 
+interface Review {
+  avatar: string;
+  name: string;
+  review: string;
+}
 export interface IProduct {
   name: string;
   description: string;
@@ -17,6 +22,7 @@ export interface IProduct {
   createdAt: string;
   updatedAt: string;
   id: string;
+  reviews: Review[];
 }
 
 export interface IProductQueryParams {
