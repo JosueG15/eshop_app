@@ -8,6 +8,7 @@ import themeSlice from "./slices/theme/themeSlice";
 import categorySlice from "./slices/categories/categorySlice";
 import productSlice from "./slices/product/productSlice";
 import orderSlice from "./slices/order/orderSlice";
+import userOrdersSlice from "./slices/order/userOrderSlice";
 
 const rootReducer = combineReducers({
   cart: cartSlice,
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
   categories: categorySlice,
   products: productSlice,
   orders: orderSlice,
+  userOrders: userOrdersSlice,
 });
 
 const store = configureStore({

@@ -59,7 +59,9 @@ const CartScreen: React.FC = () => {
         <>
           <FlatList
             data={cartItems}
-            renderItem={({ item }) => <CartItemRow item={item} />}
+            renderItem={({ item }) => (
+              <CartItemRow item={item} shouldDelete={false} />
+            )}
             keyExtractor={(item) => item.id}
             contentContainerStyle={{ flexGrow: 1 }}
           />

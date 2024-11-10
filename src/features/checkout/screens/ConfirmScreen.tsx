@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { StyleSheet, ScrollView, Alert } from "react-native";
 import { Text, Button, useTheme } from "@rneui/themed";
 import { useFormContext } from "react-hook-form";
@@ -22,7 +22,10 @@ import {
 import { clearCart } from "../../../store/slices/cart/cartSlice";
 import { ShippingInfo } from "../../../shared/types/cartType";
 import { IOrder } from "../../../shared/types/orderType";
-import { UserNavigationProp } from "../../../shared/types/routeType";
+import {
+  CartNavigationProp,
+  UserNavigationProp,
+} from "../../../shared/types/routeType";
 
 const ConfirmScreen: React.FC = () => {
   const { theme } = useTheme();
@@ -31,7 +34,7 @@ const ConfirmScreen: React.FC = () => {
   const cartItems = useSelector((state: RootState) => state.cart.items);
   const dispatch = useDispatch<AppDispatch>();
   const { initPaymentSheet, presentPaymentSheet } = useStripe();
-  const navigation = useNavigation<UserNavigationProp>();
+  const navigation = useNavigation<UserNavigationProp & CartNavigationProp>();
 
   const shippingInfo = watch([
     "phone",
@@ -41,6 +44,12 @@ const ConfirmScreen: React.FC = () => {
     "zip",
     "paymentMethod",
   ]);
+
+  useEffect(() => {
+    if (cartItems.length === 0 || !shippingInfo[0] || !shippingInfo[1]) {
+      navigation.navigate("Cart");
+    }
+  }, [cartItems, shippingInfo, navigation]);
 
   const totalPrice = useMemo(
     () => cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0),
@@ -83,7 +92,7 @@ const ConfirmScreen: React.FC = () => {
     Alert.alert("Orden Exitosa", "La orden ha sido creada exitosamente.", [
       {
         text: "OK",
-        onPress: () => navigation.navigate("Orders"), // Navigate to the Orders screen
+        onPress: () => navigation.navigate("Orders"),
       },
     ]);
   };

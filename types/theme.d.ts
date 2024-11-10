@@ -20,5 +20,10 @@ declare module "@rneui/themed" {
     tableLabelBackground?: string;
     tableIconBackground?: string;
     dropdownColor?: string;
+    statusPending: string;
+    statusPaymentPending: string;
+    statusShipped: string;
+    statusCompleted: string;
+    statusCanceled: string;
   }
 }

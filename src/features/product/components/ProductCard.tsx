@@ -70,7 +70,7 @@ const ProductCard: React.FC<{ product: IProduct }> = ({ product }) => {
           </TouchableOpacity>
         ) : (
           <Text style={[styles.unavailableText, { color: theme.colors.error }]}>
-            Currently Unavailable
+            Agotado
           </Text>
         )}
       </View>

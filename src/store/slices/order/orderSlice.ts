@@ -5,9 +5,11 @@ import { showToast } from "../../../shared/components/Toast";
 import {
   createOrder,
   createPaymentIntent,
+  updateOrder,
 } from "../../../features/checkout/services/paymentService";
 import { IOrder } from "../../../shared/types/orderType";
 import { WritableDraft } from "immer";
+import { statusTranslations } from "../../../shared/utils/orderUtil";
 
 interface OrderState {
   currentOrder: WritableDraft<IOrder> | null;
@@ -63,6 +65,33 @@ export const placeOrder = createAsyncThunk<
   }
 });
 
+export const updateOrderStatus = createAsyncThunk<
+  IOrder,
+  { orderId: string; status: string },
+  { rejectValue: IError; state: RootState }
+>(
+  "orders/updateOrderStatus",
+  async ({ orderId, status }, { rejectWithValue, getState }) => {
+    const { token } = getState().auth;
+    if (!token) throw new Error("No authentication token available");
+
+    try {
+      const updatedOrder = await updateOrder(orderId, status, token);
+      showToast(
+        "Estado actualizado",
+        `El estado de la orden ha sido actualizado a ${statusTranslations[status]}`,
+        "success"
+      );
+      return updatedOrder;
+    } catch (error) {
+      showToast("Error", "Error al actualizar el estado de la orden", "error");
+      return rejectWithValue(
+        (error as IError) || { message: "Error updating order status" }
+      );
+    }
+  }
+);
+
 const orderSlice = createSlice({
   name: "orders",
   initialState,
@@ -75,7 +104,6 @@ const orderSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-
       .addCase(initiatePayment.pending, (state) => {
         state.isLoading = true;
       })
@@ -98,6 +126,19 @@ const orderSlice = createSlice({
         state.isLoading = false;
       })
       .addCase(placeOrder.rejected, (state) => {
+        state.isLoading = false;
+      })
+      .addCase(updateOrderStatus.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(
+        updateOrderStatus.fulfilled,
+        (state, action: PayloadAction<IOrder>) => {
+          state.currentOrder = action.payload as WritableDraft<IOrder>;
+          state.isLoading = false;
+        }
+      )
+      .addCase(updateOrderStatus.rejected, (state) => {
         state.isLoading = false;
       });
   },

@@ -24,7 +24,6 @@ const PaymentScreen: React.FC = () => {
   const navigation = useNavigation<PaymentScreenNavigationProp>();
   const {
     control,
-    setValue,
     handleSubmit,
     formState: { errors },
   } = useFormContext<PaymentFormValues>();

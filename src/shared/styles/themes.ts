@@ -24,6 +24,11 @@ export const lightTheme = createTheme({
     tableLabelBackground: "#333333",
     tableIconBackground: "#F5F5F5",
     dropdownColor: "#b8c0bb",
+    statusPending: "#FFA500",
+    statusPaymentPending: "#FFD700",
+    statusShipped: "#1E90FF",
+    statusCompleted: "#32CD32",
+    statusCanceled: "#FF4500",
   },
   mode: "light",
 });
@@ -52,6 +57,11 @@ export const darkTheme = createTheme({
     tableLabelBackground: "#CCCCCC",
     tableIconBackground: "#6A6A6A",
     dropdownColor: "#4b4c4e",
+    statusPending: "#FFA500",
+    statusPaymentPending: "#FFD700",
+    statusShipped: "#1E90FF",
+    statusCompleted: "#32CD32",
+    statusCanceled: "#FF4500",
   },
   mode: "dark",
 });

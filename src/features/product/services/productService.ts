@@ -1,4 +1,3 @@
-import { AxiosResponse } from "axios";
 import axiosClient from "../../../shared/clients/axiosClient";
 import {
   IProductQueryParams,
