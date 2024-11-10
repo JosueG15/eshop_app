@@ -1,14 +1,19 @@
 import React from "react";
-import { Modal, View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { Modal, View, Text, StyleSheet } from "react-native";
 import { IOrder } from "../../../shared/types/orderType";
 import { useTheme, Button } from "@rneui/themed";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../store/store";
 import { updateOrderStatus } from "../../../store/slices/order/orderSlice";
+import {
+  generateOrderId,
+  statusTranslations,
+} from "../../../shared/utils/orderUtil";
 
 interface OrderDetailsModalProps {
   isVisible: boolean;
   order: IOrder;
+  index: number;
   onClose: () => void;
   onCancelOrder: () => void;
   userIsAdmin?: boolean;
@@ -17,6 +22,7 @@ interface OrderDetailsModalProps {
 const OrderDetailsModal: React.FC<OrderDetailsModalProps> = ({
   isVisible,
   order,
+  index,
   onClose,
   onCancelOrder,
   userIsAdmin = false,
@@ -36,6 +42,9 @@ const OrderDetailsModal: React.FC<OrderDetailsModalProps> = ({
     }
   };
 
+  const isCancellable =
+    order.status !== "Completed" && order.status !== "Canceled";
+
   return (
     <Modal visible={isVisible} transparent={true} animationType="slide">
       <View style={styles.modalOverlay}>
@@ -43,11 +52,12 @@ const OrderDetailsModal: React.FC<OrderDetailsModalProps> = ({
           style={[styles.modalContainer, { backgroundColor: colors.primary }]}
         >
           <Text style={[styles.modalTitle, { color: colors.primaryText }]}>
-            Detalles de Orden #{order.id}
+            Detalles de Orden{" "}
+            {generateOrderId(order.dateOrdered.toString(), index + 1)}
           </Text>
 
           <Text style={[styles.modalText, { color: colors.secondary }]}>
-            Estado: {order.status}
+            Estado: {statusTranslations[order.status]}
           </Text>
           <Text style={[styles.modalText, { color: colors.secondary }]}>
             Fecha: {new Date(order.dateOrdered).toLocaleDateString()}
@@ -71,11 +81,13 @@ const OrderDetailsModal: React.FC<OrderDetailsModalProps> = ({
               onPress={onClose}
               buttonStyle={{ backgroundColor: colors.accentColor }}
             />
-            <Button
-              title="Cancelar Orden"
-              onPress={handleCancelOrder}
-              buttonStyle={{ backgroundColor: colors.error, marginLeft: 10 }}
-            />
+            {isCancellable && (
+              <Button
+                title="Cancelar Orden"
+                onPress={handleCancelOrder}
+                buttonStyle={{ backgroundColor: colors.error, marginLeft: 10 }}
+              />
+            )}
           </View>
         </View>
       </View>

@@ -97,6 +97,7 @@ const OrderCard: React.FC<OrderCardProps> = ({ order, index }) => {
       <OrderDetailsModal
         isVisible={isModalVisible}
         order={order}
+        index={index}
         onClose={() => setModalVisible(false)}
         onCancelOrder={() => handleStatusUpdate("Canceled")}
         userIsAdmin={user?.isAdmin}

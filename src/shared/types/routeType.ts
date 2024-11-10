@@ -27,6 +27,7 @@ export type SettingStackParamList = {
   ChangeTheme: undefined;
   ManageCategories: undefined;
   ManageInventory: undefined;
+  ManageOrders: undefined;
   ProductFormScreen: { product?: IProduct };
 };
 

@@ -6,6 +6,7 @@ import {
   StyleSheet,
   ActivityIndicator,
   TouchableOpacity,
+  Modal,
 } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,16 +14,17 @@ import { useTheme } from "@rneui/themed";
 
 import { AppDispatch, RootState } from "../../../store/store";
 import { fetchUserOrders } from "../../../store/slices/order/userOrderSlice";
-import OrderCard from "../components/OrderCard";
 import { IOrder } from "../../../shared/types/orderType";
+import OrderCard from "../../user/components/OrderCard";
 
-const OrdersScreen: React.FC = () => {
+const ManageOrdersScreen: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { orders, isLoading } = useSelector(
     (state: RootState) => state.userOrders
   );
   const { theme } = useTheme();
   const { colors } = theme;
+  const [isStatsModalVisible, setStatsModalVisible] = useState(false);
   const [expandedSections, setExpandedSections] = useState<
     Record<string, boolean>
   >({});
@@ -47,6 +49,27 @@ const OrdersScreen: React.FC = () => {
     Canceled: { label: "Cancelado", color: colors.statusCanceled || "#FF4500" },
   };
 
+  const stats = useMemo(() => {
+    const totalSales = orders.reduce(
+      (acc, order) => acc + (order.totalPrice || 0),
+      0
+    );
+    const totalProductsSold = orders.reduce(
+      (acc, order) =>
+        acc +
+        order.orderItems.reduce((count, item) => count + item.quantity, 0),
+      0
+    );
+    const totalCanceled = orders.filter(
+      (order) => order.status === "Canceled"
+    ).length;
+    const totalCompleted = orders.filter(
+      (order) => order.status === "Completed"
+    ).length;
+
+    return { totalSales, totalProductsSold, totalCanceled, totalCompleted };
+  }, [orders]);
+
   const groupedOrders = useMemo(() => {
     const sortedOrders = [...orders].sort(
       (a, b) =>
@@ -70,13 +93,6 @@ const OrdersScreen: React.FC = () => {
     }));
   }, [orders, colors]);
 
-  useMemo(() => {
-    const initialExpandedState = Object.fromEntries(
-      groupedOrders.map((group) => [group.title, true])
-    );
-    setExpandedSections(initialExpandedState);
-  }, [groupedOrders]);
-
   const toggleSection = (title: string) => {
     setExpandedSections((prev) => ({
       ...prev,
@@ -95,6 +111,18 @@ const OrdersScreen: React.FC = () => {
       marginBottom: 10,
       color: colors.primaryText,
       textAlign: "center",
+    },
+    statsButton: {
+      paddingVertical: 10,
+      backgroundColor: colors.buttonColor,
+      borderRadius: 5,
+      alignItems: "center",
+      marginVertical: 15,
+    },
+    statsButtonText: {
+      color: colors.secondary,
+      fontWeight: "bold",
+      fontSize: 16,
     },
     sectionHeader: {
       fontSize: 18,
@@ -119,6 +147,45 @@ const OrdersScreen: React.FC = () => {
       fontSize: 16,
       color: colors.secondary,
     },
+    // Modal styles
+    modalContainer: {
+      flex: 1,
+      justifyContent: "center",
+      alignItems: "center",
+      backgroundColor: "rgba(0, 0, 0, 0.5)",
+    },
+    modalContent: {
+      width: "80%",
+      padding: 20,
+      backgroundColor: colors.background,
+      borderRadius: 10,
+    },
+    statRow: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+      marginVertical: 5,
+    },
+    statLabel: {
+      fontSize: 16,
+      color: colors.secondary,
+    },
+    statValue: {
+      fontSize: 16,
+      fontWeight: "bold",
+      color: colors.priceText,
+    },
+    closeButton: {
+      marginTop: 20,
+      paddingVertical: 10,
+      backgroundColor: colors.buttonColor,
+      borderRadius: 5,
+      alignItems: "center",
+    },
+    closeButtonText: {
+      color: colors.secondary,
+      fontWeight: "bold",
+      fontSize: 16,
+    },
   });
 
   if (isLoading) {
@@ -134,6 +201,51 @@ const OrdersScreen: React.FC = () => {
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
+      <Text style={styles.header}>Gestión de Órdenes</Text>
+
+      <TouchableOpacity
+        style={styles.statsButton}
+        onPress={() => setStatsModalVisible(true)}
+      >
+        <Text style={styles.statsButtonText}>Ver Estadísticas</Text>
+      </TouchableOpacity>
+
+      <Modal
+        transparent={true}
+        visible={isStatsModalVisible}
+        animationType="slide"
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Text style={styles.header}>Estadísticas de Órdenes</Text>
+            <View style={styles.statRow}>
+              <Text style={styles.statLabel}>Ventas Totales:</Text>
+              <Text style={styles.statValue}>
+                ${stats.totalSales.toFixed(2)}
+              </Text>
+            </View>
+            <View style={styles.statRow}>
+              <Text style={styles.statLabel}>Productos Vendidos:</Text>
+              <Text style={styles.statValue}>{stats.totalProductsSold}</Text>
+            </View>
+            <View style={styles.statRow}>
+              <Text style={styles.statLabel}>Órdenes Canceladas:</Text>
+              <Text style={styles.statValue}>{stats.totalCanceled}</Text>
+            </View>
+            <View style={styles.statRow}>
+              <Text style={styles.statLabel}>Órdenes Completadas:</Text>
+              <Text style={styles.statValue}>{stats.totalCompleted}</Text>
+            </View>
+            <TouchableOpacity
+              style={styles.closeButton}
+              onPress={() => setStatsModalVisible(false)}
+            >
+              <Text style={styles.closeButtonText}>Cerrar</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+
       <SectionList
         sections={groupedOrders}
         keyExtractor={(order) => order.id}
@@ -160,4 +272,4 @@ const OrdersScreen: React.FC = () => {
   );
 };
 
-export default OrdersScreen;
+export default ManageOrdersScreen;

@@ -10,6 +10,7 @@ import { RootState } from "../../../store/store";
 import ManageCategoriesScreen from "../../settings/screens/ManageCategoriesScreen";
 import ManageInventoryScreen from "../../settings/screens/ManageInventoryScreen";
 import ProductFormScreen from "../../settings/screens/ProductFormScreen";
+import ManageOrdersScreen from "../../settings/screens/ManageOrdersScreen";
 
 const Stack = createStackNavigator<SettingStackParamList>();
 
@@ -48,6 +49,11 @@ const SettingsNavigator: React.FC = () => {
             name="ManageCategories"
             options={{ ...commonScreenOptions, headerTitle: "Categorias" }}
             component={ManageCategoriesScreen}
+          />
+          <Stack.Screen
+            name="ManageOrders"
+            options={{ ...commonScreenOptions, headerTitle: "Ordenes" }}
+            component={ManageOrdersScreen}
           />
           <Stack.Screen
             name="ManageInventory"

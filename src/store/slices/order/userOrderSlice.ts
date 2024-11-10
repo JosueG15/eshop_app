@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { WritableDraft } from "immer";
+
 import { RootState } from "../../store";
 import { IOrder } from "../../../shared/types/orderType";
 import { IError } from "../../../shared/types/globalType";
@@ -40,7 +41,9 @@ export const fetchUserOrders = createAsyncThunk<
     if (!token || !user?.id)
       throw new Error("No authentication token or user available");
 
-    const updatedFilters = { ...filters, userId: user.id };
+    const updatedFilters = user.isAdmin
+      ? { ...filters }
+      : { ...filters, userId: user.id };
 
     try {
       const response = await getUserOrders(token, updatedFilters, page, limit);

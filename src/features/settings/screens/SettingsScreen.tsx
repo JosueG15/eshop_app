@@ -18,12 +18,6 @@ const SettingsScreen: React.FC = () => {
   const menuOptions = useMemo(() => {
     const baseOptions = [
       {
-        title: "Cambiar Idioma",
-        onPress: () => {
-          /* TODO: Handle language setting */
-        },
-      },
-      {
         title: "Cambiar Modo de Visualización",
         onPress: () => {
           navigate("ChangeTheme");
@@ -46,9 +40,9 @@ const SettingsScreen: React.FC = () => {
           },
         },
         {
-          title: "Gestionar Usuarios",
+          title: "Administrar Ordenes",
           onPress: () => {
-            /* TODO: Navigate to user management */
+            navigate("ManageOrders");
           },
         }
       );
