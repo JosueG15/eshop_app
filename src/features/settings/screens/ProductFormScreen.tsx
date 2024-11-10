@@ -164,15 +164,6 @@ const ProductFormScreen: React.FC<ProductFormScreenProps> = ({
         required
       />
       <FormField
-        name="description"
-        label="Descripción"
-        placeholder="Descripción breve del producto"
-        control={control}
-        errors={errors}
-        required
-        multiline
-      />
-      <FormField
         name="richDescription"
         label="Descripción Detallada"
         placeholder="Descripción detallada"

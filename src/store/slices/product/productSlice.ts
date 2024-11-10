@@ -59,7 +59,10 @@ export const createProduct = createAsyncThunk<
   if (!token) throw new Error("No authentication token available");
 
   try {
-    const response = await addProduct(product, token);
+    const response = await addProduct(
+      { ...product, description: "test " },
+      token
+    );
     showToast(
       "Producto agregado",
       "El producto fue agregado con éxito",
