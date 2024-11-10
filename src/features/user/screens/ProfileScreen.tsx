@@ -53,7 +53,6 @@ const ProfileScreen: React.FC = () => {
       const selectedImageUri = image.assets[0].uri;
 
       dispatch(uploadAvatar({ imageUri: selectedImageUri }))
-        .unwrap()
         .then(() => {
           showToast(
             "Avatar actualizado",

@@ -138,19 +138,18 @@ export const loginUser = createAsyncThunk<
 export const uploadAvatar = createAsyncThunk<
   IUser,
   { imageUri: string },
-  { rejectValue: IError }
+  { rejectValue: IError; state: RootState }
 >(
   "auth/uploadAvatar",
   async ({ imageUri }, { rejectWithValue, getState, dispatch }) => {
     try {
-      const { token, user } = (getState() as RootState).auth;
+      const { token, user } = getState().auth;
 
-      if (!token || !user) {
-        throw new Error("No authentication token available");
+      if (!token || !user?.id) {
+        throw new Error("No authentication token available or user ID missing");
       }
 
       const updatedUser = await uploadUserAvatar(user.id, imageUri, token);
-      dispatch(updateUserProfile(updatedUser));
       return updatedUser;
     } catch (error) {
       let errMessage = "Error uploading avatar";
@@ -196,7 +195,6 @@ export const updateUserInfo = createAsyncThunk<
       }
 
       const updatedUser = await updateUser(user.id, userData, token);
-      dispatch(updateUserProfile(updatedUser));
       return updatedUser;
     } catch (error) {
       const err = error as IError;
